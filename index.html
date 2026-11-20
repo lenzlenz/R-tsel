@@ -1,0 +1,915 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Elisas Rätsel Eck</title>
+<!-- Für Neugierige, die unter die Oberfläche schauen: Das Lösungswort von Level 5, Rätsel 13 lautet FUNDAMENT. -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Space+Grotesk:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{
+  --ink:#111111;--muted:#77756f;--line:#e8e6e1;--soft:#f6f5f2;--paper:#ffffff;
+  --red:#E5432D;--orange:#F08A24;--yellow:#F6C62E;--green:#2E9E62;--sky:#3AA6DD;--steel:#5E6E82;
+  --c:var(--red);--cfg:#fff;
+  --serif:"Instrument Serif",Georgia,"Times New Roman",serif;
+  --sans:"Space Grotesk",-apple-system,BlinkMacSystemFont,"Helvetica Neue",Arial,sans-serif;
+  --mono:"IBM Plex Mono",ui-monospace,Menlo,monospace;
+}
+*{box-sizing:border-box}
+html,body{margin:0;background:var(--paper);color:var(--ink);font-family:var(--sans);-webkit-font-smoothing:antialiased}
+button{font-family:inherit;touch-action:manipulation}
+*{-webkit-tap-highlight-color:transparent}
+.hoverword,.rclick,.lock{-webkit-user-select:none;user-select:none;-webkit-touch-callout:none}
+.exit{background:#1f8a4c;color:#fff;border:0;border-radius:6px;padding:6px 10px;font-size:.9rem;cursor:pointer}
+.symgrid{display:flex;gap:10px;justify-content:center;flex-wrap:wrap;margin-top:20px}
+.sym{width:68px;height:68px;border-radius:16px;border:1.5px solid var(--line);background:#fff;font-size:2rem;cursor:pointer;color:var(--ink)}
+.fundament{margin-top:140vh;padding:20px 0 30px;text-align:center;font:.8rem var(--mono);color:#e4e2dd}
+.top{position:sticky;top:0;z-index:10;background:rgba(255,255,255,.88);backdrop-filter:blur(12px);border-bottom:1px solid var(--line)}
+.top .in{max-width:1080px;margin:0 auto;padding:14px 24px;display:flex;align-items:center;justify-content:space-between;gap:16px}
+.brand{font-family:var(--serif);font-size:1.6rem;cursor:pointer;background:none;border:0;padding:0;color:var(--ink)}
+.brand i{color:var(--red)}
+.who{display:flex;gap:18px;align-items:center;font-size:.9rem}
+.who .pts{font-family:var(--mono);font-weight:600}
+.who a{color:var(--muted);cursor:pointer;text-decoration:underline;text-underline-offset:3px}
+.app{max-width:1080px;margin:0 auto;padding:40px 24px 90px}
+.eyebrow{font-family:var(--mono);font-size:.75rem;letter-spacing:.14em;text-transform:uppercase;color:var(--muted)}
+h1.hero{font-family:var(--serif);font-weight:400;font-size:clamp(3rem,8vw,6.4rem);line-height:.95;letter-spacing:-.02em;margin:18px 0 18px}
+h1.hero em{color:var(--red)}
+.lead{font-size:1.2rem;line-height:1.5;color:#3b3a37;max-width:560px}
+.specimens{display:grid;grid-template-columns:repeat(6,1fr);gap:12px;margin:34px 0 40px}
+.spec{aspect-ratio:3/4;border-radius:18px;display:flex;flex-direction:column;justify-content:space-between;padding:14px;color:#fff;transition:transform .25s}
+.spec:hover{transform:translateY(-6px) rotate(-1deg)}
+.spec small{font-family:var(--mono);font-size:.65rem;letter-spacing:.08em;opacity:.85}
+.spec b{font-size:clamp(2rem,5vw,3.6rem);line-height:1;font-weight:400}
+.namebox{display:flex;gap:10px;max-width:520px;margin-top:8px}
+input{flex:1;min-width:0;font:500 1.1rem var(--sans);padding:14px 18px;border:1.5px solid var(--ink);border-radius:999px;background:#fff;color:var(--ink)}
+input:focus{outline:none;box-shadow:0 0 0 4px color-mix(in srgb,var(--c) 30%,transparent)}
+input.up{text-transform:uppercase;font-family:var(--mono);letter-spacing:.04em}
+.primary{background:var(--ink);color:#fff;border:0;border-radius:999px;padding:14px 26px;font-size:1rem;font-weight:600;cursor:pointer;white-space:nowrap;transition:background .15s}
+.primary:hover:not(:disabled){background:var(--c)}
+.primary:disabled,.ghostbtn:disabled,.opt:disabled{opacity:.35;cursor:not-allowed}
+.ghostbtn{background:#fff;border:1.5px solid var(--ink);color:var(--ink);border-radius:999px;padding:11px 20px;font-size:.95rem;font-weight:600;cursor:pointer}
+.ghostbtn:hover:not(:disabled){background:var(--soft)}
+.board{margin-top:46px;border-top:1px solid var(--line)}
+.board h3{font-family:var(--serif);font-weight:400;font-size:2rem;margin:26px 0 10px}
+.brow{display:grid;grid-template-columns:40px 1fr 120px 120px 110px;align-items:center;padding:14px 0;border-bottom:1px solid var(--line);font-size:1rem}
+.brow .n{font-family:var(--mono);color:var(--muted)}
+.brow .s{font-family:var(--mono);font-weight:600;text-align:right}
+.brow .c{font-family:var(--mono);color:var(--muted);text-align:right;font-size:.85rem}
+.brow button{justify-self:end;padding:8px 16px;font-size:.85rem}
+/* hub */
+.hubhead{display:flex;justify-content:space-between;align-items:flex-end;gap:20px;flex-wrap:wrap}
+.hubhead h2{font-family:var(--serif);font-weight:400;font-size:clamp(2.4rem,6vw,4.4rem);margin:10px 0 0;line-height:1}
+.hubhead h2 em{color:var(--red)}
+.totals{font-family:var(--mono);text-align:right;font-size:.85rem;color:var(--muted)}
+.totals b{display:block;font-size:2.2rem;color:var(--ink)}
+.worlds{display:grid;grid-template-columns:repeat(5,1fr);gap:14px;margin-top:34px}
+.world{border:0;border-radius:22px;padding:18px 18px 16px;text-align:left;cursor:pointer;display:flex;flex-direction:column;min-height:330px;transition:transform .25s,box-shadow .25s;position:relative;overflow:hidden}
+.world:hover:not(:disabled){transform:translateY(-6px);box-shadow:0 18px 40px rgba(0,0,0,.12)}
+.world:disabled{cursor:not-allowed;filter:grayscale(1);opacity:.35}
+.world .num{font-family:var(--mono);font-size:.72rem;letter-spacing:.12em}
+.world .gl{font-family:var(--serif);font-size:5.6rem;line-height:1;margin:auto 0 8px}
+.world .tt{font-size:1.25rem;font-weight:700}
+.world .ds{font-size:.85rem;line-height:1.4;opacity:.85;margin-top:4px}
+.world .bar{height:5px;border-radius:3px;background:rgba(0,0,0,.15);margin-top:14px;overflow:hidden}
+.world .bar i{display:block;height:100%;background:currentColor}
+.world .meta{display:flex;justify-content:space-between;font-family:var(--mono);font-size:.72rem;margin-top:8px}
+.world .lock{position:absolute;top:16px;right:16px;font-size:1rem}
+/* level */
+.lvhead{display:flex;justify-content:space-between;align-items:center;gap:16px;flex-wrap:wrap;margin-bottom:22px}
+.back{background:none;border:0;cursor:pointer;font-size:.95rem;color:var(--muted);padding:0}
+.back:hover{color:var(--ink)}
+.lvtitle{display:flex;align-items:center;gap:14px}
+.chip{display:inline-flex;align-items:center;gap:8px;background:var(--c);color:var(--cfg);border-radius:999px;padding:6px 14px;font-family:var(--mono);font-size:.75rem;letter-spacing:.08em;text-transform:uppercase;font-weight:600}
+.map{display:grid;grid-template-columns:repeat(15,1fr);gap:6px;margin-bottom:22px}
+.dot{aspect-ratio:1;border-radius:50%;border:1.5px solid var(--line);background:#fff;color:var(--muted);font:600 .78rem var(--mono);cursor:pointer;padding:0;transition:.15s}
+.dot:hover:not(:disabled){border-color:var(--ink);color:var(--ink)}
+.dot.done{background:var(--c);border-color:var(--c);color:var(--cfg)}
+.dot.skipped{background:#cfcdc7;border-color:#cfcdc7;color:#fff}
+.dot.cur{box-shadow:0 0 0 2px #fff,0 0 0 4px var(--ink);color:var(--ink)}
+.dot.cur.done{color:var(--cfg)}
+.dot:disabled{cursor:not-allowed;opacity:.3}
+.card{border:1px solid var(--line);border-radius:26px;padding:38px 42px 26px;position:relative;background:#fff}
+.card.shake{animation:shake .4s}
+@keyframes shake{20%{transform:translateX(-8px)}40%{transform:translateX(7px)}60%{transform:translateX(-5px)}80%{transform:translateX(3px)}}
+.card .tag{font-family:var(--mono);font-size:.74rem;letter-spacing:.12em;text-transform:uppercase;color:var(--muted)}
+.card .tag b{color:var(--ink)}
+.card h2{font-family:var(--serif);font-weight:400;font-size:clamp(2.2rem,5vw,3.4rem);line-height:1.02;margin:8px 0 18px;letter-spacing:-.01em}
+.q{font-size:1.18rem;line-height:1.6;margin:0 0 6px;max-width:720px}
+.big{font:500 1.75rem var(--mono);letter-spacing:.08em;text-align:center;margin:22px 0;padding:26px 16px;background:var(--soft);border-radius:18px;word-break:break-word;line-height:1.5}
+.big small{display:block;font:400 .95rem var(--sans);letter-spacing:0;color:var(--muted);margin:6px 0}
+.row{display:flex;gap:10px;margin-top:20px;max-width:620px}
+.msg{min-height:1.6em;margin-top:16px;font-weight:500;color:var(--red)}
+.msg.info{color:var(--muted);font-weight:400}
+.tools{display:flex;justify-content:space-between;align-items:center;gap:10px;margin-top:18px;padding-top:18px;border-top:1px solid var(--line);flex-wrap:wrap}
+.tools .l{display:flex;gap:8px;flex-wrap:wrap}
+.hint{background:#fff;border:1px solid var(--line);border-radius:999px;padding:8px 16px;font-size:.86rem;cursor:pointer;color:var(--muted)}
+.hint:hover{border-color:var(--ink);color:var(--ink)}
+.small-lbl,.lbl{font-family:var(--mono);font-size:.72rem;letter-spacing:.1em;text-transform:uppercase;color:var(--muted)}
+.hints p{margin:12px 0 0;padding:12px 16px;background:color-mix(in srgb,var(--c) 12%,#fff);border-radius:12px;font-size:.98rem;line-height:1.5}
+.solved{display:flex;gap:18px;align-items:flex-start;background:color-mix(in srgb,var(--c) 14%,#fff);border-radius:18px;padding:20px 22px;margin-top:18px}
+.solved.skip{background:var(--soft)}
+.check{flex:none;width:44px;height:44px;border-radius:50%;background:var(--c);color:var(--cfg);display:grid;place-items:center;font-size:1.3rem;font-weight:700}
+.skip .check{background:#9a988f;color:#fff}
+.solved p{margin:6px 0 0;line-height:1.55}
+.next{margin-top:16px;text-align:right}
+.mc{display:flex;flex-direction:column;gap:9px;margin-top:16px;max-width:760px}
+.opt{text-align:left;background:#fff;border:1.5px solid var(--line);border-radius:14px;padding:14px 18px;font-size:1.02rem;cursor:pointer;color:var(--ink);line-height:1.45;transition:border-color .15s}
+.opt:hover:not(:disabled){border-color:var(--ink)}
+.opt.small{padding:10px 18px;text-align:center}
+.steps{display:flex;gap:6px;margin:6px 0 4px}
+.steps span{width:32px;height:6px;border-radius:3px;background:var(--line)}
+.steps span.on{background:var(--c)}.steps span.now{background:var(--ink)}
+.arena{position:relative;height:280px;border-radius:18px;margin-top:16px;overflow:hidden;background:var(--soft)}
+.flee{position:absolute;padding:13px 24px;border-radius:999px;border:0;background:var(--c);color:var(--cfg);font-size:1rem;font-weight:700;cursor:pointer;transition:left .18s,top .18s;white-space:nowrap}
+.flee:focus-visible{outline:3px solid var(--ink);outline-offset:3px}
+.dark{background:#0b0b0c;color:#2b2b30;border-radius:18px;padding:46px 24px;margin-top:16px;text-align:center;font-size:1.05rem;line-height:2}
+.dark .ghost{color:#0b0b0c}
+.dark ::selection{background:#fff;color:var(--red)}
+.grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin:18px 0}
+.grid div{font:500 1.2rem var(--mono);background:var(--soft);border-radius:12px;padding:14px;text-align:center;letter-spacing:.06em}
+.grid div.ask{background:var(--ink);color:#fff;grid-column:1/-1}
+.bridge{display:flex;align-items:center;gap:12px;margin:10px 0;font:500 1.15rem var(--mono);flex-wrap:wrap}
+.bridge span{min-width:120px}
+.bridge span:first-child{text-align:right}
+.bridge input{flex:0 1 220px;padding:10px 16px;font-size:1.05rem}
+.bridge input.good{border-color:var(--green);background:#eef8f1}
+.wide .bridge span:first-child{min-width:330px}
+.lcd{font:600 2.8rem var(--mono);background:#a8b597;color:#1d2a1a;border-radius:12px;padding:16px 22px;text-align:right;letter-spacing:.1em;box-shadow:inset 0 3px 8px rgba(0,0,0,.25);max-width:340px;margin:18px auto 6px}
+.calc-note{text-align:center;color:var(--muted)}
+.panel{background:var(--soft);border-radius:18px;padding:20px;margin-top:16px}
+.switches{display:flex;gap:14px;margin:14px 0;justify-content:center;flex-wrap:wrap}
+.sw{width:104px;padding:14px 6px;border-radius:16px;border:1.5px solid var(--ink);background:#fff;cursor:pointer;display:flex;flex-direction:column;align-items:center;gap:6px;color:var(--ink)}
+.sw .knob{width:24px;height:42px;border-radius:8px;background:#e7e5df;position:relative;border:1.5px solid var(--ink)}
+.sw .knob::after{content:"";position:absolute;left:2px;right:2px;height:17px;border-radius:5px;background:var(--ink);bottom:2px;transition:.15s}
+.sw.on .knob::after{bottom:19px;background:var(--c)}
+.sw:disabled{opacity:.5;cursor:not-allowed}
+.acts{display:flex;gap:10px;flex-wrap:wrap;align-items:center;margin-top:14px}
+.room{display:flex;align-items:center;gap:20px;background:#17171a;color:#bbb;border-radius:18px;padding:20px;margin-top:16px}
+.room p{margin:0}.room b{color:#fff}
+.bulb{flex:none;width:46px;height:46px;border-radius:50%;background:#333;border:2px solid #555}
+.room.lit .bulb{background:#ffd866;box-shadow:0 0 30px 10px rgba(255,216,102,.55);border-color:#ffe9a8}
+.redwrap{display:grid;place-items:center;padding:34px 0 10px}
+.red{width:180px;height:180px;border-radius:50%;border:0;background:radial-gradient(circle at 35% 30%,#ff7a62,#E5432D 55%,#8a2414);color:#fff;font:700 1.4rem var(--mono);letter-spacing:.1em;cursor:pointer;box-shadow:0 10px 0 #5a190e,0 16px 30px rgba(0,0,0,.25);transition:transform .08s,box-shadow .08s}
+.red:active{transform:translateY(8px);box-shadow:0 2px 0 #5a190e,0 6px 12px rgba(0,0,0,.2)}
+.doors{display:flex;gap:14px;justify-content:center;margin-top:20px;flex-wrap:wrap}
+.door{width:110px;height:170px;border-radius:12px 12px 4px 4px;border:2px solid var(--ink);background:#fff;cursor:pointer;font-family:var(--mono);font-size:.8rem;position:relative}
+.door::after{content:"";position:absolute;right:14px;top:50%;width:10px;height:10px;border-radius:50%;background:var(--ink)}
+.hoverword{display:inline-block;margin:26px auto 0;padding:22px 40px;border-radius:18px;background:var(--soft);font-family:var(--serif);font-size:2.6rem;cursor:default;position:relative}
+.tip{position:absolute;left:50%;top:100%;transform:translate(-50%,8px);background:var(--ink);color:#fff;font:500 .85rem var(--mono);padding:6px 12px;border-radius:8px;white-space:nowrap;opacity:0;transition:opacity .4s;pointer-events:none}
+.tip.show{opacity:1}
+.clock{font:600 3.4rem var(--mono);text-align:center;margin:22px 0 10px;letter-spacing:.06em}
+.mirror{transform:scaleX(-1);display:block}
+.copyme{font-family:var(--serif);font-size:2rem;text-align:center;padding:30px 20px;background:var(--soft);border-radius:18px;margin-top:16px;line-height:1.3}
+.squeeze{margin:18px auto 0;width:42px;height:220px;background:var(--soft);border-radius:12px;display:grid;place-items:center;font-family:var(--mono);font-size:.7rem;writing-mode:vertical-rl;color:var(--muted);transition:width .3s}
+.cmdzone{display:grid;place-items:center;padding:30px;font-family:var(--serif);font-size:6rem;color:var(--line)}
+.tiny{font-size:2px;line-height:1;color:#9b9890;text-align:center;padding:40px 0;background:var(--soft);border-radius:18px;margin-top:16px}
+.rclick{margin-top:16px;padding:60px 20px;border-radius:18px;background:var(--soft);text-align:center;font-family:var(--serif);font-size:2rem;cursor:pointer;user-select:none}
+.scroller{height:240px;overflow-y:auto;border-radius:18px;background:var(--soft);margin-top:16px;padding:0 24px;text-align:center}
+.scroller p{margin:0;padding:110px 0;font-family:var(--mono);color:#b4b1a9}
+.scroller .deep{color:var(--ink);font-size:1.3rem;padding:60px 0 100px}
+.lock{display:grid;place-items:center;margin:26px 0 6px;font-size:5rem;transition:transform .2s}
+.lock.wiggle{animation:shake .4s}
+.holdbar{height:6px;max-width:260px;margin:8px auto 0;border-radius:3px;background:var(--line);overflow:hidden}
+.holdbar i{display:block;height:100%;width:0;background:var(--c)}
+.banks{display:grid;grid-template-columns:1fr 150px 1fr;gap:12px;align-items:stretch;margin-top:16px}
+.bank{background:var(--soft);border-radius:18px;padding:14px;min-height:190px;display:flex;flex-direction:column;gap:8px;border:2px solid transparent}
+.bank.torch{border-color:var(--c)}
+.mid{display:flex;flex-direction:column;justify-content:center;align-items:center;gap:10px;text-align:center}
+.mid .time{font:600 1.6rem var(--mono)}
+.token{background:#fff;border:1.5px solid var(--line);border-radius:12px;padding:10px 12px;cursor:pointer;font-size:1rem;text-align:left;display:flex;justify-content:space-between;align-items:center;color:var(--ink)}
+.token small{font-family:var(--mono);color:var(--muted)}
+.token.sel{border-color:var(--c);background:color-mix(in srgb,var(--c) 15%,#fff)}
+.token:disabled{cursor:default;opacity:.6}
+.jugs{display:flex;gap:40px;justify-content:center;align-items:flex-end;margin:22px 0 6px}
+.jug{text-align:center}
+.jug .glass{width:90px;border:2.5px solid var(--ink);border-top:0;border-radius:0 0 14px 14px;position:relative;overflow:hidden;background:#fff}
+.jug .water{position:absolute;left:0;right:0;bottom:0;background:var(--sky);transition:height .35s}
+.jug .lvl{font:600 1.4rem var(--mono);margin-top:8px}
+.jug .ticks{position:absolute;inset:0;background:repeating-linear-gradient(to top,transparent 0 calc(var(--u) - 1px),rgba(0,0,0,.15) calc(var(--u) - 1px) var(--u))}
+.end{text-align:center;padding:10px 0}
+.end .score{font:600 4rem var(--mono);margin:10px 0 0}
+.end .rank{font-family:var(--serif);font-size:2.2rem;font-style:italic;color:var(--c);margin:6px 0 18px}
+.foot{margin-top:30px;text-align:center}
+.foot button{background:none;border:0;color:var(--muted);font:.8rem var(--mono);cursor:pointer;text-decoration:underline}
+@media (max-width:900px){.worlds{grid-template-columns:repeat(2,1fr)}.specimens{grid-template-columns:repeat(3,1fr)}.brow{grid-template-columns:30px 1fr 90px 90px}.brow .c{display:none}.wide .bridge span:first-child{min-width:0;text-align:left}}
+@media (max-width:600px){.card{padding:26px 18px;border-radius:20px}.banks{grid-template-columns:1fr}.big{font-size:1.15rem;padding:20px 10px}
+  .top .in{padding:10px 16px}.brand{font-size:1.25rem;white-space:nowrap}.who .pts{white-space:nowrap}.who a .long{display:none}.totals{text-align:left}.big{letter-spacing:.02em}.who{gap:10px;font-size:.8rem}.who span:first-child{max-width:90px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+  .app{padding:24px 16px 80px}.specimens{gap:8px}.spec{padding:10px;border-radius:14px}
+  .world{min-height:220px;padding:14px}.world .gl{font-size:3.6rem}.world .ds{display:none}
+  .map{gap:3px}.dot{font-size:.62rem}.bridge{font-size:1rem;gap:8px}.bridge span{min-width:0}.bridge span:first-child{text-align:left}
+  .row{flex-direction:column}.namebox{flex-direction:column}.brow{grid-template-columns:26px 1fr 70px;font-size:.9rem}.brow button{grid-column:1/-1;justify-self:stretch;margin-top:8px}
+  .lcd{font-size:2rem}.clock{font-size:2.4rem}.jugs{gap:24px}.red{width:150px;height:150px}.door{width:70px;height:120px}
+  h1.hero{font-size:3.2rem}.lead{font-size:1.05rem}.card h2{font-size:2.1rem}.q{font-size:1.05rem}}
+input{font-size:16px}
+</style>
+</head>
+<body>
+<div class="top"><div class="in"><button class="brand" id="brand">Elisas Rätsel <i>Eck</i></button><div class="who" id="who"></div></div></div>
+<main class="app" id="app"></main>
+
+<script>
+(function(){
+/* ---------- Speicher ---------- */
+const LS='umdieecke_v2';
+let DB={players:{},last:null};
+try{const s=JSON.parse(localStorage.getItem(LS));if(s&&s.players)DB=s}catch(e){}
+function save(){try{localStorage.setItem(LS,JSON.stringify(DB))}catch(e){}}
+let P=null; // aktueller Spieler
+const BASE_TITLE=document.title;
+let cleanup=null,hintsUsed=0,wrongs=0,solvedNow=false,cur={w:0,i:0};
+const $=s=>document.querySelector(s);
+const app=$('#app');
+function h(t,a,html){const e=document.createElement(t);a=a||{};for(const k in a)e.setAttribute(k,a[k]);if(html!=null)e.innerHTML=html;return e}
+const esc=s=>String(s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+const norm=s=>String(s).toUpperCase().replace(/Ä/g,'AE').replace(/Ö/g,'OE').replace(/Ü/g,'UE').replace(/ß/g,'SS').replace(/[^A-Z0-9]/g,'');
+function shuffle(a){for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]]}return a}
+const pick=a=>a[Math.floor(Math.random()*a.length)];
+const TOUCH=window.matchMedia('(hover: none) and (pointer: coarse)').matches||('ontouchstart' in window&&navigator.maxTouchPoints>0&&!window.matchMedia('(hover: hover)').matches);
+const pf=(L,k)=>TOUCH&&L[k+'T']!=null?L[k+'T']:L[k];
+function longPress(el,ms,onDone,onShort){let t=null,done=false;
+  const start=e=>{e.preventDefault();done=false;clearTimeout(t);t=setTimeout(()=>{done=true;onDone()},ms)};
+  const end=()=>{if(t&&!done&&onShort)onShort();clearTimeout(t);t=null};
+  el.addEventListener('touchstart',start,{passive:false});el.addEventListener('touchend',end);el.addEventListener('touchcancel',()=>{clearTimeout(t);t=null});
+  return()=>clearTimeout(t)}
+
+/* ---------- Bausteine ---------- */
+function textQuiz(b,api,answers,opt){
+  opt=opt||{};
+  const f=h('form',{class:'row'});
+  const inp=h('input',{class:'up',placeholder:opt.ph||'Deine Antwort',autocomplete:'off',spellcheck:'false'});
+  const bt=h('button',{class:'primary',type:'submit'},'Prüfen');
+  f.append(inp,bt);b.append(f);
+  f.addEventListener('submit',e=>{e.preventDefault();if(!inp.value.trim())return;const v=norm(inp.value);
+    const list=(typeof answers==='function'?answers():answers).map(norm);
+    if(list.includes(v))api.solve();else{api.wrong(opt.wm&&opt.wm(v));inp.select()}});
+  if(!opt.noFocus)setTimeout(()=>inp.focus(),60);
+}
+function mc(b,api,q,opts,onOk){
+  const wrap=h('div',{class:'mc'});
+  if(q)wrap.append(h('p',{class:'q'},q));
+  shuffle(opts.slice()).forEach(o=>{const bt=h('button',{class:'opt',type:'button'},o.t);
+    bt.onclick=()=>{if(o.ok)onOk();else{api.wrong(o.why);bt.disabled=true}};wrap.append(bt)});
+  b.append(wrap);
+}
+function multi(b,api,rows,wide){
+  const f=h('form',{class:wide?'wide':''});const ins=[];
+  rows.forEach(r=>{const row=h('div',{class:'bridge'});const i=h('input',{class:'up',autocomplete:'off',spellcheck:'false',placeholder:'?'});ins.push(i);
+    row.append(h('span',{},r.l),i);if(r.r!=null)row.append(h('span',{},r.r));f.append(row)});
+  f.append(h('button',{class:'primary',type:'submit',style:'margin-top:12px'},'Prüfen'));b.append(f);
+  f.addEventListener('submit',e=>{e.preventDefault();let all=true;
+    rows.forEach((r,k)=>{const ok=r.a.map(norm).includes(norm(ins[k].value));ins[k].classList.toggle('good',ok);if(!ok)all=false});
+    if(all)api.solve();else api.wrong('Noch nicht alles stimmt. Die grünen Felder sind richtig.')});
+  setTimeout(()=>ins[0].focus(),60);
+}
+// Kurzformen für Rätseltypen
+const T=o=>Object.assign({},o,{render(b,api){if(o.big)b.append(h('div',{class:'big'},o.big));if(o.grid){const g=h('div',{class:'grid'});o.grid.forEach(x=>g.append(h('div',{},x)));g.append(h('div',{class:'ask'},o.ask));b.append(g)}textQuiz(b,api,o.a,o)}});
+const M=o=>Object.assign({},o,{render(b,api){if(o.big)b.append(h('div',{class:'big'},o.big));mc(b,api,'',o.o,()=>api.solve())}});
+function onDoc(type,fn,opts){document.addEventListener(type,fn,opts);return()=>document.removeEventListener(type,fn,opts)}
+function onWin(type,fn){window.addEventListener(type,fn);return()=>window.removeEventListener(type,fn)}
+
+/* =========================================================
+   LEVEL 1 – AUFWÄRMEN
+   ========================================================= */
+const W1=[
+{ t:'Der scheue Knopf', tag:'Interaktion',
+  q:'Drück den Knopf. Mehr ist es nicht.',
+  hints:['Die Maus ist nicht das einzige Werkzeug, mit dem man einen Knopf drücken kann.','Drück die Tab-Taste, bis der Knopf markiert ist, und dann Enter.'],
+  sol:'Den Knopf mit der Tastatur auslösen (Tab + Enter).',
+  expl:'Der Knopf flieht vor dem Mauszeiger, aber nicht vor der Tastatur. Wer nur ans Klicken denkt, kommt hier nicht weiter.',
+  hintsT:['Ein Finger ist für diesen Knopf zu wenig.','Tippe mit zwei Fingern gleichzeitig irgendwo in die graue Fläche.'],
+  solT:'Mit zwei Fingern gleichzeitig in die Fläche tippen.',
+  explT:'Der Knopf flieht vor jedem einzelnen Finger. Gegen zwei Finger auf einmal hat er keine Chance.',
+  render(b,api){
+    const ar=h('div',{class:'arena'}),btn=h('button',{class:'flee',type:'button'},'Drück mich');ar.append(btn);b.append(ar);
+    const lines=['Huch!','Zu langsam.','Nö.','Fast!','Nicht so.','Vielleicht anders?','Ich bin schneller.'];let n=0;
+    requestAnimationFrame(()=>{btn.style.left=(ar.clientWidth-btn.offsetWidth)/2+'px';btn.style.top=(ar.clientHeight-btn.offsetHeight)/2+'px'});
+    function move(){btn.textContent=lines[n++%lines.length];const w=Math.max(0,ar.clientWidth-btn.offsetWidth-10),hh=Math.max(0,ar.clientHeight-btn.offsetHeight-10);
+      btn.style.left=5+Math.random()*w+'px';btn.style.top=5+Math.random()*hh+'px'}
+    btn.addEventListener('pointerenter',move);btn.addEventListener('pointerdown',e=>{e.preventDefault();move()});
+    btn.addEventListener('click',e=>{if(e.detail===0&&!TOUCH)api.solve();else move()});
+    ar.addEventListener('touchstart',e=>{if(e.touches.length>=2){e.preventDefault();api.solve()}},{passive:false});
+  }},
+T({ t:'Die Buchstabenfolge', tag:'Muster', q:'Welcher Buchstabe kommt als Nächstes?', big:'E · Z · D · V · F · S · S · A · ?', a:['N'], ph:'Ein Buchstabe',
+  hints:['Es sind Anfangsbuchstaben von etwas, das du seit dem Kindergarten kannst.','Zähl einfach mal laut: Eins, Zwei, Drei …'], sol:'N',
+  expl:'<b>E</b>ins, <b>Z</b>wei, <b>D</b>rei, <b>V</b>ier, <b>F</b>ünf, <b>S</b>echs, <b>S</b>ieben, <b>A</b>cht, also <b>N</b>eun.'}),
+T({ t:'Katzen und Mäuse', tag:'Denkfalle', q:'3 Katzen fangen 3 Mäuse in 3 Minuten.<br>Wie viele Katzen braucht man, um 100 Mäuse in 100 Minuten zu fangen?', a:['3','DREI'], ph:'Anzahl',
+  wm:v=>v==='100'?'Die naheliegende Antwort. Und genau deshalb falsch.':null,
+  hints:['Wie lange braucht eine einzelne Katze für eine einzelne Maus?','Eine Katze schafft eine Maus in 3 Minuten, in 100 Minuten also gut 33.'], sol:'3',
+  expl:'Jede Katze fängt alle 3 Minuten eine Maus, in 100 Minuten also gut 33. Drei Katzen schaffen damit 100 Mäuse.'}),
+T({ t:'Was dir gehört', tag:'Rätsel', q:'Es gehört dir. Trotzdem benutzen es andere viel öfter als du. Was ist es?', a:['NAME','DEINNAME','MEINNAME','VORNAME'],
+  hints:['Du hast es vorhin erst eingetippt.','Andere rufen dich damit.'], sol:'Dein Name',
+  expl:'Dein <b>Name</b>. Du hast ihn ganz am Anfang eingetragen, aber benutzt wird er vor allem von anderen.'}),
+{ t:'Der Kühlschrank', tag:'Kette · Transfer',
+  q:'Vier Fragen, eine Geschichte. Jede Antwort baut auf der vorigen auf.',
+  hints:['Vergiss nicht, was in den vorherigen Fragen passiert ist. Die Welt bleibt bestehen.','Was gerade im Kühlschrank steckt, kann nicht zur Party kommen.'],
+  sol:'Tür auf, Elefant rein, Tür zu → Elefant raus, Giraffe rein → Die Giraffe fehlt → Einfach schwimmen.',
+  expl:'Der Elefant muss erst raus, damit die Giraffe hineinpasst. Die Giraffe steckt deshalb im Kühlschrank und verpasst die Party. Und die Krokodile feiern gerade beim Löwen.',
+  render(b,api){
+    const st=[
+      {q:'Wie bekommst du einen Elefanten in einen Kühlschrank?',o:[{t:'Tür auf, Elefant rein, Tür zu.',ok:1},{t:'Gar nicht, er ist zu groß.',why:'Zu realistisch gedacht. Hier gelten Rätselregeln.'},{t:'Man braucht einen größeren Kühlschrank.',why:'Niemand hat gesagt, dass er nicht passt.'},{t:'Man muss ihn vorher schrumpfen.',why:'Viel zu kompliziert.'}]},
+      {q:'Gut. Und wie bekommst du jetzt eine Giraffe in den Kühlschrank?',o:[{t:'Tür auf, Giraffe rein, Tür zu.',why:'Da fehlt ein Schritt. Was ist denn gerade im Kühlschrank?'},{t:'Tür auf, Elefant raus, Giraffe rein, Tür zu.',ok:1},{t:'Gar nicht, eine Giraffe ist zu hoch.',why:'Der Elefant hat ja auch gepasst.'},{t:'Man legt sie quer hinein.',why:'Bequem, aber das ist nicht das Problem.'}]},
+      {q:'Der Löwe feiert Geburtstag. Alle Tiere kommen, nur eines nicht. Welches?',o:[{t:'Die Giraffe',ok:1},{t:'Der Elefant',why:'Der wurde doch gerade aus dem Kühlschrank befreit.'},{t:'Die Antilope',why:'Klingt vernünftig, aber denk an die Geschichte.'},{t:'Die Maus',why:'Die Maus hat keinen Grund zu fehlen, ein anderes Tier aber schon.'}]},
+      {q:'Letzte Frage: Du musst einen Fluss durchqueren, in dem sonst Krokodile leben. Es gibt keine Brücke und kein Boot. Was tust du?',o:[{t:'Einfach durchschwimmen.',ok:1},{t:'Warten, bis die Krokodile schlafen.',why:'Wo sind die Krokodile denn heute?'},{t:'Einen Umweg suchen.',why:'Es gibt keinen. Und wo sind heute eigentlich alle Tiere?'},{t:'Die Giraffe als Brücke benutzen.',why:'Die steckt noch im Kühlschrank.'}]}];
+    let s=0;const hold=h('div');b.append(hold);
+    (function step(){hold.innerHTML='';hold.append(h('div',{class:'steps'},st.map((_,k)=>`<span class="${k<s?'on':k===s?'now':''}"></span>`).join('')));
+      mc(hold,api,st[s].q,st[s].o,()=>{s++;api.say('');if(s>=st.length)api.solve();else step()})})();
+  }},
+{ t:'Stromausfall', tag:'Meta',
+  q:'Hier ist das Licht ausgefallen. Irgendwo in der Dunkelheit liegt das Lösungswort.',
+  hints:['Licht ins Dunkel bringt man nicht nur mit einer Lampe.','Markiere den dunklen Bereich mit der Maus (oder ⌘ + A).'], hintsT:['Licht ins Dunkel bringt man nicht nur mit einer Lampe.','Drücke lange auf den dunklen Bereich und ziehe die Markierung über den Text.'], sol:'SCHATTEN',
+  expl:'Der Text war schwarz auf schwarz. Erst wenn man ihn markiert, wird er sichtbar.',
+  render(b,api){b.append(h('div',{class:'dark'},'Es ist zu dunkel, um hier etwas zu erkennen.<br><span class="ghost">Gut gemacht. Das Lösungswort lautet SCHATTEN.</span><br>Wirklich. Nichts zu sehen.'));textQuiz(b,api,['SCHATTEN'],{noFocus:true})}},
+T({ t:'Die Herde', tag:'Genau lesen', q:'Ein Bauer hat 17 Schafe. Alle bis auf 9 sterben. Wie viele Schafe hat er noch?', a:['9','NEUN'], ph:'Anzahl',
+  wm:v=>v==='8'?'Lies den Satz noch einmal ganz langsam.':null,
+  hints:['Rechne nicht vorschnell.','„Alle bis auf 9“: Wer bleibt übrig?'], sol:'9',
+  expl:'„Alle bis auf 9“ heißt: <b>9</b> überleben. Wer sofort 17 − 9 rechnet, tappt in die Falle.'}),
+T({ t:'Der kurze Monat', tag:'Genau lesen', q:'Wie viele Monate eines Jahres haben 28 Tage?', a:['12','ZWOELF','ALLE','ALLE12'], ph:'Anzahl',
+  wm:v=>v==='1'||v==='EINER'||v==='EINS'?'Der Februar hat 28 Tage. Aber nicht als Einziger.':null,
+  hints:['Die Frage lautet nicht „genau 28 Tage“.','Hat der März etwa keine 28 Tage?'], sol:'Alle 12',
+  expl:'<b>Alle zwölf</b> Monate haben mindestens 28 Tage. Nur der Februar hat nicht mehr.'}),
+{ t:'Der verschlossene Raum', tag:'Meta · Mac',
+  q:'Du bist in diesem Raum gefangen. Alle Türen sind verschlossen. Finde den Ausgang.',
+  hints:['Den Notausgang findest du nicht auf dem Bildschirm.','Auf deiner Tastatur gibt es eine Taste, die genau so heißt: „Entkommen“.'], sol:'Die Escape-Taste drücken.',
+  hintsT:['An den Türen zu rütteln bringt nichts. Jedes Gebäude hat einen ausgeschilderten Notausgang.','Suche das kleine grüne Schild.'], solT:'Auf das kleine grüne Notausgangsschild tippen.',
+  explT:'Statt an den Türen zu rütteln, hättest du nur dem Notausgangsschild folgen müssen.',
+  expl:'<i>Escape</i> heißt auf Deutsch „Flucht“. Der Ausgang war die ganze Zeit oben links auf deiner Tastatur.',
+  render(b,api){
+    const d=h('div',{class:'doors'});['Tür 1','Tür 2','Tür 3','Tür 4'].forEach(t=>{const x=h('button',{class:'door',type:'button'},t);x.onclick=()=>api.say(pick(['Verschlossen.','Rüttel, rüttel … nichts.','Auch zu.','Diese Tür ist nur gemalt.']),'info');d.append(x)});b.append(d);
+    if(TOUCH){const ex=h('button',{class:'exit',type:'button',title:'Notausgang'},'🏃 →');ex.onclick=()=>api.solve();{const d=h('div',{style:'text-align:right;margin-top:14px'});d.append(ex);b.append(d)}}
+    return onDoc('keydown',e=>{if(e.key==='Escape')api.solve()});
+  }},
+M({ t:'Der Mann im 10. Stock', tag:'Laterales Denken',
+  q:'Ein Mann wohnt im 10. Stock. Morgens fährt er mit dem Aufzug ins Erdgeschoss. Abends fährt er nur bis in den 7. Stock und geht den Rest zu Fuß. Nur wenn es regnet, fährt er bis ganz nach oben. <b>Warum?</b>',
+  hints:['Was hat er bei Regen dabei, was er sonst nicht hat?','Achte auf den Körper des Mannes, nicht auf das Gebäude.'],
+  sol:'Er ist zu klein für die oberen Knöpfe, mit dem Regenschirm erreicht er sie.',
+  expl:'Er reicht nur bis zum Knopf für den 7. Stock. Bei Regen hat er einen Schirm dabei und drückt damit die 10. Eine gute Erklärung deckt <i>alle</i> Angaben ab.',
+  o:[{t:'Er ist zu klein, um die Knöpfe über der 7 zu erreichen. Mit dem Regenschirm kommt er an die 10.',ok:1},
+    {t:'Er will abends noch etwas Sport machen.',why:'Und warum dann bei Regen nicht? Das Treppenhaus wird ja nicht nass.'},
+    {t:'Abends fährt der Aufzug nur bis zum 7. Stock.',why:'Bei Regen fährt er aber durch. Der Aufzug weiß nichts vom Wetter.'},
+    {t:'Im 7. Stock wohnt jemand, den er besucht.',why:'Das erklärt nicht, warum er bei Regen durchfährt.'}]}),
+T({ t:'Wachsen durch Wegnehmen', tag:'Rätsel', q:'Je mehr du davon wegnimmst, desto größer wird es. Was ist es?', a:['LOCH','EINLOCH','DASLOCH','GRUBE'],
+  hints:['Denk an eine Schaufel.','Es besteht eigentlich aus nichts.'], sol:'Ein Loch',
+  expl:'Ein <b>Loch</b>: Jede Schaufel Erde, die man herausnimmt, macht es größer.'}),
+{ t:'Wortbrücken', tag:'Sprache',
+  q:'Jedes fehlende Wort bildet mit dem linken <i>und</i> mit dem rechten Wort ein zusammengesetztes Wort.',
+  hints:['Beispiel: HAND · ? · LAMPE → TASCHE (Handtasche, Taschenlampe).','Denk an Sport, an einen Hauseingang und an schlechtes Wetter.'], sol:'BALL · TÜR · SCHIRM',
+  expl:'Fuß<b>ball</b> / <b>Ball</b>spiel · Haus<b>tür</b> / <b>Tür</b>schlüssel · Regen<b>schirm</b> / <b>Schirm</b>mütze.',
+  render(b,api){multi(b,api,[{l:'FUSS',r:'SPIEL',a:['BALL']},{l:'HAUS',r:'SCHLÜSSEL',a:['TÜR']},{l:'REGEN',r:'MÜTZE',a:['SCHIRM']}])}},
+T({ t:'Das Rennen', tag:'Denkfalle', q:'Bei einem Lauf überholst du die Person auf dem zweiten Platz. Auf welchem Platz bist du jetzt?', a:['2','ZWEI','ZWEITER','ZWEITE','PLATZ2','ZWEITERPLATZ'], ph:'Platz',
+  wm:v=>v==='1'||v==='ERSTER'||v==='EINS'?'Den Ersten hast du nicht überholt.':null,
+  hints:['Wer liegt nach dem Überholen vor dir?','Du nimmst den Platz der Person ein, die du überholst.'], sol:'Platz 2',
+  expl:'Du nimmst den Platz der überholten Person ein, also <b>Platz 2</b>. Die Erste liegt immer noch vorne.'}),
+{ t:'Verweilen', tag:'Meta',
+  q:'Manche Dinge zeigen sich nur denen, die nicht gleich weiterziehen.',
+  hints:['Klicken bringt hier nichts. Bleib einfach.','Halte den Mauszeiger ruhig über dem Wort und warte ein paar Sekunden.'], hintsT:['Tippen bringt hier nichts. Bleib einfach.','Leg den Finger auf das Wort und lass ihn ein paar Sekunden liegen.'], sol:'ANKER',
+  expl:'Das Wort hatte einen versteckten Hinweis, der erst erscheint, wenn man mit der Maus darauf verweilt.',
+  render(b,api){
+    const wrap=h('div',{style:'text-align:center'});const w=h('span',{class:'hoverword',title:'Lösungswort: ANKER'},'hier.');const tip=h('span',{class:'tip'},'Lösungswort: ANKER');w.append(tip);wrap.append(w);b.append(wrap);
+    let t;w.addEventListener('mouseenter',()=>{t=setTimeout(()=>tip.classList.add('show'),3500)});w.addEventListener('mouseleave',()=>{clearTimeout(t);tip.classList.remove('show')});
+    const lp=longPress(w,2500,()=>tip.classList.add('show'));textQuiz(b,api,['ANKER'],{noFocus:true});return()=>{clearTimeout(t);lp()};
+  }},
+{ t:'Der rote Knopf', tag:'Levelfinale',
+  q:'Das letzte Rätsel dieses Levels. Löse es.',
+  hints:['Was wäre, wenn die beste Handlung gar keine ist?','Hände weg von Maus, Trackpad und Tastatur. Warte 15 Sekunden.'], sol:'Nichts tun: 15 Sekunden keine Eingabe.',
+  expl:'Manche Probleme löst man nicht durch Handeln, sondern durch Abwarten. Der Knopf war nur Ablenkung.',
+  render(b,api){
+    const wrap=h('div',{class:'redwrap'}),btn=h('button',{class:'red',type:'button'},'LÖSEN');wrap.append(btn);b.append(wrap);
+    const lines=['Nein.','Auch nicht.','Immer noch nein.','Du bist hartnäckig.','Mehr drücken hilft nicht.','Hmm.','Wirklich nicht.','…'];let n=0,t;
+    const arm=ms=>{clearTimeout(t);t=setTimeout(()=>api.solve(),ms)};
+    btn.addEventListener('click',()=>api.say(lines[Math.min(n++,lines.length-1)]));
+    const a=onDoc('pointerdown',()=>arm(15000),true),c=onDoc('keydown',()=>arm(15000),true);arm(25000);
+    return()=>{clearTimeout(t);a();c()};
+  }}
+];
+
+/* =========================================================
+   LEVEL 2 – MUSTER
+   ========================================================= */
+const W2=[
+T({ t:'Die Woche', tag:'Muster', q:'Welcher Buchstabe fehlt?', big:'M · D · M · D · F · S · ?', a:['S'], ph:'Ein Buchstabe',
+  hints:['Sieben Stück, jede Woche wieder.','Montag, Dienstag, …'], sol:'S', expl:'<b>M</b>ontag bis <b>S</b>amstag, also kommt jetzt <b>S</b>onntag.'}),
+T({ t:'Das Jahr', tag:'Muster', q:'Welcher Buchstabe fehlt?', big:'J · F · M · A · M · J · J · A · S · O · N · ?', a:['D'], ph:'Ein Buchstabe',
+  hints:['Zwölf Stück.','Januar, Februar, März …'], sol:'D', expl:'Die Anfangsbuchstaben der Monate. Nach November kommt <b>D</b>ezember.'}),
+T({ t:'Zahlen ohne Rechnen', tag:'Beobachtung', q:'Jede Zahl ergibt einen Wert. Welchen Wert hat <b>9868</b>?', a:['6','SECHS'], ph:'Wert',
+  grid:['8 → 2','1111 → 0','2172 → 0','6666 → 4','0090 → 4','7389 → 3'], ask:'9868 → ?',
+  hints:['Hier wird nicht gerechnet. Schau dir die Ziffern genau an.','Zähle die geschlossenen Kreise: Die 8 hat zwei, die 0, die 6 und die 9 haben je einen.'], sol:'6',
+  expl:'Gezählt werden die geschlossenen Kreise: 9 (1) + 8 (2) + 6 (1) + 8 (2) = <b>6</b>.'}),
+T({ t:'Eigene Mathematik', tag:'Transfer', q:'Hier gelten eigene Rechenregeln. Was ergibt <b>8 + 7</b>?', big:'3 + 10 = 1<br>9 + 5 = 2<br>7 + 9 = 4<br>8 + 7 = ?', a:['3','DREI'], ph:'Ergebnis',
+  hints:['Diese Art zu rechnen benutzt du jeden Tag, ohne es zu merken.','Denk an ein Zifferblatt: Nach der 12 kommt wieder die 1.'], sol:'3',
+  expl:'Gerechnet wird wie auf der Uhr: 8 Uhr plus 7 Stunden ist 15 Uhr, also <b>3</b> auf dem Zifferblatt.'}),
+M({ t:'Der Außenseiter', tag:'Muster', q:'Welches Wort gehört nicht dazu?',
+  hints:['Es geht nicht um die Bedeutung der Wörter.','Lies jedes Wort einmal von hinten nach vorn.'], sol:'REITER',
+  expl:'Rentner, Reliefpfeiler, Kajak und Radar sind Palindrome: Sie lesen sich rückwärts genauso. <b>Reiter</b> sieht fast so aus, ergibt rückwärts aber „RETIER“.',
+  o:[{t:'RENTNER',why:'Lies es mal von hinten.'},{t:'RELIEFPFEILER',why:'Lies es mal von hinten.'},{t:'KAJAK',why:'Lies es mal von hinten.'},{t:'RADAR',why:'Lies es mal von hinten.'},{t:'REITER',ok:1}]}),
+T({ t:'Viermal Vier', tag:'Muster', q:'Wie geht es weiter?', big:'4 · 4 · 4 · 4 · 4 · 5 · 6 · 4 · ?', a:['4','VIER'], ph:'Nächste Zahl',
+  hints:['Es sind keine Rechenergebnisse, sondern Längen.','Zähle die Buchstaben von Eins, Zwei, Drei …'], sol:'4',
+  expl:'Das sind die Buchstabenzahlen der Zahlwörter: Eins (4), Zwei (4), Drei (4), Vier (4), Fünf (4), Sechs (5), Sieben (6), Acht (4), Neun (<b>4</b>).'}),
+T({ t:'Vorlesen', tag:'Muster', q:'Wie geht diese Folge weiter?', big:'1 · 11 · 21 · 1211 · 111221 · ?', a:['312211'], ph:'Nächste Zahl',
+  hints:['Lies jede Zahl laut vor, Ziffer für Ziffer.','„Eine Eins“ → 11. „Zwei Einsen“ → 21. „Eine Zwei, eine Eins“ → 1211 …'], sol:'312211',
+  expl:'Jedes Glied beschreibt das vorige: 111221 heißt „drei Einsen, zwei Zweien, eine Eins“, also <b>312211</b>.'}),
+T({ t:'Ordnung muss sein', tag:'Muster', q:'Diese Ziffern sind nach einer festen Regel sortiert. Welche fehlt?', big:'8 · 3 · 1 · 5 · ? · 0 · 6 · 7 · 4 · 2', a:['9','NEUN'], ph:'Ziffer',
+  hints:['Jede Ziffer von 0 bis 9 kommt genau einmal vor.','Schreib die Ziffern als Wörter: Acht, Drei, Eins … Fällt dir eine Ordnung auf?'], sol:'9',
+  expl:'Alphabetisch sortiert: Acht, Drei, Eins, Fünf, <b>Neun</b>, Null, Sechs, Sieben, Vier, Zwei.'}),
+{ t:'Vervielfältigung', tag:'Meta · Mac',
+  q:'Dieser Satz möchte nicht gelesen werden. Er möchte vervielfältigt werden.',
+  hints:['Abschreiben von Hand ist zu mühsam.','Markiere den Satz und drücke ⌘ + C.'], hintsT:['Abschreiben von Hand ist zu mühsam.','Drücke lange auf den Satz, markiere ihn und tippe auf „Kopieren“.'], sol:'Den Satz kopieren (⌘ + C).',
+  expl:'Vervielfältigen heißt am Rechner: kopieren. Das Spiel hat einfach darauf gewartet, dass du etwas kopierst.',
+  render(b,api){b.append(h('div',{class:'copyme'},'„Ich bin es wert, zweimal zu existieren.“'));return onDoc('copy',()=>setTimeout(()=>api.solve(),50))}},
+T({ t:'Verkehrte Zahlen', tag:'Muster', q:'Wie geht es weiter?', big:'61 · 52 · 63 · 94 · 46 · ?', a:['18'], ph:'Nächste Zahl',
+  hints:['Lies die Zahlen mal von rechts nach links.','16, 25, 36, 49, 64 … das sind Quadratzahlen.'], sol:'18',
+  expl:'Quadratzahlen, rückwärts geschrieben: 16, 25, 36, 49, 64, 81 → <b>18</b>.'}),
+T({ t:'Römische Sechs', tag:'Kreativität', q:'Wie machst du aus der römischen Neun mit einer einzigen Linie eine Sechs?', big:'IX', a:['S','SIX','SDAVOR','ESDAVOR','EINS','EINSDAVOR'], ph:'Was ergänzt du?',
+  hints:['Die Linie muss nicht gerade sein. Und die Sechs muss nicht römisch sein.','Auf Englisch heißt sechs „six“.'], sol:'Ein S davor: SIX',
+  expl:'Ein geschwungenes <b>S</b> vor IX ergibt <b>SIX</b>, englisch für sechs. Wer nur in römischen Zahlen denkt, sucht vergeblich.'}),
+{ t:'Der höfliche Taschenrechner', tag:'Perspektive',
+  q:'Tippt man diese Zahl in einen alten Taschenrechner, sagt er <b>Hallo</b>.<br>Welche Zahl musst du eintippen, damit er <b>BOSS</b> sagt?',
+  hints:['Der Taschenrechner zeigt das Wort nicht so, wie du ihn gerade hältst.','Dreh das Display um 180°: 8 wird B, 5 wird S, 0 wird O. Und die Reihenfolge dreht sich mit!'], sol:'5508',
+  expl:'Auf den Kopf gestellt liest man das Display rückwärts. So wird aus 5508 das Wort B-O-S-S.',
+  render(b,api){b.append(h('div',{class:'lcd'},'0.7734'),h('p',{class:'calc-note'},'→ „hELLO“'));textQuiz(b,api,['5508'],{ph:'Zahl'})}},
+T({ t:'Wachstum', tag:'Muster', q:'Wie geht es weiter?', big:'1 · 2 · 4 · 8 · 16 · 23 · 28 · 38 · 49 · ?', a:['62'], ph:'Nächste Zahl',
+  hints:['Am Anfang sieht es nach Verdoppeln aus. Ist es aber nicht.','Jede Zahl plus ihre Quersumme ergibt die nächste.'], sol:'62',
+  expl:'Immer die Quersumme dazu: 16 + 7 = 23, 23 + 5 = 28, 28 + 10 = 38, 38 + 11 = 49, 49 + 13 = <b>62</b>.'}),
+{ t:'Der richtige Moment', tag:'Meta',
+  q:'Diese Tür lässt sich öffnen. Aber nur, wenn die Zeit reif ist.',
+  hints:['Schau dir die Uhr genau an. Wann ist eine Minute „reif“?','Klicke genau dann, wenn die Sekunden auf 00 stehen.'], sol:'Klicken, wenn die Sekunden auf 00 stehen.',
+  expl:'Eine Minute ist „reif“, wenn sie voll ist. Bei :00 Sekunden ließ sich die Tür öffnen.',
+  render(b,api){
+    const c=h('div',{class:'clock'});const wrap=h('div',{style:'text-align:center'});const bt=h('button',{class:'primary',type:'button'},'Tür öffnen');wrap.append(bt);b.append(c,wrap);
+    const pad=n=>String(n).padStart(2,'0');const tick=()=>{const d=new Date();c.textContent=`${pad(d.getHours())}:${pad(d.getMinutes())}:${pad(d.getSeconds())}`};tick();
+    const iv=setInterval(tick,200);
+    bt.onclick=()=>{if(new Date().getSeconds()===0)api.solve();else api.say(pick(['Noch nicht reif.','Zu früh. Oder zu spät.','Die Tür bleibt zu.','Es ist nicht der richtige Moment.']),'info')};
+    return()=>clearInterval(iv);
+  }},
+{ t:'Spiegelschrift', tag:'Perspektive',
+  q:'Lies, was im Spiegel steht.',
+  hints:['Spiegelschrift liest man von rechts nach links.','Tage einer Woche × Monate eines Jahres.'], sol:'84',
+  expl:'Im Spiegel stand: Tage einer Woche (7) mal Monate eines Jahres (12) = <b>84</b>.',
+  render(b,api){b.append(h('div',{class:'big'},'<span class="mirror">Multipliziere die Zahl der Tage einer Woche<br>mit der Zahl der Monate eines Jahres.</span>'));textQuiz(b,api,['84','VIERUNDACHTZIG'],{ph:'Ergebnis'})}}
+];
+
+/* =========================================================
+   LEVEL 3 – QUERBEET (laterales Denken)
+   ========================================================= */
+const W3=[
+M({ t:'Pleite am Hotel', tag:'Laterales Denken',
+  q:'Ein Mann schiebt sein Auto bis vor ein Hotel. Dort angekommen weiß er sofort, dass er pleite ist. Was ist passiert?',
+  hints:['Wer sagt, dass es ein echtes Auto ist?','Denk an ein Brettspiel mit Straßen und Hotels.'], sol:'Er spielt Monopoly.',
+  expl:'Er spielt <b>Monopoly</b>: Seine Spielfigur ist das Auto, und das Feld mit dem Hotel kann er nicht bezahlen.',
+  o:[{t:'Er spielt Monopoly.',ok:1},{t:'Das Hotel verlangt Parkgebühren, die er nicht zahlen kann.',why:'Dann wüsste er es nicht „sofort“.'},{t:'Sein Auto ist kaputt, und die Reparatur ist zu teuer.',why:'Und was hat das Hotel damit zu tun?'},{t:'Er hat seine Brieftasche im Auto vergessen.',why:'Dann wäre er nicht pleite.'}]}),
+T({ t:'Ich laufe ohne Beine', tag:'Rätsel', q:'Ich habe ein Bett, aber ich schlafe nie. Ich habe einen Mund, aber ich spreche nie. Ich laufe, aber ich habe keine Beine. Was bin ich?', a:['FLUSS','DERFLUSS','EINFLUSS','BACH','STROM'],
+  hints:['Die Wörter sind nicht wörtlich gemeint.','Denk an Erdkunde: Bett und Mündung.'], sol:'Ein Fluss', expl:'Ein <b>Fluss</b> hat ein Flussbett und eine Mündung, und er „läuft“ ins Meer.'}),
+{ t:'Drei Schalter', tag:'Logik · Experiment',
+  q:'Im Flur sind drei Schalter. Einer davon gehört zu einer Glühbirne im Nebenraum, den man vom Flur aus nicht sehen kann. Du darfst den Raum <b>genau einmal</b> betreten. Finde heraus, welcher Schalter es ist, und zwar <i>sicher</i>, nicht geraten.',
+  hints:['Licht ist nicht das Einzige, was eine Glühbirne von sich gibt.','Glühbirnen werden warm. Lass einen Schalter eine Weile an, schalte ihn wieder aus, schalte einen anderen an und geh dann in den Raum.'],
+  sol:'Schalter A 10 Minuten an, dann aus. Schalter B an. Rein: an = B, aus und warm = A, aus und kalt = C.',
+  expl:'Eine Glühbirne verrät zwei Dinge: ob sie leuchtet und ob sie warm ist. Zusammen ergibt das drei unterscheidbare Zustände, genau einen für jeden Schalter.',
+  render(b,api){
+    let sw,heat,entered,correct,mins;const ui=h('div');b.append(ui);
+    const o=i=>(sw[i]?1:0)+'/'+(heat[i]>=10?1:0);
+    function reset(){sw=[false,false,false];heat=[0,0,0];entered=false;mins=0;correct=Math.floor(Math.random()*3);draw()}
+    function draw(){
+      ui.innerHTML='';const p=h('div',{class:'panel'});p.append(h('div',{class:'lbl'},`Im Flur · vergangene Zeit: ${mins} min`));
+      const row=h('div',{class:'switches'});
+      [0,1,2].forEach(i=>{const s=h('button',{class:'sw'+(sw[i]?' on':''),type:'button'},`<span class="knob"></span><small>Schalter ${i+1}</small><b>${sw[i]?'AN':'AUS'}</b>`);s.disabled=entered;s.onclick=()=>{sw[i]=!sw[i];draw()};row.append(s)});
+      p.append(row);const a=h('div',{class:'acts'});
+      const w=h('button',{class:'ghostbtn',type:'button'},'⏱ 10 Minuten warten');w.disabled=entered;w.onclick=()=>{mins+=10;sw.forEach((v,i)=>{if(v)heat[i]+=10});api.say('Zehn Minuten vergehen …','info');draw()};
+      const en=h('button',{class:'primary',type:'button'},'🚪 Raum betreten (nur einmal)');en.disabled=entered;en.onclick=()=>{entered=true;api.say('');draw()};
+      a.append(w,en);p.append(a);ui.append(p);
+      if(entered){
+        const lit=sw[correct],warm=heat[correct]>=10;
+        ui.append(h('div',{class:'room'+(lit?' lit':'')},`<div class="bulb"></div><p>Die Glühbirne ist <b>${lit?'an':'aus'}</b>. Du fasst sie an: Sie ist <b>${warm?'warm':'kalt'}</b>.</p>`));
+        const ch=h('div',{class:'acts'});ch.append(h('span',{class:'lbl'},'Welcher Schalter gehört zur Birne?'));
+        [0,1,2].forEach(i=>{const bt=h('button',{class:'opt small',type:'button'},`Schalter ${i+1}`);
+          bt.onclick=()=>{const amb=[0,1,2].filter(j=>o(j)===o(correct)).length>1;if(i===correct&&!amb){api.solve();return}
+            api.wrong(i===correct?'Richtig geraten, aber mit deinen Beobachtungen hätte es auch ein anderer Schalter sein können. Raten zählt nicht.':`Leider nein, es war Schalter ${correct+1}.`+(amb?' Eindeutig bestimmen konntest du es mit diesem Versuch aber auch nicht.':''));
+            const r=h('button',{class:'ghostbtn',type:'button'},'↻ Neuer Versuch (die Schalter werden neu verdrahtet)');r.onclick=()=>{api.say('');reset()};ch.innerHTML='';ch.append(r)};ch.append(bt)});
+        ui.append(ch);
+      }
+    }
+    reset();
+  }},
+M({ t:'Romeo und Julia', tag:'Laterales Denken',
+  q:'Romeo und Julia liegen tot auf dem Boden. Um sie herum: Wasser und Glasscherben. Das Fenster ist offen, daneben sitzt die Katze. Was ist passiert?',
+  hints:['Wer sagt, dass Romeo und Julia Menschen sind?','Was steht in vielen Wohnzimmern, ist aus Glas und voller Wasser?'], sol:'Romeo und Julia sind Fische, die Katze hat das Aquarium umgestoßen.',
+  expl:'Romeo und Julia sind <b>Goldfische</b>. Die Katze hat ihr Aquarium vom Fensterbrett gestoßen.',
+  o:[{t:'Die Katze hat das Aquarium umgestoßen. Romeo und Julia sind Fische.',ok:1},{t:'Sie haben Gift aus Gläsern getrunken.',why:'Shakespeare lässt grüßen. Aber warum liegt dann so viel Wasser auf dem Boden?'},{t:'Ein Einbrecher kam durchs Fenster.',why:'Und welche Rolle spielt die Katze?'},{t:'Ein Sturm hat das Fenster zerschlagen.',why:'Das erklärt nicht, warum beide tot sind.'}]}),
+{ t:'Über den Rand', tag:'Meta',
+  q:'Das Lösungswort steht nicht auf dieser Seite. Es hängt irgendwo darüber.',
+  hints:['Schau über den Rand dieser Seite hinaus, im wörtlichen Sinn.','Lies den Titel des Browser-Tabs.'], hintsT:['Schau über den Rand dieser Seite hinaus, im wörtlichen Sinn.','Öffne in Safari die Tab-Übersicht (Symbol mit zwei Quadraten) und lies den Titel dieses Tabs.'], sol:'LATERNE',
+  expl:'Das Wort stand im Titel des Browser-Tabs. Nicht alles, was zu einer Seite gehört, steht auch auf ihr.',
+  render(b,api){document.title='🔑 Lösungswort: LATERNE';b.append(h('div',{class:'big'},'↑ ↑ ↑'));textQuiz(b,api,['LATERNE']);return()=>{document.title=BASE_TITLE}}},
+M({ t:'Schuss, Wasser, Strick', tag:'Laterales Denken',
+  q:'Eine Frau schießt auf ihren Mann. Dann hält sie ihn fünf Minuten unter Wasser. Danach hängt sie ihn auf. Kurz darauf gehen die beiden zusammen essen. Wie ist das möglich?',
+  hints:['Jedes Verb hat eine zweite Bedeutung.','Man kann auch Fotos „schießen“.'], sol:'Sie ist Fotografin.',
+  expl:'Sie ist <b>Fotografin</b>: Sie schießt ein Foto von ihm, entwickelt es im Wasserbad und hängt es zum Trocknen auf.',
+  o:[{t:'Sie ist Fotografin: Foto schießen, entwickeln, zum Trocknen aufhängen.',ok:1},{t:'Es ist ein Theaterstück.',why:'Möglich, aber die Abfolge Schießen, Wasser, Aufhängen passt zu etwas anderem.'},{t:'Er ist Stuntman.',why:'Fünf Minuten unter Wasser? Eher nicht.'},{t:'Sie hat eine Wasserpistole benutzt.',why:'Und das Aufhängen?'}]}),
+T({ t:'Zerbrechlich', tag:'Rätsel', q:'Was kann man brechen, ohne es jemals zu berühren?', a:['VERSPRECHEN','EINVERSPRECHEN','DASVERSPRECHEN','SCHWEIGEN','DASSCHWEIGEN','STILLE','DIESTILLE','REKORD','EINENREKORD','EID','SCHWUR','WORT','SEINWORT','DASWORT','HERZ','EINHERZ','GESETZ','REGEL','BANN','DENBANN'],
+  hints:['Es ist nichts Gegenständliches.','Man gibt es jemandem und hält es hoffentlich.'], sol:'Ein Versprechen (oder das Schweigen, einen Rekord …)',
+  expl:'Ein <b>Versprechen</b>. Auch das Schweigen, einen Rekord oder sein Wort kann man brechen, ohne etwas anzufassen.'}),
+M({ t:'Ein Glas Wasser', tag:'Laterales Denken',
+  q:'Ein Mann betritt eine Bar und bittet um ein Glas Wasser. Der Barkeeper zieht eine Pistole und richtet sie auf ihn. Der Mann bedankt sich und geht zufrieden. Warum?',
+  hints:['Warum bittet jemand um Wasser, der gar keinen Durst hat?','Was hilft angeblich gegen ein lästiges „Hicks“?'], sol:'Er hatte Schluckauf, der Schreck hat ihn geheilt.',
+  expl:'Der Mann hatte <b>Schluckauf</b>. Der Barkeeper hat ihn mit einem Schreck geheilt, und das war besser als Wasser.',
+  o:[{t:'Er hatte Schluckauf, und der Schreck hat ihn geheilt.',ok:1},{t:'Es war ein Überfall, und er war erleichtert, dass nichts passiert ist.',why:'Warum sollte er sich dann bedanken?'},{t:'Die Pistole war eine Wasserpistole.',why:'Nett, aber warum geht er dann zufrieden, ohne zu trinken?'},{t:'Die beiden kennen sich und spielen ein Spiel.',why:'Zu weit hergeholt. Warum wollte er eigentlich Wasser?'}]}),
+{ t:'Der enge Raum', tag:'Meta · Mac',
+  q:'Dieser Raum ist zu eng für eine Lösung. Schaff Platz.',
+  hints:['Den Platz kannst du nicht innerhalb der Seite schaffen.','Ändere die Größe des Browserfensters, zum Beispiel über den grünen Knopf oben links oder durch Ziehen am Fensterrand.'], sol:'Das Browserfenster deutlich vergrößern oder verkleinern.',
+  hintsT:['Den Platz kannst du nicht innerhalb der Seite schaffen.','Dreh dein iPhone ins Querformat. Falls nichts passiert: Ausrichtungssperre im Kontrollzentrum ausschalten.'], solT:'Das iPhone ins Querformat drehen.',
+  explT:'Der Raum war der Bildschirm selbst. Im Querformat war plötzlich genug Platz.',
+  expl:'Der Raum war das Browserfenster selbst. Sobald es seine Größe deutlich änderte, war genug Platz.',
+  render(b,api){
+    const s=h('div',{class:'squeeze'},'zu eng …');b.append(s);
+    const w0=window.innerWidth,h0=window.innerHeight;
+    return onWin('resize',()=>{const dw=Math.abs(window.innerWidth-w0),dh=Math.abs(window.innerHeight-h0);s.style.width=Math.min(300,42+dw)+'px';if(dw>140||dh>140)api.solve()});
+  }},
+T({ t:'Je mehr, desto weniger', tag:'Rätsel', q:'Je mehr davon da ist, desto weniger siehst du. Was ist es?', a:['DUNKELHEIT','DIEDUNKELHEIT','FINSTERNIS','DUNKEL','NEBEL','NACHT','RAUCH','SCHWAERZE'],
+  hints:['Es hat mit Licht zu tun, oder eher mit dem Fehlen von Licht.','Was herrscht um Mitternacht im Wald?'], sol:'Dunkelheit', expl:'<b>Dunkelheit</b>: Je mehr davon, desto weniger siehst du. Nebel wäre auch gegangen.'}),
+M({ t:'Der Absturz', tag:'Genau lesen',
+  q:'Ein Flugzeug stürzt genau auf der Grenze zwischen Deutschland und Österreich ab. In welchem Land werden die Überlebenden begraben?',
+  hints:['Lies jedes Wort der Frage.','Wen begräbt man überhaupt?'], sol:'Gar nicht.', expl:'<b>Überlebende</b> begräbt man nicht.',
+  o:[{t:'Gar nicht. Überlebende begräbt man nicht.',ok:1},{t:'In Deutschland',why:'Lies die Frage noch einmal ganz genau.'},{t:'In Österreich',why:'Lies die Frage noch einmal ganz genau.'},{t:'Im Land ihrer Staatsangehörigkeit',why:'Klingt klug, ist aber trotzdem falsch. Wer wird denn begraben?'}]}),
+M({ t:'Gegenwind', tag:'Denkfalle',
+  q:'Ein Elektrozug fährt mit 100 km/h nach Norden. Der Wind kommt mit 30 km/h aus Westen. In welche Richtung zieht der Rauch?',
+  hints:['Bevor du rechnest: Was für ein Zug ist das?','Woher sollte bei diesem Zug Rauch kommen?'], sol:'Gar keine, ein Elektrozug raucht nicht.', expl:'Ein <b>Elektrozug</b> macht keinen Rauch. Die Zahlen sollten dich nur zum Rechnen verleiten.',
+  o:[{t:'Gar keine. Ein Elektrozug raucht nicht.',ok:1},{t:'Nach Osten',why:'Schön gerechnet. Aber zieht da überhaupt etwas?'},{t:'Nach Süden',why:'Schön gerechnet. Aber zieht da überhaupt etwas?'},{t:'Nach Südosten',why:'Sehr schön gerechnet. Aber zieht da überhaupt etwas?'}]}),
+{ t:'Wenn keiner hinsieht', tag:'Meta · Mac',
+  q:'Dieses Rätsel löst sich nur, wenn niemand hinsieht.',
+  hints:['Du musst nicht die Augen schließen. Aber der Browser muss es glauben.','Wechsle kurz in einen anderen Tab oder ein anderes Programm (⌘ + Tab) und komm zurück.'], hintsT:['Du musst nicht die Augen schließen. Aber der Browser muss es glauben.','Wechsle kurz in eine andere App oder einen anderen Tab und komm zurück.'], sol:'Kurz den Tab oder das Programm wechseln und zurückkommen.',
+  expl:'Der Browser merkt, wenn die Seite nicht sichtbar ist. In dem Moment, in dem du weggeschaut hast, hat sich das Rätsel gelöst.',
+  render(b,api){
+    b.append(h('div',{class:'cmdzone'},'👁'));let hid=false,t0=0;
+    const a=onDoc('visibilitychange',()=>{if(document.hidden)hid=true;else if(hid)api.solve()});
+    const c=onWin('blur',()=>{t0=Date.now()}),d=onWin('focus',()=>{if(t0&&Date.now()-t0>1500)api.solve()});
+    return()=>{a();c();d()};
+  }},
+T({ t:'Die Arche', tag:'Genau lesen', q:'Wie viele Tiere jeder Art nahm Moses mit auf die Arche?', a:['0','NULL','KEINE','KEINS','GARKEINE','NOAH','MOSESGARKEINE'], ph:'Anzahl',
+  wm:v=>v==='2'||v==='ZWEI'?'Die Zahl passt zur Geschichte. Aber wer hat die Arche gebaut?':null,
+  hints:['Prüfe jede Angabe in der Frage.','Wer baute die Arche wirklich?'], sol:'Keine – es war Noah.', expl:'<b>Keine.</b> Die Arche gehörte Noah, nicht Moses. Die meisten überlesen den Namen.'}),
+M({ t:'Im Operationssaal', tag:'Laterales Denken',
+  q:'Ein Vater und sein Sohn haben einen Autounfall. Der Vater stirbt, der Sohn kommt schwer verletzt ins Krankenhaus. Im OP heißt es plötzlich: „Ich kann nicht operieren, das ist mein Sohn!“ Wer spricht da?',
+  hints:['Stell dir nicht automatisch einen Mann im OP-Kittel vor.','Jeder Mensch hat zwei Elternteile.'], sol:'Seine Mutter (oder sein zweiter Vater).',
+  expl:'Es spricht seine <b>Mutter</b>, eine Chirurgin. Auch ein zweiter Vater wäre möglich. Das Rätsel zeigt, wie stark Bilder im Kopf unser Denken lenken.',
+  o:[{t:'Seine Mutter',ok:1},{t:'Sein zweiter Vater',ok:1},{t:'Der Vater lebt doch noch.',why:'Nein, er ist bei dem Unfall gestorben.'},{t:'Ein Priester',why:'Ein Priester operiert nicht.'}]})
+];
+
+/* =========================================================
+   LEVEL 4 – TRANSFER
+   ========================================================= */
+const W4=[
+T({ t:'Verrutschte Finger', tag:'Code · Transfer', q:'Jemand hat zwei Wörter getippt. Das erste kennst du schon. Was hat er beim zweiten gemeint?', big:'HALLO → JSÖÖP<small>und</small>LÖIH → ?', a:['KLUG'],
+  hints:['Die Verschlüsselung hat mit deinen Händen zu tun.','Schau auf deine Tastatur: Jeder Buchstabe ist eine Taste nach rechts gerutscht.'], sol:'KLUG',
+  expl:'Auf der QWERTZ-Tastatur liegt jeder Buchstabe eine Taste zu weit rechts. Rückwärts angewendet wird aus LÖIH das Wort <b>KLUG</b>.'}),
+T({ t:'Der Computer', tag:'Code · Transfer', q:'Finde das Wort, das nach derselben Regel zu JEFF wird.', big:'HAL → IBM<small>nach derselben Regel:</small>? → JEFF', a:['IDEE'],
+  hints:['Vergleiche jeden Buchstaben mit dem, der aus ihm wird.','Jeder Buchstabe rückt im Alphabet eins weiter: H→I, A→B, L→M. Jetzt rückwärts!'], sol:'IDEE',
+  expl:'HAL, der Computer aus „2001“, ist IBM mit jedem Buchstaben um eins verschoben. JEFF eins zurück ergibt <b>IDEE</b>.'}),
+T({ t:'Wer hat wie viele?', tag:'Transfer', q:'Welche Zahl gehört zum letzten Wort?', grid:['HUND → 4','VOGEL → 2','SPINNE → 8','FISCH → 0','MENSCH → 2','AMEISE → 6'], ask:'TISCH → ?', a:['4','VIER'], ph:'Zahl',
+  hints:['Es geht nicht um die Buchstaben.','Zähle Beine. Auch Möbel haben welche.'], sol:'4', expl:'Gezählt werden Beine. Ein Tisch hat in der Regel <b>4</b>.'}),
+T({ t:'Die Maschine', tag:'Transfer', q:'Eine Maschine verwandelt Wörter:<br><b>ROT → TOR</b> · <b>GRAS → SARG</b> · <b>REGAL → LAGER</b><br><br>Was spuckt sie aus, wenn man das Gegenteil von <b>„Tod“</b> hineinsteckt?', a:['NEBEL'],
+  wm:v=>v==='LEBEN'?'Fast. Das ist, was du hineinsteckst. Was kommt heraus?':null,
+  hints:['Zwei Schritte: Erst das Gegenteil finden, dann die Regel der Maschine anwenden.','Die Maschine liest rückwärts. Das Gegenteil von Tod ist das Leben.'], sol:'NEBEL',
+  expl:'Die Maschine dreht das Wort um. Aus LEBEN wird <b>NEBEL</b>.'}),
+{ t:'Wortarithmetik', tag:'Transfer · Sprache',
+  q:'Rechne mit Bedeutungen statt mit Zahlen.',
+  hints:['Nimm die Bedeutung weg, füge eine neue hinzu: Was bleibt übrig?','Erstes Ergebnis: KÖNIGIN. Beim zweiten geht es um Hauptstädte, beim dritten um die Vergangenheit.'], sol:'KÖNIGIN · ROM · SAH',
+  expl:'König ohne Mann, dafür mit Frau: <b>Königin</b>. Paris ohne Frankreich, dafür mit Italien: <b>Rom</b>. Gehen verhält sich zu ging wie sehen zu <b>sah</b>.',
+  render(b,api){multi(b,api,[{l:'KÖNIG − MANN + FRAU =',a:['KÖNIGIN']},{l:'PARIS − FRANKREICH + ITALIEN =',a:['ROM']},{l:'GEHEN : GING = SEHEN :',a:['SAH']}],true)}},
+T({ t:'Paare', tag:'Muster · Transfer', q:'Welche Zahl gehört zur 6?', big:'2 → 6 · 3 → 12 · 4 → 20 · 5 → 30 · 6 → ?', a:['42'], ph:'Zahl',
+  hints:['Zerlege jedes Ergebnis in ein Produkt.','2 × 3, 3 × 4, 4 × 5 …'], sol:'42', expl:'Jede Zahl wird mit ihrem Nachfolger multipliziert: 6 × 7 = <b>42</b>.'}),
+{ t:'Die Sehenswürdigkeit', tag:'Meta · Mac',
+  q:'In Skandinavien markiert dieses Zeichen auf Straßenschildern Sehenswürdigkeiten. Auf deinem Mac findest du es auch. Drück es.',
+  hints:['Es sieht aus wie eine Schleife mit vier Ösen.','Es ist eine Taste direkt neben der Leertaste.'], sol:'Die ⌘-Taste (Command) drücken.',
+  qT:'In Skandinavien markiert eines dieser Zeichen auf Straßenschildern Sehenswürdigkeiten. Auf jedem Mac gibt es eine Taste damit. Tippe auf das richtige Zeichen.',
+  hintsT:['Es sieht aus wie eine Schleife mit vier Ösen.','Auf der Mac-Tastatur liegt es direkt neben der Leertaste.'], solT:'⌘',
+  expl:'Das Zeichen ⌘ stammt von schwedischen Hinweisschildern für Sehenswürdigkeiten. Apple hat es für die Command-Taste übernommen.',
+  render(b,api){
+    if(TOUCH){const g=h('div',{class:'symgrid'});shuffle(['⌘','⌥','⇧','⌃','⎋','⏏','⌫','⇪']).forEach(s=>{const x=h('button',{class:'sym',type:'button'},s);x.onclick=()=>{if(s==='⌘')api.solve();else{api.wrong('Dieses Zeichen hat mit Sehenswürdigkeiten nichts zu tun.');x.disabled=true}};g.append(x)});b.append(g);return}
+    b.append(h('div',{class:'cmdzone'},'?'));return onDoc('keydown',e=>{if(e.key==='Meta'||e.metaKey)api.solve()})}},
+M({ t:'Die zwei Wächter', tag:'Logik',
+  q:'Zwei Türen: Eine führt in die Freiheit, eine ins Verderben. Vor jeder steht ein Wächter. Einer lügt immer, der andere sagt immer die Wahrheit, und du weißt nicht, wer wer ist. Du darfst einem der Wächter genau eine Frage stellen. Welche?',
+  hints:['Die Frage muss bei beiden Wächtern zur selben Antwort führen.','Bau den anderen Wächter in deine Frage ein.'],
+  sol:'„Welche Tür würde mir der andere als Weg in die Freiheit zeigen?“ und dann die andere nehmen.',
+  expl:'Frag nach der Antwort des anderen Wächters. Die Lüge kommt so in jedem Fall genau einmal vor, also zeigen beide auf die falsche Tür. Du nimmst die andere.',
+  o:[{t:'„Welche Tür würde mir der andere Wächter als Weg in die Freiheit zeigen?“ Dann nimmst du die andere Tür.',ok:1},{t:'„Bist du der Lügner?“',why:'Darauf antworten beide mit Nein. Du lernst nichts.'},{t:'„Welche Tür führt in die Freiheit?“',why:'Erwischst du den Lügner, bist du verloren.'},{t:'„Ist 2 + 2 = 4?“',why:'Dann weißt du, wer lügt, aber deine Frage ist aufgebraucht.'}]}),
+T({ t:'Viertel nach drei', tag:'Denkfalle', q:'Wie groß ist der Winkel zwischen Stunden- und Minutenzeiger um genau 3:15 Uhr?', a:['7.5','7,5 Grad','7.5°','7,5°'], ph:'Grad',
+  wm:v=>v==='0'?'Der Stundenzeiger steht nicht still.':null,
+  hints:['Der Stundenzeiger bewegt sich auch zwischen den vollen Stunden.','In 15 Minuten wandert er ein Viertel des Weges von der 3 zur 4. Eine Stunde entspricht 30°.'], sol:'7,5°',
+  expl:'Der Minutenzeiger steht genau auf der 3. Der Stundenzeiger ist schon ein Viertel von 30° weiter, also <b>7,5°</b>.'}),
+T({ t:'Lichtsignale', tag:'Code · Transfer', q:'Was bedeutet das letzte Signal?', grid:['○○○● → 1','○○●○ → 2','○○●● → 3','○●○○ → 4','○●●○ → 6','●○○○ → 8'], ask:'●○●● → ?', a:['11','ELF'], ph:'Zahl',
+  hints:['Jede Lampe hat einen festen Wert, je nachdem, wo sie steht.','Von rechts nach links: 1, 2, 4, 8. Addiere die leuchtenden Lampen.'], sol:'11', expl:'Binärcode: 8 + 2 + 1 = <b>11</b>.'}),
+{ t:'Kleingedrucktes', tag:'Meta · Mac',
+  q:'Die Lösung steht hier. Ehrlich. Man muss nur genauer hinsehen.',
+  hints:['Mit bloßem Auge wirst du das nicht lesen können.','Vergrößere die Seite mit ⌘ und + (mehrmals) oder markiere den Bereich und kopiere den Text.'], hintsT:['Mit bloßem Auge wirst du das nicht lesen können.','Zoome mit zwei Fingern ganz weit in die graue Fläche hinein.'], sol:'MIKROSKOP',
+  expl:'Der Text war nur 2 Pixel groß. Mit ⌘ + oder per Kopieren wurde er lesbar.',
+  render(b,api){b.append(h('div',{class:'tiny'},'Das Lösungswort lautet MIKROSKOP.'));textQuiz(b,api,['MIKROSKOP'],{noFocus:true})}},
+T({ t:'Händeschütteln', tag:'Transfer', q:'Auf einer Party gibt jeder Gast jedem anderen genau einmal die Hand. Insgesamt werden 28 Hände geschüttelt. Wie viele Gäste sind da?', a:['8','ACHT'], ph:'Anzahl',
+  hints:['Probiere es mit kleinen Gruppen: 3 Gäste, 4 Gäste …','Bei n Gästen sind es n × (n − 1) ÷ 2 Handschläge.'], sol:'8', expl:'8 × 7 ÷ 2 = 28. Es sind <b>8</b> Gäste.'}),
+{ t:'Wortbrücken II', tag:'Sprache',
+  q:'Wieder bildet jedes fehlende Wort mit beiden Nachbarn ein zusammengesetztes Wort. Diesmal etwas kniffliger.',
+  hints:['Der erste ist aus Schnee gebaut und trägt manchmal eine Karotte.','MANN · MEISTER · und etwas, das die Sonne gibt.'], sol:'MANN · MEISTER · SCHEIN',
+  expl:'Schnee<b>mann</b> / <b>Mann</b>schaft · Bürger<b>meister</b> / <b>Meister</b>werk · Sonnen<b>schein</b> / <b>Schein</b>werfer.',
+  render(b,api){multi(b,api,[{l:'SCHNEE',r:'SCHAFT',a:['MANN']},{l:'BÜRGER',r:'WERK',a:['MEISTER']},{l:'SONNEN',r:'WERFER',a:['SCHEIN']}])}},
+T({ t:'Spiegelzeit', tag:'Perspektive', q:'Du siehst eine Zeigeruhr ohne Ziffern im Spiegel. Sie scheint 3:40 Uhr anzuzeigen. Wie spät ist es wirklich?', a:['8:20','08:20','20:20'], ph:'hh:mm',
+  hints:['Im Spiegel tauschen links und rechts.','Spiegelzeit und echte Zeit ergeben zusammen 12:00.'], sol:'8:20', expl:'12:00 − 3:40 = <b>8:20</b>. Im Spiegel wird jede Uhrzeit an der 12 gespiegelt.'}),
+{ t:'Die andere Hand', tag:'Meta · Mac',
+  q:'Mit links kommst du hier nicht weiter.',
+  hints:['Es gibt nicht nur einen Klick.','Klicke mit der rechten Maustaste, oder mit zwei Fingern auf dem Trackpad.'], sol:'Ein Rechtsklick auf die Fläche.',
+  qT:'Kurzes Tippen bringt dich hier nicht weiter.',
+  hintsT:['Es gibt mehr als eine Art zu tippen.','Halte den Finger eine Sekunde lang auf der Fläche.'], solT:'Lange auf die Fläche drücken.',
+  explT:'Auf dem iPhone übernimmt das lange Drücken die Rolle des Rechtsklicks.',
+  expl:'Ein normaler Klick ist ein Linksklick. Gesucht war der <b>Rechtsklick</b>.',
+  render(b,api){const r=h('div',{class:'rclick'},'Klick mich.');r.onclick=()=>api.say(pick(['Links ist falsch.','Nicht so.','Die andere Seite.']),'info');r.addEventListener('contextmenu',e=>{e.preventDefault();api.solve()});b.append(r);
+    if(TOUCH){r.textContent='Tipp mich.';r.onclick=null;return longPress(r,900,()=>api.solve(),()=>api.say(pick(['Zu kurz.','Nicht so.','Anders.']),'info'))}}}
+];
+
+/* =========================================================
+   LEVEL 5 – MEISTERKLASSE
+   ========================================================= */
+const W5=[
+{ t:'Die Brücke bei Nacht', tag:'Logik · Simulation',
+  q:'Vier Personen müssen nachts über eine wackelige Brücke. Es passen höchstens zwei gleichzeitig drauf, und sie haben nur eine Taschenlampe, die jedes Mal mit muss. Zu zweit geht man im Tempo des Langsameren. Die Lampe hält genau <b>17 Minuten</b>.',
+  hints:['Die beiden Langsamsten sollten nicht getrennt gehen.','Ada und Ben gehen zuerst. Ada kommt zurück. Dann gehen Cleo und Dan gemeinsam …'], sol:'Ada+Ben (2), Ada zurück (1), Cleo+Dan (10), Ben zurück (2), Ada+Ben (2) = 17',
+  expl:'Der Trick: Die beiden Langsamsten gehen <b>zusammen</b>, damit die 10 Minuten nur einmal zählen. 2 + 1 + 10 + 2 + 2 = 17.',
+  render(b,api){
+    const PP=[['Ada',1],['Ben',2],['Cleo',5],['Dan',10]];let side,torch,time,sel,dead;const ui=h('div');b.append(ui);
+    function reset(){side=[0,0,0,0];torch=0;time=0;sel=[];dead=false;api.say('');draw()}
+    function draw(){ui.innerHTML='';const banks=h('div',{class:'banks'});
+      const mk=s=>{const bk=h('div',{class:'bank'+(torch===s?' torch':'')},`<div class="lbl">${s?'Ziel':'Start'}${torch===s?' · 🔦 Lampe':''}</div>`);
+        PP.forEach((p,i)=>{if(side[i]!==s)return;const t=h('button',{class:'token'+(sel.includes(i)?' sel':''),type:'button'},`${p[0]} <small>${p[1]} min</small>`);t.disabled=dead||torch!==s;
+          t.onclick=()=>{if(sel.includes(i))sel=sel.filter(x=>x!==i);else if(sel.length<2)sel.push(i);draw()};bk.append(t)});return bk};
+      const mid=h('div',{class:'mid'},`<div class="lbl">Verbraucht</div><div class="time">${time} / 17</div>`);
+      const go=h('button',{class:'primary',type:'button'},torch?'← zurück':'über →');go.disabled=dead||!sel.length;
+      go.onclick=()=>{const t=Math.max(...sel.map(i=>PP[i][1]));time+=t;sel.forEach(i=>side[i]=1-torch);torch=1-torch;sel=[];
+        if(time>17){dead=true;draw();api.wrong('Die Lampe ist aus. Ihr steht im Dunkeln.');const r=h('button',{class:'ghostbtn',type:'button'},'↻ Neu starten');r.onclick=reset;{const d=h('div',{class:'acts'});d.append(r);ui.append(d)}return}
+        draw();if(side.every(x=>x===1))api.solve()};
+      mid.append(go);banks.append(mk(0),mid,mk(1));ui.append(banks);
+      const a=h('div',{class:'acts'});const r=h('button',{class:'ghostbtn',type:'button'},'↻ Neu starten');r.onclick=reset;a.append(h('span',{class:'lbl'},'Wähle eine oder zwei Personen auf der Seite der Lampe.'),r);ui.append(a)}
+    reset();
+  }},
+M({ t:'Das Porträt', tag:'Logik',
+  q:'Ein Mann betrachtet ein Porträt und sagt: „Geschwister habe ich keine. Aber der Vater dieses Mannes ist der Sohn meines Vaters.“ Wen zeigt das Bild?',
+  hints:['„Der Sohn meines Vaters“: Wer ist das, wenn er keine Geschwister hat?','Er selbst! Der Vater des Mannes auf dem Bild ist also er selbst.'], sol:'Seinen Sohn',
+  expl:'„Der Sohn meines Vaters“ ist er selbst, denn er hat keine Geschwister. Der Vater des Mannes auf dem Bild ist also er, und das Bild zeigt seinen <b>Sohn</b>.',
+  o:[{t:'Seinen Sohn',ok:1},{t:'Ihn selbst',why:'Dann müsste sein eigener Vater gleichzeitig er selbst sein.'},{t:'Seinen Vater',why:'Der Vater seines Vaters wäre sein Großvater, nicht der Sohn seines Vaters.'},{t:'Seinen Neffen',why:'Ohne Geschwister gibt es keinen Neffen.'}]}),
+T({ t:'Schläger und Ball', tag:'Denkfalle', q:'Ein Schläger und ein Ball kosten zusammen 1,10 €. Der Schläger kostet genau 1 € mehr als der Ball. Was kostet der Ball?', a:['5','5 Cent','0,05','0,05 €','5ct','fünf Cent'], ph:'Preis',
+  wm:v=>v==='10'||v==='010'||v==='10CENT'||v==='010EUR'?'Dann würde der Schläger 1,10 € kosten, zusammen also 1,20 €.':null,
+  hints:['Die Antwort, die dir als Erstes einfällt, stimmt wahrscheinlich nicht. Mach die Probe.','Ball = x, Schläger = x + 1. Zusammen: 2x + 1 = 1,10.'], sol:'5 Cent',
+  expl:'Der Ball kostet <b>5 Cent</b>, der Schläger 1,05 €. Zusammen sind das 1,10 €. Fast alle sagen zuerst 10 Cent.'}),
+{ t:'Wolf, Ziege, Kohl', tag:'Logik · Simulation',
+  q:'Eine Bäuerin will Wolf, Ziege und Kohl über den Fluss bringen. Ins Boot passt außer ihr nur eines davon. Allein gelassen frisst der Wolf die Ziege, und die Ziege frisst den Kohl.',
+  hints:['Die Ziege ist das Problem: Sie verträgt sich mit niemandem.','Man darf etwas auch wieder zurückbringen.'], sol:'Ziege rüber, zurück, Wolf rüber, Ziege zurück, Kohl rüber, zurück, Ziege rüber.',
+  expl:'Der Schlüssel ist, die Ziege einmal <b>zurückzubringen</b>. Ein Rückschritt kann der Weg nach vorn sein.',
+  render(b,api){
+    const N=[['🧑‍🌾','Bäuerin'],['🐺','Wolf'],['🐐','Ziege'],['🥬','Kohl']];let pos,pas,dead,moves;const ui=h('div');b.append(ui);
+    function reset(){pos=[0,0,0,0];pas=null;dead=false;moves=0;api.say('');draw()}
+    function draw(){ui.innerHTML='';const banks=h('div',{class:'banks'});const f=pos[0];
+      const mk=s=>{const bk=h('div',{class:'bank'+(f===s?' torch':'')},`<div class="lbl">${s?'Rechtes Ufer':'Linkes Ufer'}</div>`);
+        N.forEach((n,i)=>{if(pos[i]!==s)return;const t=h('button',{class:'token'+(pas===i?' sel':''),type:'button'},`${n[0]} ${n[1]}${i===0?' <small>rudert</small>':''}`);
+          t.disabled=dead||i===0||f!==s;t.onclick=()=>{pas=pas===i?null:i;draw()};bk.append(t)});return bk};
+      const mid=h('div',{class:'mid'},`<div class="lbl">Fahrten</div><div class="time">${moves}</div>`);
+      const go=h('button',{class:'primary',type:'button'},f?'← übersetzen':'übersetzen →');go.disabled=dead;
+      go.onclick=()=>{pos[0]=1-f;if(pas!==null)pos[pas]=1-f;pas=null;moves++;const left=f;
+        const alone=i=>pos[i]===left&&pos[0]!==left;
+        let m=null;if(alone(1)&&alone(2))m='Der Wolf hat die Ziege gefressen.';else if(alone(2)&&alone(3))m='Die Ziege hat den Kohl gefressen.';
+        if(m){dead=true;draw();api.wrong(m);return}
+        draw();if(pos.every(x=>x===1))api.solve()};
+      mid.append(go);banks.append(mk(0),mid,mk(1));ui.append(banks);
+      const a=h('div',{class:'acts'});const r=h('button',{class:'ghostbtn',type:'button'},'↻ Neu starten');r.onclick=reset;a.append(h('span',{class:'lbl'},'Wähle, wer mitfährt (oder niemand), dann übersetzen.'),r);ui.append(a)}
+    reset();
+  }},
+M({ t:'Falsch beschriftet', tag:'Logik',
+  q:'Drei Kisten tragen die Etiketten „Äpfel“, „Birnen“ und „Gemischt“. Alle drei Etiketten sind garantiert falsch. Du darfst aus einer einzigen Kiste blind eine einzige Frucht ziehen und sollst danach alle Etiketten richtig zuordnen. Aus welcher Kiste ziehst du?',
+  hints:['Welche Kiste kann wegen ihres falschen Etiketts nur eine einzige Sorte enthalten?','Die Kiste „Gemischt“ ist garantiert nicht gemischt.'], sol:'Aus der Kiste „Gemischt“.',
+  expl:'Die Kiste „Gemischt“ enthält nur eine Sorte. Ziehst du dort einen Apfel, ist es die Apfelkiste. Die Kiste „Birnen“ kann dann nur noch gemischt sein, und „Äpfel“ enthält die Birnen.',
+  o:[{t:'Aus der Kiste „Gemischt“',ok:1},{t:'Aus der Kiste „Äpfel“',why:'Ziehst du eine Birne, kann die Kiste Birnen oder Gemischtes enthalten. Du weißt es nicht sicher.'},{t:'Aus der Kiste „Birnen“',why:'Ziehst du einen Apfel, kann die Kiste Äpfel oder Gemischtes enthalten. Du weißt es nicht sicher.'},{t:'Das ist egal.',why:'Nur bei einer Kiste ist das Ergebnis eindeutig.'}]}),
+T({ t:'Wer bin ich?', tag:'Logik', q:'Ich bin eine dreistellige Zahl. Meine Zehnerziffer ist um 5 größer als meine Einerziffer. Meine Hunderterziffer ist um 8 kleiner als meine Zehnerziffer. Wer bin ich?', a:['194'], ph:'Zahl',
+  hints:['Fang mit der Bedingung an, die am wenigsten Möglichkeiten lässt.','Zehner − Hunderter = 8, und die Hunderterziffer darf nicht 0 sein.'], sol:'194',
+  expl:'Hunderter = Zehner − 8, und die erste Ziffer darf nicht 0 sein. Also: Hunderter 1, Zehner 9, Einer 9 − 5 = 4. Das ergibt <b>194</b>.'}),
+{ t:'Zwei Krüge', tag:'Logik · Simulation',
+  q:'Du hast einen 5-Liter-Krug und einen 3-Liter-Krug, beide ohne Markierungen, und einen Wasserhahn. Miss <b>genau 4 Liter</b> im großen Krug ab.',
+  hints:['Den kleinen Krug kannst du benutzen, um vom großen etwas „abzuziehen“.','Großen füllen, in den kleinen gießen (bleiben 2), kleinen leeren, die 2 hineingießen, großen füllen, kleinen auffüllen …'], sol:'5 füllen → in 3 gießen → 3 leeren → 2 umgießen → 5 füllen → 3 auffüllen = 4',
+  expl:'Wenn du den großen Krug voll machst und den kleinen auffüllst, in dem schon 2 Liter sind, fließt genau 1 Liter ab. Im großen Krug bleiben <b>4 Liter</b>.',
+  render(b,api){
+    let A=0,B=0,n=0;const ui=h('div');b.append(ui);
+    function jug(v,cap,lbl){const u=26;return `<div class="jug"><div class="glass" style="height:${cap*u}px;--u:${u}px"><div class="water" style="height:${v*u}px"></div><div class="ticks"></div></div><div class="lvl">${v} / ${cap} L</div><div class="lbl">${lbl}</div></div>`}
+    function draw(){ui.innerHTML=`<div class="jugs">${jug(A,5,'Groß')}${jug(B,3,'Klein')}</div><p class="calc-note">Schritte: ${n}</p>`;
+      const a=h('div',{class:'acts',style:'justify-content:center'});
+      [['Groß füllen',()=>{A=5}],['Klein füllen',()=>{B=3}],['Groß leeren',()=>{A=0}],['Klein leeren',()=>{B=0}],['Groß → Klein',()=>{const m=Math.min(A,3-B);A-=m;B+=m}],['Klein → Groß',()=>{const m=Math.min(B,5-A);B-=m;A+=m}]]
+        .forEach(([t,f])=>{const bt=h('button',{class:'ghostbtn',type:'button'},t);bt.onclick=()=>{f();n++;draw();if(A===4)api.solve()};a.append(bt)});
+      const r=h('button',{class:'hint',type:'button'},'↻ Neu');r.onclick=()=>{A=0;B=0;n=0;draw()};a.append(r);ui.append(a)}
+    draw();
+  }},
+{ t:'Die Tiefe', tag:'Meta',
+  q:'Die Lösung liegt tiefer, als du denkst.',
+  hints:['Die Box ist größer, als sie aussieht.','Scrolle in der grauen Box nach unten. Ganz weit nach unten.'], sol:'TIEFSEE',
+  expl:'Die Box ließ sich scrollen, und ganz unten lag das Wort.',
+  render(b,api){const s=h('div',{class:'scroller'});let html='<p>Hier ist nichts.</p>';const t=['Auch hier nicht.','Weiter?','Wirklich weiter?','Es wird dunkler …','Du gibst nicht auf.','Fast.','Noch ein Stück.','Gleich.'];
+    for(let i=0;i<24;i++)html+=`<p>${i%3===0?t[(i/3)%t.length]:'·'}</p>`;html+='<p class="deep">Lösungswort: <b>TIEFSEE</b></p>';s.innerHTML=html;b.append(s);textQuiz(b,api,['TIEFSEE'],{noFocus:true})}},
+M({ t:'Drei Aussagen', tag:'Logik',
+  q:'Anna sagt: „Bert lügt.“ Bert sagt: „Clara lügt.“ Clara sagt: „Anna und Bert lügen beide.“ Jede Person lügt entweder immer oder sagt immer die Wahrheit. Wer sagt die Wahrheit?',
+  hints:['Nimm an, Clara sagt die Wahrheit, und prüfe, ob das zusammenpasst.','Wenn Clara recht hätte, würde Anna lügen. Dann hätte Bert aber die Wahrheit gesagt. Widerspruch!'], sol:'Nur Bert',
+  expl:'Clara kann nicht recht haben, sonst würde Anna lügen und Bert also die Wahrheit sagen. Clara lügt also, dann hat Bert recht und Anna lügt. Nur <b>Bert</b> sagt die Wahrheit.',
+  o:[{t:'Nur Bert',ok:1},{t:'Nur Anna',why:'Dann würde Bert lügen, also hätte Clara recht. Das sind zwei Wahrheitssager.'},{t:'Nur Clara',why:'Dann würde Anna lügen, also würde Bert die Wahrheit sagen. Widerspruch.'},{t:'Anna und Clara',why:'Clara sagt, Anna lügt. Beide können nicht gleichzeitig recht haben.'}]}),
+T({ t:'Die Seerosen', tag:'Denkfalle', q:'Auf einem See verdoppelt sich ein Seerosenteppich jeden Tag. Nach 48 Tagen ist der ganze See bedeckt. Nach wie vielen Tagen war er halb bedeckt?', a:['47','SIEBENUNDVIERZIG'], ph:'Tage',
+  wm:v=>v==='24'?'Die Fläche wächst nicht gleichmäßig. Sie verdoppelt sich.':null,
+  hints:['Denk vom Ende her.','Was war am Tag vor der vollständigen Bedeckung?'], sol:'47', expl:'Wenn er sich täglich verdoppelt, war er einen Tag vorher halb voll: an Tag <b>47</b>.'}),
+{ t:'Das schwere Schloss', tag:'Meta',
+  q:'Dieses Schloss öffnet nur der größte Schlüssel auf deiner Tastatur. Und er braucht Ausdauer.',
+  hints:['Welche Taste ist auf deiner Tastatur mit Abstand die größte?','Halte die Leertaste gedrückt. Ein paar Sekunden lang.'], sol:'Die Leertaste 3 Sekunden gedrückt halten.',
+  qT:'Dieses Schloss öffnet sich nicht durch Tippen. Es braucht Ausdauer.',
+  hintsT:['Ein kurzes Tippen ist zu wenig.','Halte den Finger drei Sekunden lang auf dem Schloss.'], solT:'Den Finger 3 Sekunden auf dem Schloss halten.',
+  explT:'„Ausdauer“ hieß: nicht tippen, sondern festhalten.',
+  expl:'Der größte Schlüssel ist die <b>Leertaste</b>, und „Ausdauer“ hieß: gedrückt halten.',
+  render(b,api){
+    if(document.activeElement)document.activeElement.blur();
+    const l=h('div',{class:'lock'},'🔒');const bar=h('div',{class:'holdbar'},'<i></i>');b.append(l,bar);let t0=0,raf;
+    const fill=()=>{if(!t0)return;const p=Math.min(1,(Date.now()-t0)/3000);bar.firstChild.style.width=p*100+'%';if(p>=1){l.textContent='🔓';t0=0;api.solve()}else raf=requestAnimationFrame(fill)};
+    const kd=onDoc('keydown',e=>{if(e.code!=='Space')return;e.preventDefault();if(!e.repeat&&!t0){t0=Date.now();fill()}},true);
+    const ku=onDoc('keyup',e=>{if(e.code!=='Space')return;e.preventDefault();if(t0){t0=0;cancelAnimationFrame(raf);bar.firstChild.style.width='0';l.classList.remove('wiggle');void l.offsetWidth;l.classList.add('wiggle');api.say('Zu kurz. Das Schloss braucht mehr Ausdauer.','info')}},true);
+    if(TOUCH){l.addEventListener('touchstart',e=>{e.preventDefault();if(!t0){t0=Date.now();fill()}},{passive:false});
+      const stop=()=>{if(t0){t0=0;cancelAnimationFrame(raf);bar.firstChild.style.width='0';l.classList.remove('wiggle');void l.offsetWidth;l.classList.add('wiggle');api.say('Zu kurz. Das Schloss braucht mehr Ausdauer.','info')}};
+      l.addEventListener('touchend',stop);l.addEventListener('touchcancel',stop)}
+    return()=>{kd();ku();cancelAnimationFrame(raf)};
+  }},
+T({ t:'Begegnungen', tag:'Denkfalle', q:'Wie oft innerhalb von 24 Stunden stehen Stunden- und Minutenzeiger genau übereinander?', a:['22','ZWEIUNDZWANZIG'], ph:'Anzahl',
+  wm:v=>v==='24'?'Fast. Aber zwischen 11 und 1 Uhr passiert es nur einmal, nämlich um 12.':null,
+  hints:['24 ist es nicht.','In 12 Stunden überholt der Minutenzeiger den Stundenzeiger genau 11-mal.'], sol:'22', expl:'Pro 12 Stunden überholt der Minutenzeiger den Stundenzeiger 11-mal, am ganzen Tag also <b>22</b>-mal.'}),
+{ t:'Unter der Oberfläche', tag:'Meta',
+  q:'Was du hier siehst, ist nur die Oberfläche. Die Lösung liegt darunter, im Fundament dieser Seite.',
+  hints:['Jede Webseite besteht aus Code. Dort steht mehr, als man sieht. Und ein Fundament liegt immer ganz unten.','Öffne den Quelltext (Chrome: ⌥ + ⌘ + U) oder scrolle die Seite weit unter das Rätsel bis ganz nach unten.'],
+  hintsT:['Ein Fundament liegt immer ganz unten.','Scrolle die Seite weit unter das Rätsel, bis ganz nach unten.'], sol:'FUNDAMENT',
+  expl:'Das Wort lag ganz unten im Fundament der Seite, und zusätzlich als Kommentar im Quelltext.',
+  render(b,api){const f=h('div',{class:'fundament'},'Fundament dieser Seite · Lösungswort: FUNDAMENT');app.append(f);textQuiz(b,api,['FUNDAMENT'],{noFocus:true});return()=>f.remove()}},
+T({ t:'Das Schachbrett', tag:'Zählen', q:'Wie viele Quadrate kannst du auf einem normalen Schachbrett (8 × 8) finden?', a:['204'], ph:'Anzahl',
+  wm:v=>v==='64'?'Das sind nur die kleinen. Es gibt auch größere Quadrate.':v==='65'?'Schon besser, aber es gibt noch mehr Größen.':null,
+  hints:['Nicht nur die 1×1-Felder zählen.','1×1: 64 Stück, 2×2: 49, 3×3: 36 … und so weiter.'], sol:'204', expl:'64 + 49 + 36 + 25 + 16 + 9 + 4 + 1 = <b>204</b> Quadrate.'}),
+{ t:'Das letzte Rätsel', tag:'Großes Finale',
+  q:'Die Antwort auf dieses letzte Rätsel kennst du schon, seit du dieses Spiel gestartet hast.',
+  hints:['Es war das Allererste, was du hier getan hast.','Wie heißt du?'], sol:'Dein Name',
+  expl:'Dein <b>Name</b>. Am Ende eines langen Umwegs steht man wieder bei sich selbst.',
+  render(b,api){textQuiz(b,api,()=>[P?P.name:''],{ph:'Antwort'})}}
+];
+
+/* ---------- Welten ---------- */
+const WORLDS=[
+  {name:'Aufwärmen',gl:'?',c:'#E5432D',fg:'#fff',ds:'Knöpfe, die fliehen, und Fragen, die man genau lesen muss.',lv:W1},
+  {name:'Muster',gl:'1·2',c:'#F08A24',fg:'#fff',ds:'Folgen, Codes und Zahlen, die nicht sind, was sie scheinen.',lv:W2},
+  {name:'Querbeet',gl:'&',c:'#F6C62E',fg:'#111',ds:'Laterales Denken. Hier ist nichts, wie es klingt.',lv:W3},
+  {name:'Transfer',gl:'→',c:'#2E9E62',fg:'#fff',ds:'Erkenne die Regel und übertrage sie auf Neues.',lv:W4},
+  {name:'Meisterklasse',gl:'∞',c:'#3AA6DD',fg:'#fff',ds:'Logik, Simulationen und die letzten Umwege.',lv:W5}
+];
+const TOTAL=WORLDS.reduce((s,w)=>s+w.lv.length,0);
+
+/* ---------- Status ---------- */
+const R=(w,i)=>P.res[w+'-'+i];
+const score=p=>Object.values(p.res).reduce((s,r)=>s+(r.pts||0),0);
+const solvedOf=p=>Object.values(p.res).filter(r=>r.status==='done').length;
+const worldCount=(w,p)=>{p=p||P;let n=0;for(let i=0;i<WORLDS[w].lv.length;i++)if(p.res[w+'-'+i])n++;return n};
+const worldScore=w=>{let s=0;for(let i=0;i<WORLDS[w].lv.length;i++){const r=R(w,i);if(r)s+=r.pts||0}return s};
+const worldOpen=w=>w===0||worldCount(w-1)===WORLDS[w-1].lv.length;
+function firstOpen(w){for(let i=0;i<WORLDS[w].lv.length;i++)if(!R(w,i))return i;return -1}
+const accessible=(w,i)=>!!R(w,i)||i===firstOpen(w);
+function setTheme(w){const W=WORLDS[w];document.documentElement.style.setProperty('--c',W?W.c:'#E5432D');document.documentElement.style.setProperty('--cfg',W?W.fg:'#fff')}
+function runCleanup(){if(cleanup){try{cleanup()}catch(e){}cleanup=null}document.title=BASE_TITLE}
+function topbar(){const w=$('#who');if(!P){w.innerHTML='';return}
+  w.innerHTML=`<span>👤 ${esc(P.name)}</span><span class="pts">${score(P)} P.</span><a id="sw"><span class="long">Spieler </span>wechseln</a>`;$('#sw').onclick=showStart}
+$('#brand').onclick=()=>P?showHub():showStart();
+
+/* ---------- Startseite ---------- */
+function showStart(){
+  runCleanup();P=null;setTheme(0);topbar();window.scrollTo(0,0);
+  const specs=[['Aa','var(--red)','var(--serif)','#fff'],['?','var(--yellow)','var(--sans)','#111'],['&','var(--sky)','var(--serif)','#fff'],['⌘','var(--green)','var(--sans)','#fff'],['{ }','var(--orange)','var(--mono)','#fff'],['∞','var(--steel)','var(--serif)','#fff']];
+  const labels=['Sprache','Logik','Laterales Denken','Mac','Code','Meisterklasse'];
+  app.innerHTML=`<div class="eyebrow">Elisas Rätsel Eck · 75 Rätsel · 5 Level</div>
+  <h1 class="hero">Denk um<br><em>die Ecke.</em></h1>
+  <p class="lead">Rätsel, bei denen Geradeausdenken nicht hilft. Mal musst du kreativ sein, mal eine Regel übertragen, mal die Seite selbst austricksen.</p>
+  <div class="specimens">${specs.map((s,k)=>`<div class="spec" style="background:${s[1]};color:${s[3]}"><small>0${k+1} · ${labels[k]}</small><b style="font-family:${s[2]}">${s[0]}</b></div>`).join('')}</div>
+  <div class="eyebrow" style="margin-bottom:10px">Wie heißt du?</div>
+  <form class="namebox" id="nf"><input id="nm" placeholder="Dein Name" maxlength="24" autocomplete="off"><button class="primary" type="submit">Los geht’s →</button></form>
+  <div class="msg" id="nmsg"></div>
+  <div class="board" id="board"></div>`;
+  const nm=$('#nm');setTimeout(()=>nm.focus(),60);
+  $('#nf').onsubmit=e=>{e.preventDefault();const n=nm.value.trim();if(!n){$('#nmsg').textContent='Ohne Namen geht es nicht. Er wird noch wichtig.';return}login(n)};
+  const list=Object.values(DB.players).sort((a,b)=>score(b)-score(a));
+  if(list.length){const bd=$('#board');bd.append(h('h3',{},'Bestenliste'));
+    list.forEach((p,k)=>{const r=h('div',{class:'brow'},`<span class="n">${String(k+1).padStart(2,'0')}</span><span>${esc(p.name)}</span><span class="s">${score(p)} P.</span><span class="c">${solvedOf(p)} / ${TOTAL} gelöst</span>`);
+      const b=h('button',{class:'ghostbtn',type:'button'},'Weiterspielen');b.onclick=()=>login(p.name);r.append(b);bd.append(r)})}
+}
+function login(name){
+  const key=Object.keys(DB.players).find(k=>k.toLowerCase()===name.toLowerCase());
+  if(key)P=DB.players[key];else{P={name,res:{}};DB.players[name]=P}
+  DB.last=P.name;save();showHub();
+}
+
+/* ---------- Übersicht ---------- */
+function showHub(){
+  runCleanup();setTheme(0);topbar();window.scrollTo(0,0);
+  const done=Object.keys(P.res).length;
+  app.innerHTML=`<div class="hubhead"><div><div class="eyebrow">Übersicht</div><h2>Hallo, <em>${esc(P.name)}.</em></h2></div>
+    <div class="totals"><b>${score(P)}</b>von ${TOTAL*100} Punkten · ${solvedOf(P)} gelöst</div></div>
+    <div class="worlds" id="worlds"></div>
+    ${done===TOTAL?'<div style="text-align:center;margin-top:30px"><button class="primary" id="fin">Zur Gesamtauswertung →</button></div>':''}
+    <div class="foot"><button id="rs">Meinen Spielstand zurücksetzen</button></div>`;
+  const g=$('#worlds');
+  WORLDS.forEach((W,w)=>{const n=worldCount(w),open=worldOpen(w);
+    const c=h('button',{class:'world',type:'button',style:`background:${W.c};color:${W.fg}`},
+      `${open?'':'<span class="lock">🔒</span>'}<span class="num">LEVEL 0${w+1}</span><span class="gl">${W.gl}</span><span class="tt">${W.name}</span><span class="ds">${W.ds}</span>
+      <span class="bar"><i style="width:${n/W.lv.length*100}%"></i></span><span class="meta"><span>${n} / ${W.lv.length}</span><span>${worldScore(w)} P.</span></span>`);
+    c.disabled=!open;if(!open)c.title='Schließe zuerst das vorherige Level ab.';
+    c.onclick=()=>{const f=firstOpen(w);f===-1?showWorldEnd(w):showLevel(w,f)};g.append(c)});
+  const fin=$('#fin');if(fin)fin.onclick=showFinal;
+  const rs=$('#rs');let armed=false;rs.onclick=()=>{if(!armed){armed=true;rs.textContent='Wirklich alles löschen? Nochmal klicken.';return}P.res={};save();showHub()};
+}
+
+/* ---------- Rätselansicht ---------- */
+function showLevel(w,i){
+  runCleanup();setTheme(w);topbar();cur={w,i};hintsUsed=0;wrongs=0;solvedNow=false;
+  const W=WORLDS[w],L=W.lv[i];
+  app.innerHTML='';
+  const head=h('div',{class:'lvhead'});const back=h('button',{class:'back',type:'button'},'← Übersicht');back.onclick=showHub;
+  head.append(back,h('div',{class:'lvtitle'},`<span class="chip">Level 0${w+1} · ${W.name}</span><span class="pts" style="font-family:var(--mono);font-size:.85rem;color:var(--muted)">${worldScore(w)} / ${W.lv.length*100} P.</span>`));
+  app.append(head);
+  const map=h('nav',{class:'map'});
+  W.lv.forEach((_,k)=>{const r=R(w,k);const d=h('button',{class:'dot'+(r?' '+r.status:'')+(k===i?' cur':''),type:'button',title:`Rätsel ${k+1}`},String(k+1));d.disabled=!accessible(w,k);d.onclick=()=>showLevel(w,k);map.append(d)});
+  app.append(map);
+  const card=h('section',{class:'card'});app.append(card);
+  card.append(h('div',{class:'tag'},`<b>Rätsel ${i+1}</b> / ${W.lv.length} · ${TOUCH?L.tag.replace(' · Mac',''):L.tag}`),h('h2',{},L.t));
+  if(pf(L,'q'))card.append(h('p',{class:'q'},pf(L,'q')));
+  const box=h('div',{class:'box'});card.append(box);
+  const msg=h('div',{class:'msg'});card.append(msg);
+  const hintBox=h('div',{class:'hints'});card.append(hintBox);
+  const api={solve:()=>solve(w,i),
+    wrong:m=>{wrongs++;msg.className='msg';msg.textContent=m||pick(['Nicht ganz.','Leider nein. Dreh den Gedanken noch einmal um.','Falsch, aber vielleicht ist die Richtung schon richtig.','Nein. Denk um die Ecke.']);card.classList.remove('shake');void card.offsetWidth;card.classList.add('shake')},
+    say:(m,cls)=>{msg.className='msg '+(cls||'');msg.textContent=m}};
+  const r=L.render(box,api);if(typeof r==='function')cleanup=r;
+  const tools=h('div',{class:'tools'}),left=h('div',{class:'l'});
+  const hb=h('button',{class:'hint',type:'button'},'💡 Tipp (−25)');
+  const HS=pf(L,'hints');hb.onclick=()=>{if(hintsUsed>=HS.length)return;hintBox.append(h('p',{},`<b>Tipp ${hintsUsed+1}:</b> ${HS[hintsUsed]}`));hintsUsed++;if(hintsUsed>=HS.length)hb.remove();hb.blur()};
+  left.append(hb);
+  const pr=R(w,i);
+  if(!pr||pr.status!=='done'){const sk=h('button',{class:'hint',type:'button'},'Überspringen');let armed=false;
+    sk.onclick=()=>{if(!armed){armed=true;sk.textContent='Wirklich? Lösung ansehen (0 Punkte)';return}skip(w,i)};left.append(sk)}
+  tools.append(left);
+  if(pr)tools.append(h('span',{class:'lbl'},pr.status==='done'?`✓ bereits gelöst (${pr.pts} P.)`:'übersprungen'));
+  card.append(tools);
+}
+function nextIdx(w,i){const n=WORLDS[w].lv.length;for(let k=i+1;k<n;k++)if(!R(w,k))return k;return firstOpen(w)}
+function finishPanel(w,i,html,cls){
+  const card=app.querySelector('.card');
+  card.querySelectorAll('.box input,.box button,.tools button').forEach(x=>x.disabled=true);
+  const t=card.querySelector('.tools');if(t)t.remove();card.querySelector('.msg').textContent='';
+  const p=h('div',{class:'solved '+(cls||'')},html);card.append(p);
+  const n=nextIdx(w,i);const nx=h('div',{class:'next'});
+  const b=h('button',{class:'primary',type:'button'},n===-1?'Level abschließen →':`Weiter zu Rätsel ${n+1} →`);
+  b.onclick=()=>n===-1?showWorldEnd(w):showLevel(w,n);nx.append(b);card.append(nx);
+  setTimeout(()=>b.focus(),50);p.scrollIntoView({behavior:'smooth',block:'nearest'});
+  // Karte aktualisieren
+  const dots=app.querySelectorAll('.map .dot');const r=R(w,i);if(dots[i]&&r){dots[i].classList.add(r.status)}
+  dots.forEach((d,k)=>d.disabled=!accessible(w,k));
+  const pts=app.querySelector('.lvtitle .pts');if(pts)pts.textContent=`${worldScore(w)} / ${WORLDS[w].lv.length*100} P.`;
+  topbar();
+}
+function solve(w,i){
+  if(solvedNow)return;solvedNow=true;runCleanup();
+  const L=WORLDS[w].lv[i],pts=Math.max(10,100-25*hintsUsed-5*wrongs);
+  const pr=R(w,i);const best=pr&&pr.status==='done'?Math.max(pr.pts,pts):pts;
+  P.res[w+'-'+i]={status:'done',pts:best};save();
+  finishPanel(w,i,`<div class="check">✓</div><div><b>Gelöst!</b> +${pts} Punkte${hintsUsed?` <span style="color:var(--muted)">(${hintsUsed} Tipp${hintsUsed>1?'s':''})</span>`:''}<p>${pf(L,'expl')}</p></div>`);
+}
+function skip(w,i){
+  if(solvedNow)return;solvedNow=true;runCleanup();
+  const L=WORLDS[w].lv[i];P.res[w+'-'+i]={status:'skipped',pts:0};save();
+  finishPanel(w,i,`<div class="check">→</div><div><b>Übersprungen.</b> Lösung: ${pf(L,'sol')}<p>${pf(L,'expl')}</p></div>`,'skip');
+}
+function rankFor(pct){return pct>=.87?'Meisterin oder Meister der Seitenwege':pct>=.67?'Ausgezeichnet um die Ecke gedacht':pct>=.45?'Auf gutem Umweg':pct>=.2?'Die Ecken werden sichtbar':'Geradeausdenker, aber nicht mehr lange'}
+function showWorldEnd(w){
+  runCleanup();setTheme(w);topbar();window.scrollTo(0,0);
+  const W=WORLDS[w],sc=worldScore(w),max=W.lv.length*100;
+  let solvedN=0;for(let i=0;i<W.lv.length;i++){const r=R(w,i);if(r&&r.status==='done')solvedN++}
+  app.innerHTML='';const back=h('button',{class:'back',type:'button'},'← Übersicht');back.onclick=showHub;{const d=h('div',{class:'lvhead'});d.append(back);app.append(d)}
+  const card=h('section',{class:'card end'},`<span class="chip">Level 0${w+1} · ${W.name} geschafft</span><div class="score">${sc}<span style="font-size:1.3rem;color:var(--muted)"> / ${max}</span></div><div class="rank">${rankFor(sc/max)}</div><p class="q" style="margin:0 auto 22px">${solvedN} von ${W.lv.length} Rätseln selbst gelöst. Über die Punkte im Level kannst du jedes Rätsel noch einmal spielen.</p>`);
+  const a=h('div',{class:'acts',style:'justify-content:center'});
+  const re=h('button',{class:'ghostbtn',type:'button'},'Level ansehen');re.onclick=()=>showLevel(w,0);a.append(re);
+  if(w<WORLDS.length-1){const nx=h('button',{class:'primary',type:'button'},`Weiter zu Level 0${w+2} →`);nx.onclick=()=>{const f=firstOpen(w+1);f===-1?showWorldEnd(w+1):showLevel(w+1,f)};a.append(nx)}
+  else{const nx=h('button',{class:'primary',type:'button'},'Zur Gesamtauswertung →');nx.onclick=showFinal;a.append(nx)}
+  card.append(a);app.append(card);
+}
+function showFinal(){
+  runCleanup();setTheme(4);topbar();window.scrollTo(0,0);
+  const sc=score(P),max=TOTAL*100;
+  app.innerHTML=`<div class="end"><div class="eyebrow">Gesamtauswertung</div><h1 class="hero" style="margin-top:14px">${esc(P.name)},<br><em>geschafft.</em></h1>
+    <div class="score">${sc}<span style="font-size:1.4rem;color:var(--muted)"> / ${max}</span></div><div class="rank">${rankFor(sc/max)}</div>
+    <p class="lead" style="margin:0 auto 26px">${solvedOf(P)} von ${TOTAL} Rätseln selbst gelöst.</p></div>`;
+  const specs=h('div',{class:'specimens',style:'grid-template-columns:repeat(5,1fr)'});
+  WORLDS.forEach((W,w)=>specs.append(h('div',{class:'spec',style:`background:${W.c};color:${W.fg};aspect-ratio:1`},`<small>${W.name}</small><b style="font-family:var(--mono);font-size:1.8rem">${worldScore(w)}</b>`)));
+  app.append(specs);
+  const a=h('div',{class:'acts',style:'justify-content:center'});const b1=h('button',{class:'primary',type:'button'},'Zur Bestenliste');b1.onclick=showStart;const b2=h('button',{class:'ghostbtn',type:'button'},'Übersicht');b2.onclick=showHub;a.append(b2,b1);app.append(a);
+}
+
+showStart();
+})();
+</script>
+</body>
+</html>
