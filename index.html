@@ -194,8 +194,45 @@ input.up{text-transform:uppercase;font-family:var(--mono);letter-spacing:.04em}
 .end .rank{font-family:var(--serif);font-size:2.2rem;font-style:italic;color:var(--c);margin:6px 0 18px}
 .foot{margin-top:30px;text-align:center}
 .foot button{background:none;border:0;color:var(--muted);font:.8rem var(--mono);cursor:pointer;text-decoration:underline}
+
+.sec{display:flex;justify-content:space-between;align-items:baseline;margin:50px 0 0;border-top:1px solid var(--line);padding-top:22px;flex-wrap:wrap;gap:6px}
+.sec h3{font-family:var(--serif);font-weight:400;font-size:2.3rem;margin:0}
+.sec span{font-family:var(--mono);font-size:.72rem;color:var(--muted);letter-spacing:.08em;text-transform:uppercase}
+button.spec{border:0;text-align:left;cursor:pointer;font-family:inherit}
+.spec b{display:block}
+.spec .pm{font-family:var(--mono);font-size:.66rem;display:flex;justify-content:space-between;margin-top:6px;opacity:.9}
+.spec .bar{display:block;height:4px;background:rgba(0,0,0,.15);border-radius:2px;overflow:hidden;margin-top:10px}
+.spec .bar i{display:block;height:100%;background:currentColor}
+.map25{grid-template-columns:repeat(auto-fill,minmax(32px,42px));justify-content:start}
+.lvtitle .pts{font-family:var(--mono);font-size:.85rem;color:var(--muted)}
+.stage{position:relative;height:190px;border-radius:18px;background:#fff6e0;margin-top:16px;overflow:hidden;display:grid;place-items:center;font-size:1.4rem}
+.curtain{position:absolute;inset:0;background:repeating-linear-gradient(90deg,#9e1b1b 0 18px,#b72727 18px 36px);color:#fff;display:grid;place-items:center;font-family:var(--mono);font-size:.9rem;cursor:grab;touch-action:none;user-select:none;-webkit-user-select:none}
+.lights{display:grid;grid-template-columns:repeat(3,80px);gap:10px;justify-content:center;margin-top:20px}
+.light{width:80px;height:80px;border-radius:16px;border:0;background:#2b2b30;cursor:pointer;transition:background .15s}
+.light.on{background:#ffd866;box-shadow:0 0 24px rgba(255,216,102,.6)}
+.hanoi{display:flex;gap:10px;justify-content:center;margin-top:20px}
+.peg{flex:1;max-width:200px;height:180px;background:var(--soft);border:2px solid transparent;border-radius:14px;cursor:pointer;display:flex;flex-direction:column-reverse;align-items:center;padding:10px 4px;position:relative;gap:4px}
+.peg.sel{border-color:var(--ink)}
+.rod{position:absolute;bottom:10px;top:24px;width:6px;border-radius:3px;background:#cfcdc7;left:50%;transform:translateX(-50%)}
+.disc{height:22px;border-radius:11px;position:relative;z-index:1;display:block}
+.slide{display:grid;grid-template-columns:repeat(3,84px);gap:8px;justify-content:center;margin-top:20px}
+.tile{width:84px;height:84px;border-radius:14px;border:0;background:var(--c);color:var(--cfg);font:600 1.8rem var(--mono);cursor:pointer}
+.tile.empty{background:transparent;cursor:default}
+.svgbox{display:grid;place-items:center;background:var(--soft);border-radius:18px;padding:20px;margin-top:16px}
+.svgbox svg{max-width:100%;height:auto}
+.closeup{height:260px;background:var(--soft);border-radius:18px;margin-top:16px;overflow:hidden;display:grid;place-items:center;touch-action:none}
+.closeup span{font-size:22rem;line-height:1;display:block;transition:transform .1s}
+.invis{position:absolute;width:70px;height:50px;border:0;background:transparent;cursor:pointer;border-radius:10px}
+.invis:focus-visible{outline:3px solid var(--ink)}
+.hscroll{display:flex;overflow-x:auto;overflow-y:hidden;border-radius:18px;background:var(--soft);margin-top:16px;height:160px;align-items:center}
+.hscroll span{flex:none;width:380px;text-align:center;font-family:var(--mono);color:#b4b1a9}
+.hscroll .deep{color:var(--ink);font-size:1.3rem}
+.hay{font:.72rem/1.35 var(--mono);word-break:break-all;color:#a8a59c;background:var(--soft);border-radius:18px;padding:16px;margin-top:16px;max-height:260px;overflow:auto}
+.drop{display:grid;place-items:center;height:200px;border:2px dashed var(--line);border-radius:18px;margin-top:16px;font-size:4rem;cursor:pointer;overflow:hidden}
+.drop.over{border-color:var(--c)}
+.drop img{max-height:100%;max-width:100%}
 @media (max-width:900px){.worlds{grid-template-columns:repeat(2,1fr)}.specimens{grid-template-columns:repeat(3,1fr)}.brow{grid-template-columns:30px 1fr 90px 90px}.brow .c{display:none}.wide .bridge span:first-child{min-width:0;text-align:left}}
-@media (max-width:600px){.card{padding:26px 18px;border-radius:20px}.banks{grid-template-columns:1fr}.big{font-size:1.15rem;padding:20px 10px}
+@media (max-width:600px){.lights{grid-template-columns:repeat(3,70px)}.light{width:70px;height:70px}.slide{grid-template-columns:repeat(3,72px)}.tile{width:72px;height:72px}.sec h3{font-size:1.8rem}.card{padding:26px 18px;border-radius:20px}.banks{grid-template-columns:1fr}.big{font-size:1.15rem;padding:20px 10px}
   .top .in{padding:10px 16px}.brand{font-size:1.25rem;white-space:nowrap}.who .pts{white-space:nowrap}.who a .long{display:none}.totals{text-align:left}.big{letter-spacing:.02em}.who{gap:10px;font-size:.8rem}.who span:first-child{max-width:90px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
   .app{padding:24px 16px 80px}.specimens{gap:8px}.spec{padding:10px;border-radius:14px}
   .world{min-height:220px;padding:14px}.world .gl{font-size:3.6rem}.world .ds{display:none}
@@ -752,7 +789,526 @@ T({ t:'Das Schachbrett', tag:'Zählen', q:'Wie viele Quadrate kannst du auf eine
   render(b,api){textQuiz(b,api,()=>[P?P.name:''],{ph:'Antwort'})}}
 ];
 
-/* ---------- Welten ---------- */
+/* =========================================================
+   FREIER MODUS – eigene Rätsel je Bereich
+   ========================================================= */
+// Prüft freie Antworten mit eigener Regel: ok(v) liefert true oder eine Meldung
+function vQuiz(b,api,ok,opt){
+  opt=opt||{};
+  const f=h('form',{class:'row'});
+  const inp=h('input',{class:opt.raw?'':'up',placeholder:opt.ph||'Deine Antwort',autocomplete:'off',spellcheck:'false',autocapitalize:opt.raw?'none':'characters'});
+  f.append(inp,h('button',{class:'primary',type:'submit'},'Prüfen'));b.append(f);
+  f.addEventListener('submit',e=>{e.preventDefault();const raw=inp.value.trim();if(!raw)return;const r=ok(opt.raw?raw:norm(raw),raw);
+    if(r===true)api.solve();else{api.wrong(typeof r==='string'?r:null);inp.select()}});
+  if(!opt.noFocus&&!TOUCH)setTimeout(()=>inp.focus(),60);
+  return inp;
+}
+function symPick(b,api,syms,right,msg){const g=h('div',{class:'symgrid'});shuffle(syms.slice()).forEach(s=>{const x=h('button',{class:'sym',type:'button'},s);x.onclick=()=>{if(s===right)api.solve();else{api.wrong(msg);x.disabled=true}};g.append(x)});b.append(g)}
+
+/* ---------- SPRACHE ---------- */
+const FS=[
+{ t:'Wortbrücken III', tag:'Sprache', q:'Jedes fehlende Wort passt hinten an das linke und vorne an das rechte Wort.',
+  hints:['Das erste trägt man im Winter an den Fingern.','SCHUH · dann etwas, das Wasser von einer Klippe tut · dann ein Ort mit Blumen.'], sol:'SCHUH · FALL · GARTEN',
+  expl:'Hand<b>schuh</b> / <b>Schuh</b>karton · Wasser<b>fall</b> / <b>Fall</b>schirm · Kinder<b>garten</b> / <b>Garten</b>zwerg.',
+  render(b,api){multi(b,api,[{l:'HAND',r:'KARTON',a:['SCHUH']},{l:'WASSER',r:'SCHIRM',a:['FALL']},{l:'KINDER',r:'ZWERG',a:['GARTEN']}])}},
+{ t:'Buchstabensalat', tag:'Anagramm', q:'Stelle die Buchstaben jedes Wortes so um, dass ein neues Wort passend zum Hinweis entsteht.',
+  hints:['Alle Buchstaben werden benutzt, keiner kommt dazu.','Der Baum wächst am Strand. Die Fahrt macht man im Urlaub.'], sol:'PALME · REISE · SENIOR',
+  expl:'LAMPE → <b>PALME</b> · RIESE → <b>REISE</b> · ROSINE → <b>SENIOR</b>.',
+  render(b,api){multi(b,api,[{l:'LAMPE → ein Baum:',a:['PALME']},{l:'RIESE → eine Fahrt:',a:['REISE']},{l:'ROSINE → ein älterer Mensch:',a:['SENIOR']}],true)}},
+{ t:'Teekesselchen', tag:'Sprache', q:'Ein Wort, zwei Bedeutungen. Finde jeweils das Wort.',
+  hints:['Ein Wort kann ganz Verschiedenes bedeuten.','Auf das erste setzt man sich im Park. Am anderen hebt man Geld ab.'], sol:'BANK · SCHLOSS · IRIS',
+  expl:'<b>Bank</b> (Geldinstitut und Sitzbank) · <b>Schloss</b> (Gebäude und Türverschluss) · <b>Iris</b> (Blume und Teil des Auges).',
+  render(b,api){multi(b,api,[{l:'Geldinstitut und Sitzgelegenheit:',a:['BANK']},{l:'Prachtbau und Türverschluss:',a:['SCHLOSS']},{l:'Blume und Teil des Auges:',a:['IRIS']}],true)}},
+T({ t:'Mehr ist weniger', tag:'Sprache', q:'Welches Wort wird kürzer, wenn man zwei Buchstaben anhängt?', a:['KURZ'],
+  hints:['Nimm die Frage sehr wörtlich.','Steigere das Wort, das in der Frage selbst vorkommt.'], sol:'KURZ', expl:'<b>Kurz</b> + „er“ = <b>kürzer</b>.'}),
+{ t:'Vorwärts wie rückwärts', tag:'Sprache', q:'Nenne ein Wort mit mindestens 5 Buchstaben, das sich vorwärts und rückwärts gleich liest.',
+  hints:['Man nennt solche Wörter Palindrome.','Denk an Menschen im Ruhestand oder an ein schmales Boot.'], sol:'z. B. RENTNER, KAJAK, RADAR, LAGERREGAL',
+  expl:'Palindrome wie <b>Rentner</b>, <b>Kajak</b> oder <b>Lagerregal</b> liest man in beide Richtungen gleich.',
+  render(b,api){vQuiz(b,api,v=>v.length<5?'Mindestens 5 Buchstaben, bitte.':v===[...v].reverse().join('')&&new Set(v).size>=2&&/[AEIOU]/.test(v)?true:'Rückwärts gelesen ergibt das etwas anderes.',{ph:'Ein Wort'})}},
+{ t:'Die Mitte von Paris', tag:'Sprache', q:'Was steht genau in der Mitte von Paris?',
+  hints:['Nicht die Stadt, das Wort.','P-A-R-I-S: Was steht in der Mitte?'], sol:'Der Buchstabe R', expl:'In der Mitte des Wortes P-A-<b>R</b>-I-S steht das <b>R</b>.',
+  render(b,api){textQuiz(b,api,['R','DASR','DERBUCHSTABER'],{wm:v=>v==='EIFFELTURM'?'Schöne Idee. Aber denk weniger an die Stadt, mehr an das Wort.':null})}},
+{ t:'Versteckte Tiere', tag:'Sprache', q:'In jedem Satz versteckt sich ein Tier, über Wortgrenzen hinweg.',
+  hints:['Lies die Sätze ohne Leerzeichen.','Erster Satz: „…kam elend…“'], sol:'KAMEL · HUND · MAUS',
+  expl:'Sie <b>kam El</b>end an → KAMEL · Ich sa<b>h und</b> lachte → HUND · Sie nah<b>m aus</b> Versehen … → MAUS.',
+  render(b,api){multi(b,api,[{l:'„Sie kam elend an.“',a:['KAMEL']},{l:'„Ich sah und lachte.“',a:['HUND']},{l:'„Sie nahm aus Versehen das falsche.“',a:['MAUS']}],true)}},
+{ t:'Rückwärts gelesen', tag:'Sprache', q:'Jedes Wort ergibt rückwärts gelesen ein anderes Wort.',
+  hints:['Finde zuerst das Wort zur ersten Beschreibung, dann lies es rückwärts.','Gefrorenes Wasser: EIS. Rückwärts: SIE.'], sol:'EIS · NIE · BEIL',
+  expl:'<b>EIS</b> ↔ SIE · <b>NIE</b> ↔ EIN · <b>BEIL</b> ↔ LIEB.',
+  render(b,api){multi(b,api,[{l:'Gefrorenes Wasser, rückwärts ein Fürwort:',a:['EIS']},{l:'Niemals, rückwärts ein Zahlwort:',a:['NIE']},{l:'Werkzeug zum Holzhacken, rückwärts ein Kosewort:',a:['BEIL']}],true)}},
+T({ t:'Drei fehlende Buchstaben', tag:'Sprache', q:'Dieselben drei Buchstaben fehlen in allen drei Wörtern.', big:'M _ _ _ → Tier<br>H _ _ _ → Gebäude<br>L _ _ _ → Ungeziefer', a:['AUS'], ph:'Drei Buchstaben',
+  hints:['Das Tier ist klein und mag Käse.','M-A-U-S.'], sol:'AUS', expl:'M<b>aus</b>, H<b>aus</b>, L<b>aus</b>.'}),
+{ t:'Mehrzahl', tag:'Sprache', q:'Wie lautet die Mehrzahl?',
+  hints:['Diese Wörter kommen aus dem Lateinischen und Griechischen.','Ein Kaktus, zwei …? Man sagt auch „Kaktusse“.'], sol:'KAKTEEN · ATLANTEN · GLOBEN',
+  expl:'Kaktus → <b>Kakteen</b> · Atlas → <b>Atlanten</b> · Globus → <b>Globen</b>. Die Formen mit „-sse“ sind auch erlaubt.',
+  render(b,api){multi(b,api,[{l:'ein Kaktus, zwei …',a:['KAKTEEN','KAKTUSSE']},{l:'ein Atlas, zwei …',a:['ATLANTEN','ATLASSE']},{l:'ein Globus, zwei …',a:['GLOBEN','GLOBUSSE']}],true)}},
+T({ t:'Immer falsch', tag:'Sprache', q:'Welches Wort wird von allen Menschen immer falsch geschrieben?', a:['FALSCH'],
+  hints:['Die Antwort steckt in der Frage.','Lies die Frage noch einmal ganz wörtlich.'], sol:'FALSCH', expl:'Das Wort „<b>falsch</b>“ schreibt man immer f-a-l-s-c-h, also immer „falsch“.'}),
+{ t:'Ein Buchstabe', tag:'Sprache', q:'Ändere in jedem Wort genau einen Buchstaben.',
+  hints:['Die Länge bleibt gleich, nur ein Buchstabe wird getauscht.','HUND → MUND.'], sol:'MUND · KOPF · HASE',
+  expl:'HUND → <b>MUND</b> · TOPF → <b>KOPF</b> · NASE → <b>HASE</b>.',
+  render(b,api){multi(b,api,[{l:'HUND → ein Körperteil:',a:['MUND']},{l:'TOPF → ein Körperteil:',a:['KOPF']},{l:'NASE → ein Tier:',a:['HASE']}],true)}},
+{ t:'Versteckte Zahlen', tag:'Sprache', q:'In jedem Wort versteckt sich ein Zahlwort.',
+  hints:['Lies nur den Anfang jedes Wortes.','ZWEIG beginnt mit ZWEI.'], sol:'ZWEI · ACHT · ELF',
+  expl:'<b>Zwei</b>g · <b>Acht</b>ung · <b>Elf</b>enbein.',
+  render(b,api){multi(b,api,[{l:'ZWEIG',a:['ZWEI']},{l:'ACHTUNG',a:['ACHT']},{l:'ELFENBEIN',a:['ELF']}])}},
+{ t:'Dreifach', tag:'Sprache', q:'Nenne ein deutsches Wort, in dem drei gleiche Buchstaben direkt hintereinander stehen.',
+  hints:['Seit der Rechtschreibreform 1996 gibt es viele solche Wörter.','Denk an Schiffe, Kaffee oder Betten.'], sol:'z. B. Schifffahrt, Kaffeeersatz, Betttuch',
+  expl:'Zum Beispiel Schi<b>fff</b>ahrt, Kaff<b>eee</b>rsatz oder Be<b>ttt</b>uch.',
+  render(b,api){vQuiz(b,api,v=>v.length>=6&&/(.)\1\1/.test(v)&&!/(.)\1\1\1/.test(v)&&/[AEIOU]/.test(v)&&new Set(v).size>=4?true:'Da stehen keine drei gleichen Buchstaben direkt hintereinander.',{ph:'Ein Wort'})}},
+T({ t:'Kofferwort', tag:'Sprache', q:'Manche Wörter entstehen aus zwei anderen, zum Beispiel <b>Brunch</b> aus <i>breakfast</i> und <i>lunch</i>. Aus welchen zwei englischen Wörtern besteht <b>Smog</b>?', a:['SMOKEFOG','SMOKEUNDFOG','SMOKEANDFOG','FOGSMOKE','FOGUNDSMOKE','SMOKEFOGG'], ph:'Wort 1 und Wort 2',
+  hints:['Es geht um Luft, die man nicht atmen möchte.','Rauch heißt smoke. Und Nebel?'], sol:'SMOKE und FOG', expl:'<b>Smoke</b> (Rauch) und <b>fog</b> (Nebel) ergeben Smog.'}),
+{ t:'Rettet Opa', tag:'Sprache', q:'Setze ein Komma, damit Opa überlebt.',
+  hints:['Gerade klingt es, als käme Opa auf den Teller.','Das Komma gehört direkt vor „Opa“. Dann wird er angesprochen.'], sol:'Komm, wir essen, Opa!',
+  expl:'„Komm, wir essen<b>,</b> Opa!“ Ein einziges Komma macht aus dem Hauptgericht einen Gast.',
+  render(b,api){b.append(h('div',{class:'big'},'Komm wir essen Opa'));
+    const inp=vQuiz(b,api,(v,raw)=>{const s=raw.toLowerCase().replace(/\s+/g,' ');return /essen\s*,\s*opa/.test(s)?true:s.includes(',')?'Opa ist noch nicht in Sicherheit. Wo muss das Komma hin?':'Da fehlt noch ein Komma.'},{raw:true,noFocus:true});
+    inp.value='Komm wir essen Opa'}},
+T({ t:'Mein Erstes, mein Zweites', tag:'Sprache', q:'Mein Erstes scheint am Tag vom Himmel. Mein Zweites steht gern in einer Vase. Mein Ganzes ist gelb, wird sehr groß und dreht sich nach meinem Ersten. Was bin ich?', a:['SONNENBLUME','DIESONNENBLUME','EINESONNENBLUME'],
+  hints:['Das Erste ist die Sonne.','Was steht in einer Vase?'], sol:'Sonnenblume', expl:'<b>Sonne</b> + <b>Blume</b> = Sonnenblume.'}),
+T({ t:'Flach und tief', tag:'Sprache', q:'Welches Wort bezeichnet sowohl eine sehr flache als auch eine sehr tiefe Stelle im Wasser?', a:['UNTIEFE','UNTIEFEN','DIEUNTIEFE'],
+  hints:['„Un-“ kann verneinen, aber auch verstärken, wie bei „Unmenge“.','Un- plus Tiefe.'], sol:'Untiefe', expl:'Eine <b>Untiefe</b> ist ursprünglich eine flache Stelle. Umgangssprachlich meint man damit aber auch eine besonders tiefe.'}),
+T({ t:'Nass vom Trocknen', tag:'Rätsel', q:'Was wird umso nasser, je mehr es trocknet?', a:['HANDTUCH','EINHANDTUCH','DASHANDTUCH','BADETUCH','DUSCHTUCH','GESCHIRRTUCH','TUCH','FROTTEETUCH'],
+  hints:['Es geht nicht darum, dass es selbst trocknet.','Was benutzt du nach dem Duschen?'], sol:'Ein Handtuch', expl:'Ein <b>Handtuch</b>: Je mehr es abtrocknet, desto nasser wird es.'}),
+T({ t:'Hals ohne Kopf', tag:'Rätsel', q:'Ich habe einen Hals, aber keinen Kopf. Statt einer Mütze trage ich einen Korken. Was bin ich?', a:['FLASCHE','EINEFLASCHE','DIEFLASCHE','WEINFLASCHE','SEKTFLASCHE'],
+  hints:['Ich stehe oft auf dem Tisch.','Wein wird aus mir eingeschenkt.'], sol:'Eine Flasche', expl:'Eine <b>Flasche</b> hat einen Flaschenhals und einen Korken.'}),
+T({ t:'Zähne ohne Biss', tag:'Rätsel', q:'Ich habe viele Zähne, aber ich beiße nie. Was bin ich?', a:['KAMM','EINKAMM','DERKAMM','SAEGE','REISSVERSCHLUSS','ZAHNRAD','HARKE','RECHEN'],
+  hints:['Ich komme jeden Morgen zum Einsatz.','Im Badezimmer, für die Haare.'], sol:'Ein Kamm', expl:'Ein <b>Kamm</b>. Säge oder Reißverschluss passen auch.'}),
+T({ t:'Blätter ohne Baum', tag:'Rätsel', q:'Ich habe Blätter, aber ich bin kein Baum. Ich habe einen Rücken, aber keine Wirbel. Was bin ich?', a:['BUCH','EINBUCH','DASBUCH','HEFT','ZEITUNG','ATLAS','HEFTER','ORDNER'],
+  hints:['Du findest mich in Regalen.','Man liest mich.'], sol:'Ein Buch', expl:'Ein <b>Buch</b> hat Blätter und einen Buchrücken.'}),
+{ t:'Ein Buchstabe davor', tag:'Sprache', q:'Vor „ASE“ fehlt jeweils ein Buchstabe.',
+  hints:['Es ist immer nur ein einziger Buchstabe.','Das Tier hat lange Ohren.'], sol:'HASE · NASE · VASE',
+  expl:'<b>H</b>ase · <b>N</b>ase · <b>V</b>ase.',
+  render(b,api){multi(b,api,[{l:'Tier: _ASE',a:['HASE']},{l:'Im Gesicht: _ASE',a:['NASE']},{l:'Für Blumen: _ASE',a:['VASE']}],true)}},
+M({ t:'Groß oder klein', tag:'Sprache', q:'Gleiche Buchstaben, andere Bedeutung. Welcher Satz beschreibt einen Mann, der Zuneigung erfahren hat?',
+  hints:['Groß- und Kleinschreibung ändern die Bedeutung.','„genossen“ klein ist ein Verb.'], sol:'Er hat Liebe genossen.',
+  expl:'„Er hat <b>Liebe genossen</b>“ heißt, er hat Zuneigung erfahren. „Er hat liebe Genossen“ heißt nur, er hat nette Kameraden.',
+  o:[{t:'Er hat Liebe genossen.',ok:1},{t:'Er hat liebe Genossen.',why:'Das sind nette Kameraden, keine Zuneigung.'}]}),
+{ t:'Ein Wort für drei', tag:'Sprache', q:'Welches Wort ergänzt alle drei Wörter zu einem neuen?',
+  hints:['Das gesuchte Wort kommt jeweils ans Ende.','Erste Zeile: Man wirft ihn im Winter, kickt ihn im Stadion und wirft ihn in der Halle.'], sol:'BALL · BÜRSTE · TAG',
+  expl:'Schnee-, Fuß-, Hand<b>ball</b> · Zahn-, Haar-, Kleider<b>bürste</b> · Geburts-, Feier-, Sonn<b>tag</b>.',
+  render(b,api){multi(b,api,[{l:'SCHNEE · FUSS · HAND +',a:['BALL']},{l:'ZAHN · HAAR · KLEIDER +',a:['BÜRSTE']},{l:'GEBURTS · FEIER · SONN +',a:['TAG']}],true)}}
+];
+
+/* ---------- LOGIK ---------- */
+const FL=[
+T({t:'Die Schwester',tag:'Denkfalle',q:'Als ich 6 Jahre alt war, war meine Schwester halb so alt wie ich. Heute bin ich 70. Wie alt ist meine Schwester?',a:['67'],ph:'Alter',wm:v=>v==='35'?'Halbe Sachen. Der Altersunterschied bleibt aber gleich.':null,
+  hints:['Wie groß ist der Altersunterschied?','Mit 6 war sie 3, also 3 Jahre jünger. Das bleibt so.'],sol:'67',expl:'Sie ist 3 Jahre jünger, also heute <b>67</b>. Der Abstand bleibt, das Verhältnis nicht.'}),
+T({t:'Die Schnecke',tag:'Logik',q:'Eine Schnecke sitzt am Boden eines 10 Meter tiefen Brunnens. Tagsüber klettert sie 3 Meter hoch, nachts rutscht sie 2 Meter ab. An welchem Tag erreicht sie den Rand?',a:['8','ACHT'],ph:'Tag',wm:v=>v==='10'?'Fast. Aber am letzten Tag rutscht sie nicht mehr zurück.':null,
+  hints:['Rechne nicht einfach mit 1 Meter pro Tag.','Am letzten Tag ist sie oben, bevor die Nacht kommt.'],sol:'Am 8. Tag',expl:'Nach 7 Tagen und Nächten ist sie auf 7 Metern. Am <b>8. Tag</b> klettert sie die letzten 3 Meter.'}),
+T({t:'Socken im Dunkeln',tag:'Logik',q:'In einer Schublade liegen 10 schwarze und 10 weiße Socken durcheinander. Es ist stockdunkel. Wie viele Socken musst du mindestens herausnehmen, um sicher ein gleichfarbiges Paar zu haben?',a:['3','DREI'],ph:'Anzahl',wm:v=>v==='11'?'Das bräuchtest du für ein Paar einer bestimmten Farbe. Gefragt ist irgendein Paar.':null,
+  hints:['Es gibt nur zwei Farben.','Nach zwei Socken kann es noch ein gemischtes Paar sein. Und dann?'],sol:'3',expl:'Bei zwei Farben passt die dritte Socke zwangsläufig zu einer der ersten beiden.'}),
+T({t:'Das Brett',tag:'Denkfalle',q:'Ein Brett soll in 10 gleiche Stücke gesägt werden. Jeder Schnitt dauert eine Minute. Wie lange dauert es insgesamt?',a:['9','NEUN','9MINUTEN'],ph:'Minuten',wm:v=>v==='10'?'Wie viele Schnitte brauchst du für 2 Stücke?':null,
+  hints:['Für 2 Stücke braucht man einen Schnitt.','Stücke minus eins.'],sol:'9 Minuten',expl:'Für 10 Stücke braucht man nur 9 Schnitte, also <b>9 Minuten</b>.'}),
+T({t:'Der Zaun',tag:'Denkfalle',q:'Ein gerader Zaun ist 10 Meter lang. Jeden Meter steht ein Pfosten, auch an beiden Enden. Wie viele Pfosten sind es?',a:['11','ELF'],ph:'Anzahl',wm:v=>v==='10'?'Zähl die Enden mit.':null,
+  hints:['Zeichne es für 2 Meter auf.','Zwischenräume plus eins.'],sol:'11',expl:'10 Zwischenräume brauchen <b>11</b> Pfosten.'}),
+T({t:'Drei Tabletten',tag:'Denkfalle',q:'Du bekommst drei Tabletten und sollst alle halbe Stunde eine nehmen. Wie lange reichen sie?',a:['60','60MINUTEN','1STUNDE','EINESTUNDE','1H','1'],ph:'Minuten',wm:v=>v==='90'||v==='90MINUTEN'?'Die erste nimmst du sofort.':null,
+  hints:['Wann nimmst du die erste?','Sofort, nach 30 Minuten, nach 60 Minuten.'],sol:'60 Minuten',expl:'Die erste sofort, die zweite nach 30, die dritte nach <b>60 Minuten</b>.'}),
+T({t:'Seilenden',tag:'Denkfalle',q:'Ein Seil hat 2 Enden. Wie viele Enden haben zweieinhalb Seile?',a:['6','SECHS'],ph:'Anzahl',wm:v=>v==='5'?'Hat ein halbes Seil nur ein Ende?':null,
+  hints:['Ein halbes Seil ist immer noch ein Seil.','Wie viele Enden hat ein halbes Seil?'],sol:'6',expl:'Auch ein halbes Seil hat zwei Enden: 2 + 2 + 2 = <b>6</b>.'}),
+T({t:'Die schwere Kugel',tag:'Logik',q:'Du hast 8 gleich aussehende Kugeln. Eine davon ist etwas schwerer. Wie oft musst du mit einer Balkenwaage mindestens wiegen, um sie sicher zu finden?',a:['2','ZWEI','ZWEIMAL'],ph:'Anzahl',wm:v=>v==='3'?'Es geht schneller. Du musst nicht immer halbieren.':null,
+  hints:['Du musst nicht alle Kugeln auf die Waage legen.','Teile in 3, 3 und 2.'],sol:'2',expl:'3 gegen 3, zwei bleiben liegen. Danach in der verdächtigen Gruppe 1 gegen 1. Also <b>2</b>-mal.'}),
+T({t:'Anderthalb Hühner',tag:'Logik',q:'Anderthalb Hühner legen in anderthalb Tagen anderthalb Eier. Wie viele Eier legen 3 Hühner in 3 Tagen?',a:['6','SECHS'],ph:'Eier',wm:v=>v==='3'?'Doppelt so viele Hühner UND doppelt so viel Zeit.':null,
+  hints:['Verdopple zuerst die Hühner, dann die Tage.','3 Hühner in 1,5 Tagen: 3 Eier. Jetzt die Zeit verdoppeln.'],sol:'6',expl:'Doppelt so viele Hühner: 3 Eier. Doppelt so viel Zeit: <b>6</b> Eier.'}),
+M({t:'Zwei Münzen',tag:'Genau lesen',q:'Zwei Münzen ergeben zusammen 30 Cent. Eine davon ist keine 10-Cent-Münze. Welche Münzen sind es?',
+  hints:['„Eine davon“ heißt nicht „keine davon“.','Was ist mit der anderen?'],sol:'20 Cent und 10 Cent',expl:'Die <b>20-Cent-Münze</b> ist keine 10-Cent-Münze. Die andere aber schon.',
+  o:[{t:'Eine 20-Cent- und eine 10-Cent-Münze',ok:1},{t:'Das ist unmöglich.',why:'Lies genau: Nur EINE ist keine 10-Cent-Münze.'},{t:'Zwei 15-Cent-Münzen',why:'Die gibt es nicht.'},{t:'Eine 25-Cent- und eine 5-Cent-Münze',why:'25-Cent-Münzen gibt es beim Euro nicht.'}]}),
+T({t:'Vier Ecken',tag:'Denkfalle',q:'In einem quadratischen Raum sitzt in jeder Ecke eine Katze. Jeder Katze gegenüber sitzen drei Katzen. Wie viele Katzen sind im Raum?',a:['4','VIER'],ph:'Anzahl',wm:v=>v==='16'||v==='12'?'Die Katzen sehen sich gegenseitig. Zähl nicht doppelt.':null,
+  hints:['Zeichne den Raum.','Jede Katze sieht die drei anderen.'],sol:'4',expl:'Es sind nur <b>4</b> Katzen. Jede sieht die drei anderen.'}),
+T({t:'Größenordnung',tag:'Logik',q:'Anna ist größer als Ben. Clara ist kleiner als Ben. Dora ist größer als Anna. Wer ist die zweitgrößte Person?',a:['ANNA'],ph:'Name',
+  hints:['Ordne alle vier in einer Reihe.','Dora steht ganz oben.'],sol:'Anna',expl:'Die Reihenfolge ist Dora, <b>Anna</b>, Ben, Clara.'}),
+T({t:'Der Pferdehändler',tag:'Logik',q:'Ein Händler kauft ein Pferd für 60 €, verkauft es für 70 €, kauft es für 80 € zurück und verkauft es wieder für 90 €. Wie viel Gewinn macht er insgesamt?',a:['20','20EURO','20EUR'],ph:'Euro',wm:v=>v==='10'?'Rechne alle Einnahmen und alle Ausgaben zusammen.':null,
+  hints:['Betrachte es als zwei getrennte Geschäfte.','Ausgaben: 60 + 80. Einnahmen: 70 + 90.'],sol:'20 €',expl:'Ausgaben 140 €, Einnahmen 160 €: <b>20 €</b> Gewinn.'}),
+T({t:'Äpfel tauschen',tag:'Logik',q:'Tom sagt zu Lea: „Gib mir einen Apfel, dann haben wir gleich viele.“ Lea antwortet: „Gib du mir lieber einen, dann habe ich doppelt so viele wie du.“ Wie viele Äpfel hat Tom?',a:['5','FUENF'],ph:'Anzahl',
+  hints:['Lea hat 2 Äpfel mehr als Tom.','Wenn Tom einen abgibt, hat Lea 4 mehr als er, und das soll genau doppelt so viel sein.'],sol:'5',expl:'Tom hat <b>5</b>, Lea hat 7. Gibt Lea einen ab: 6 und 6. Gibt Tom einen ab: 4 und 8.'}),
+T({t:'17 Kamele',tag:'Logik',q:'Ein Vater hinterlässt seinen drei Söhnen 17 Kamele. Der Älteste soll die Hälfte bekommen, der Mittlere ein Drittel, der Jüngste ein Neuntel. Ein Weiser leiht ihnen ein Kamel dazu. Wie viele Kamele bekommt der Älteste?',a:['9','NEUN'],ph:'Anzahl',wm:v=>v==='85'?'Halbe Kamele gibt es nicht. Was ändert das geliehene Kamel?':null,
+  hints:['Mit dem geliehenen Kamel sind es 18.','Die Hälfte von 18.'],sol:'9',expl:'Mit 18 Kamelen: 9 + 6 + 2 = 17. Das geliehene Kamel bleibt übrig und geht zurück an den Weisen.'}),
+T({t:'Hin und zurück',tag:'Denkfalle',q:'Du fährst eine Strecke hin mit 60 km/h und dieselbe Strecke zurück mit 40 km/h. Wie hoch ist deine Durchschnittsgeschwindigkeit?',a:['48','48KMH'],ph:'km/h',wm:v=>v==='50'||v==='50KMH'?'Für den Rückweg brauchst du länger. Er zählt deshalb stärker.':null,
+  hints:['Nimm eine konkrete Strecke an, etwa 120 km.','Hin 2 Stunden, zurück 3 Stunden.'],sol:'48 km/h',expl:'240 km in 5 Stunden ergeben <b>48 km/h</b>.'}),
+M({t:'Rauf und runter',tag:'Denkfalle',q:'Ein Preis wird erst um 50 % erhöht und danach um 50 % gesenkt. Wie hoch ist er im Vergleich zum Anfang?',
+  hints:['Rechne mit 100 €.','100 € + 50 % = 150 €. Davon 50 % weg.'],sol:'25 % niedriger',expl:'100 → 150 → <b>75</b>. Der Preis ist 25 % niedriger als am Anfang.',
+  o:[{t:'25 % niedriger',ok:1},{t:'Genauso hoch',why:'Die zweiten 50 % werden vom höheren Preis abgezogen.'},{t:'25 % höher',why:'Rechne es mit 100 € durch.'},{t:'50 % niedriger',why:'Zu viel. Rechne es mit 100 € durch.'}]}),
+T({t:'Bakterien im Glas',tag:'Denkfalle',q:'Bakterien verdoppeln sich jede Minute. Mit einer Bakterie ist ein Glas nach 60 Minuten voll. Wann ist es voll, wenn man mit zwei Bakterien startet?',a:['59','59MINUTEN'],ph:'Minuten',wm:v=>v==='30'?'Zwei Bakterien sind nur ein einziger Verdopplungsschritt Vorsprung.':null,
+  hints:['Wie lange dauert es, bis aus einer Bakterie zwei werden?','Mit zwei Bakterien sparst du genau eine Minute.'],sol:'59',expl:'Zwei Bakterien entsprechen dem Stand nach 1 Minute. Also ist das Glas nach <b>59 Minuten</b> voll.'}),
+M({t:'Vier Karten',tag:'Logik',q:'Auf jeder Karte steht vorne ein Buchstabe und hinten eine Zahl. Du siehst: <b>A · K · 4 · 7</b>. Regel: „Wenn vorne ein Vokal steht, steht hinten eine gerade Zahl.“ Welche Karten musst du mindestens umdrehen, um die Regel zu prüfen?',
+  hints:['Welche Karten könnten die Regel verletzen?','Hinter der 4 darf alles stehen. Aber was, wenn hinter der 7 ein Vokal steht?'],sol:'A und 7',expl:'Nur <b>A</b> (hinten muss gerade sein) und <b>7</b> (vorne darf kein Vokal sein) können die Regel widerlegen. Die meisten wählen fälschlich die 4.',
+  o:[{t:'A und 7',ok:1},{t:'A und 4',why:'Die 4 kann die Regel nicht widerlegen. Hinten darf dort alles stehen.'},{t:'Nur A',why:'Was, wenn hinter der 7 ein Vokal steht?'},{t:'Alle vier',why:'K und 4 können die Regel nie verletzen.'}]}),
+T({t:'Zehn von hundert',tag:'Denkfalle',q:'Wie oft kannst du 10 von 100 abziehen?',a:['1','EINMAL','EINS'],ph:'Anzahl',wm:v=>v==='10'||v==='ZEHN'?'Nach dem ersten Mal ziehst du von 90 ab, nicht mehr von 100.':null,
+  hints:['Lies genau: „von 100“.','Was bleibt nach dem ersten Abziehen übrig?'],sol:'Einmal',expl:'<b>Einmal</b>. Danach ziehst du von 90 ab.'}),
+T({t:'Zusammengeschoben',tag:'Denkfalle',q:'Ein Bauer hat 3 Heuhaufen auf dem Feld und 5 auf der Wiese. Er schiebt alle zu einem zusammen. Wie viele Heuhaufen hat er jetzt?',a:['1','EINEN','EINS'],ph:'Anzahl',wm:v=>v==='8'?'Er schiebt sie zusammen.':null,
+  hints:['Lies den letzten Satz genau.','Zu einem zusammen.'],sol:'1',expl:'Alle zusammengeschoben ergeben <b>einen</b> großen Heuhaufen.'}),
+T({t:'Die Fliege',tag:'Logik',q:'Zwei Züge sind 100 km voneinander entfernt und fahren mit je 50 km/h aufeinander zu. Eine Fliege fliegt mit 75 km/h von einem Zug zum anderen, wendet sofort und so weiter, bis die Züge sich treffen. Wie viele Kilometer fliegt sie insgesamt?',a:['75','75KM'],ph:'km',
+  hints:['Rechne nicht die einzelnen Strecken aus.','Wie lange dauert es, bis sich die Züge treffen?'],sol:'75 km',expl:'Die Züge treffen sich nach einer Stunde. In dieser Stunde fliegt die Fliege <b>75 km</b>.'}),
+M({t:'Der fehlende Euro',tag:'Denkfalle',q:'Drei Freunde zahlen für ein Zimmer 30 €, je 10 €. Das Zimmer kostet aber nur 25 €. Der Page soll 5 € zurückbringen, behält 2 € und gibt jedem 1 € zurück. Jeder hat also 9 € bezahlt: 3 × 9 = 27, plus 2 € beim Pagen = 29. Wo ist der fehlende Euro?',
+  hints:['Prüfe, ob die Rechnung überhaupt Sinn ergibt.','Die 2 € des Pagen sind schon in den 27 € enthalten.'],sol:'Es fehlt keiner, die Rechnung ist falsch.',
+  expl:'27 € = 25 € Zimmer + 2 € Page. Man darf die 2 € nicht noch einmal addieren. Richtig wäre: 27 + 3 zurück = 30.',
+  o:[{t:'Es fehlt keiner. Die 2 € des Pagen stecken schon in den 27 €.',ok:1},{t:'Der Page hat ihn heimlich behalten.',why:'Der Page hat genau 2 €. Das Problem liegt in der Rechnung.'},{t:'Der Wirt hat sich verrechnet.',why:'Der Wirt hat richtig gerechnet.'},{t:'Rundungsfehler',why:'Es sind nur ganze Euro im Spiel.'}]}),
+M({t:'Bloops',tag:'Logik',q:'Alle Bloops sind Razzies. Alle Razzies sind Lazzies. Sind dann alle Bloops sicher auch Lazzies?',
+  hints:['Die Fantasiewörter sind egal, es zählt nur die Struktur.','Ersetze sie: Alle Dackel sind Hunde. Alle Hunde sind Tiere.'],sol:'Ja',expl:'<b>Ja</b>: Wenn A in B steckt und B in C, dann steckt A auch in C.',
+  o:[{t:'Ja, sicher.',ok:1},{t:'Nein.',why:'Zeichne drei Kreise ineinander.'},{t:'Nur manche.',why:'Jeder Bloop ist ein Razzie, und jeder Razzie ist ein Lazzie.'},{t:'Das lässt sich nicht sagen.',why:'Doch. Die Wörter sind egal, die Logik ist eindeutig.'}]}),
+T({t:'In 100 Tagen',tag:'Logik',q:'Heute ist Montag. Welcher Wochentag ist in 100 Tagen?',a:['MITTWOCH'],ph:'Wochentag',
+  hints:['Alle 7 Tage ist wieder Montag.','100 = 14 × 7 + 2.'],sol:'Mittwoch',expl:'Nach 98 Tagen ist wieder Montag, zwei Tage später <b>Mittwoch</b>.'})
+];
+
+/* ---------- LATERALES DENKEN ---------- */
+const FX=[
+T({t:'Geburtstage',tag:'Laterales Denken',q:'Wie viele Geburtstage hat ein Mensch im Durchschnitt?',a:['1','EINEN','EINS','EINER'],ph:'Anzahl',wm:v=>/^\d+$/.test(v)&&+v>1?'Das wären Jahrestage. Geboren wird man nur einmal.':null,
+  hints:['Was genau feiert man an einem Geburtstag?','Wie oft wird man geboren?'],sol:'Einen',expl:'Man wird nur einmal geboren. Alles danach sind <b>Jahrestage</b> davon.'}),
+M({t:'Trocken im Regen',tag:'Laterales Denken',q:'Ein Mann geht eine Stunde ohne Schirm, Hut oder Kapuze durch strömenden Regen. Seine Kleidung ist klatschnass, aber kein einziges Haar auf seinem Kopf wird nass. Wie geht das?',
+  hints:['Die Frage spricht von Haaren auf dem Kopf.','Was, wenn da gar keine sind?'],sol:'Er hat eine Glatze.',expl:'Er hat eine <b>Glatze</b>.',
+  o:[{t:'Er hat eine Glatze.',ok:1},{t:'Er hat sich die Haare wasserfest gegelt.',why:'Gel hält keine Stunde Regen ab.'},{t:'Er geht unter Arkaden.',why:'Dann wäre auch die Kleidung trocken.'},{t:'Er trägt eine Perücke.',why:'Dann würde die Perücke nass.'}]}),
+M({t:'Das Ei auf dem Dach',tag:'Laterales Denken',q:'Ein Hahn legt ein Ei genau auf die Spitze eines Scheunendachs. Auf welche Seite rollt es?',
+  hints:['Lies das zweite Wort noch einmal.','Wer legt eigentlich Eier?'],sol:'Auf keine, Hähne legen keine Eier.',expl:'<b>Hähne legen keine Eier.</b>',
+  o:[{t:'Auf keine. Hähne legen keine Eier.',ok:1},{t:'Auf die Seite, aus der der Wind kommt',why:'Wind spielt keine Rolle. Lies genau, wer das Ei legt.'},{t:'Auf die steilere Seite',why:'Logisch gedacht, aber am Kern vorbei.'},{t:'Es bleibt oben liegen.',why:'Fast richtig, aber aus einem anderen Grund.'}]}),
+M({t:'Fünf Kinder',tag:'Laterales Denken',q:'Eine Mutter hat fünf Kinder. Die Hälfte davon sind Mädchen. Wie ist das möglich?',
+  hints:['Fünf lässt sich nicht halbieren. Muss man auch nicht.','Was ist mit der anderen Hälfte?'],sol:'Alle fünf sind Mädchen.',expl:'<b>Alle fünf sind Mädchen.</b> Die eine Hälfte ist es also, die andere aber auch.',
+  o:[{t:'Alle fünf sind Mädchen.',ok:1},{t:'Eines der Kinder ist ein Zwilling.',why:'Das ändert nichts an der Rechnung.'},{t:'Es ist unmöglich.',why:'Doch, es geht. Was sind die anderen?'},{t:'Ein Kind ist adoptiert.',why:'Das ändert nichts an der Rechnung.'}]}),
+M({t:'Federn und Eisen',tag:'Denkfalle',q:'Was ist schwerer: ein Kilogramm Federn oder ein Kilogramm Eisen?',
+  hints:['Lies die Mengenangaben.','Ein Kilo ist ein Kilo.'],sol:'Beide sind gleich schwer.',expl:'Beide wiegen ein <b>Kilogramm</b>. Das Eisen ist nur kleiner.',
+  o:[{t:'Beide sind gleich schwer.',ok:1},{t:'Das Eisen',why:'Eisen ist dichter. Aber ist es auch schwerer?'},{t:'Die Federn, weil sie mehr Platz brauchen',why:'Mehr Volumen heißt nicht mehr Gewicht.'}]}),
+T({t:'Vier Südseiten',tag:'Laterales Denken',q:'Ein Mann baut ein rechteckiges Haus, bei dem alle vier Wände nach Süden zeigen. Da kommt ein Bär vorbei. Welche Farbe hat der Bär?',a:['WEISS','WEISSER','WEISSERBAER'],ph:'Farbe',
+  hints:['Wo auf der Erde zeigen alle Richtungen nach Süden?','Am Nordpol. Und welcher Bär lebt dort?'],sol:'Weiß',expl:'Nur am <b>Nordpol</b> zeigen alle Wände nach Süden. Dort lebt der <b>weiße</b> Eisbär.'}),
+M({t:'Drei Fische',tag:'Laterales Denken',q:'Zwei Väter und zwei Söhne gehen angeln. Jeder fängt genau einen Fisch. Trotzdem bringen sie nur drei Fische nach Hause. Warum?',
+  hints:['Kann eine Person gleichzeitig Vater und Sohn sein?','Denk an drei Generationen.'],sol:'Großvater, Vater und Sohn',expl:'Es sind nur drei Personen: <b>Großvater, Vater und Sohn</b>. Der Vater ist beides.',
+  o:[{t:'Es sind nur drei: Großvater, Vater und Sohn.',ok:1},{t:'Einer hat seinen Fisch wieder freigelassen.',why:'Alle Fische wurden mitgenommen.'},{t:'Ein Fisch wurde gestohlen.',why:'Nein, es gab nur drei Fische.'},{t:'Einer hat seinen Fisch gegessen.',why:'Zu kompliziert. Wie viele Angler sind es wirklich?'}]}),
+M({t:'Der Cowboy',tag:'Laterales Denken',q:'Ein Cowboy reitet am Freitag in die Stadt. Er bleibt drei Tage und reitet am Freitag wieder weg. Wie ist das möglich?',
+  hints:['Wer sagt, dass mit „Freitag“ ein Wochentag gemeint ist?','Auch Tiere haben Namen.'],sol:'Sein Pferd heißt Freitag.',expl:'Sein <b>Pferd heißt Freitag</b>.',
+  o:[{t:'Sein Pferd heißt Freitag.',ok:1},{t:'Er bleibt eine Woche und drei Tage.',why:'Er bleibt genau drei Tage.'},{t:'Er überquert eine Datumsgrenze.',why:'Mit dem Pferd? Eher nicht.'},{t:'Er hat sich im Kalender vertan.',why:'Ihm ist schon klar, was er tut.'}]}),
+M({t:'Der Sturz von der Leiter',tag:'Laterales Denken',q:'Ein Mädchen fällt von einer 10 Meter hohen Leiter, landet auf hartem Beton und bleibt völlig unverletzt. Wie ist das möglich?',
+  hints:['Die Leiter ist 10 Meter hoch. Aber wo stand das Mädchen?','Von welcher Sprosse ist sie gefallen?'],sol:'Sie stand auf der untersten Sprosse.',expl:'Sie stand auf der <b>untersten Sprosse</b>.',
+  o:[{t:'Sie stand auf der untersten Sprosse.',ok:1},{t:'Sie ist Stuntfrau.',why:'Auch Profis verletzen sich aus 10 Metern.'},{t:'Sie hatte einen Fallschirm.',why:'Zu weit hergeholt.'},{t:'Es war ein Traum.',why:'Bleib in der Realität. Die Lösung ist einfacher.'}]}),
+T({t:'Hände ohne Klatschen',tag:'Rätsel',q:'Ich habe ein Gesicht und zwei Hände, aber ich kann weder lächeln noch klatschen. Was bin ich?',a:['UHR','EINEUHR','DIEUHR','ARMBANDUHR','WECKER','WANDUHR'],
+  hints:['Meine Hände heißen eigentlich „Zeiger“.','Ich hänge oft an der Wand.'],sol:'Eine Uhr',expl:'Eine <b>Uhr</b> hat ein Zifferblatt („Gesicht“) und Zeiger („Hände“).'}),
+M({t:'Die Witwe',tag:'Genau lesen',q:'Darf ein Mann in Deutschland die Schwester seiner Witwe heiraten?',
+  hints:['Wann ist eine Frau eine Witwe?','Was ist dann mit dem Mann?'],sol:'Nein, er ist tot.',expl:'Wer eine <b>Witwe</b> hinterlässt, ist <b>tot</b>.',
+  o:[{t:'Nein, denn er ist tot.',ok:1},{t:'Ja, das ist erlaubt.',why:'Rechtlich vielleicht. Praktisch hat er ein Problem.'},{t:'Nein, das ist verboten.',why:'Nicht verboten. Er ist nur nicht mehr in der Lage dazu.'},{t:'Nur mit Sondergenehmigung',why:'Keine Behörde kann ihm da helfen.'}]}),
+M({t:'In den Wald',tag:'Laterales Denken',q:'Wie weit kann ein Hund in einen Wald hineinlaufen?',
+  hints:['Achte auf das Wort „hinein“.','Ab wann läuft er wieder hinaus?'],sol:'Bis zur Hälfte',expl:'Nur <b>bis zur Hälfte</b>. Danach läuft er wieder hinaus.',
+  o:[{t:'Bis zur Hälfte, danach läuft er wieder hinaus.',ok:1},{t:'Bis er müde wird.',why:'Denk an die Bedeutung von „hinein“.'},{t:'So weit, wie der Wald groß ist.',why:'Dann wäre er ja wieder draußen.'},{t:'Bis zum ersten Baum',why:'Da fängt es erst an.'}]}),
+M({t:'Der Lastwagen',tag:'Kreativität',q:'Ein Lastwagen bleibt unter einer Brücke stecken, er ist zwei Zentimeter zu hoch. Die Feuerwehr ist ratlos. Ein Kind hat die Lösung. Welche?',
+  hints:['Nicht die Brücke muss sich ändern.','Welcher Teil des Lastwagens lässt sich leicht ein bisschen kleiner machen?'],sol:'Luft aus den Reifen lassen.',expl:'Etwas <b>Luft aus den Reifen</b> lassen, und der Laster ist ein paar Zentimeter niedriger.',
+  o:[{t:'Etwas Luft aus den Reifen lassen.',ok:1},{t:'Die Ladung abladen.',why:'Leichter heißt eher höher, weil die Federung nachgibt.'},{t:'Die Brücke anheben.',why:'Mit welchem Werkzeug?'},{t:'Mit Anlauf durchfahren.',why:'Bitte nicht.'}]}),
+M({t:'Das ungeöffnete Paket',tag:'Laterales Denken',q:'Ein Mann liegt tot mitten auf einem großen Feld. Neben ihm liegt ein ungeöffnetes Paket. Es gibt keine Fußspuren. Was ist passiert?',
+  hints:['Wie kam der Mann auf das Feld, ohne Spuren zu hinterlassen?','Er kam von oben. Was war in dem Paket?'],sol:'Sein Fallschirm hat sich nicht geöffnet.',expl:'Das Paket war sein <b>Fallschirm</b>, der sich nicht geöffnet hat.',
+  o:[{t:'Sein Fallschirm hat sich nicht geöffnet.',ok:1},{t:'Er wurde vergiftet.',why:'Und welche Rolle spielt das Paket?'},{t:'Das Paket ist eine Bombe.',why:'Es ist ungeöffnet und nichts ist explodiert.'},{t:'Ein Blitz hat ihn getroffen.',why:'Das erklärt das Paket nicht.'}]}),
+M({t:'Licht aus',tag:'Laterales Denken',q:'Ein Mann schaltet abends das Licht aus und geht schlafen. Am nächsten Morgen erfährt er, dass deshalb ein Unglück passiert ist. Warum?',
+  hints:['Es ist kein gewöhnliches Licht.','Sein Licht warnt Schiffe vor der Küste.'],sol:'Er ist Leuchtturmwärter.',expl:'Er ist <b>Leuchtturmwärter</b>. Ohne sein Licht ist ein Schiff auf die Felsen gelaufen.',
+  o:[{t:'Er ist Leuchtturmwärter, und ein Schiff ist auf die Felsen gelaufen.',ok:1},{t:'Er hat vergessen, den Herd auszuschalten.',why:'Es geht um das Licht.'},{t:'Er ist Ampelwärter.',why:'Ampeln schaltet niemand abends von Hand aus.'},{t:'Ein Einbrecher ist im Dunkeln gestürzt.',why:'Zu weit hergeholt. Welches Licht kann Leben retten?'}]}),
+M({t:'Die halbe Acht',tag:'Kreativität',q:'Wie kann die Hälfte von 8 gleich 0 sein?',
+  hints:['Es geht nicht ums Rechnen.','Schau dir die Form der Ziffer an.'],sol:'Man schneidet die 8 waagerecht durch.',expl:'Schneidet man die Ziffer <b>8 waagerecht</b> durch, bleiben oben und unten je eine 0.',
+  o:[{t:'Man schneidet die Ziffer 8 waagerecht durch.',ok:1},{t:'Man schneidet sie senkrecht durch.',why:'Dann bekommst du zwei 3er-Hälften.'},{t:'Das ist unmöglich.',why:'Rechnerisch ja. Aber denk an die Form.'},{t:'Im Binärsystem',why:'Kreativ, aber falsch.'}]}),
+M({t:'Ohne Scheinwerfer',tag:'Laterales Denken',q:'Ein schwarz gekleideter Mann geht über eine Landstraße ohne Laternen. Ein Auto mit ausgeschalteten Scheinwerfern kommt angefahren und weicht ihm rechtzeitig aus. Wie hat der Fahrer ihn gesehen?',
+  hints:['Wann braucht man keine Scheinwerfer?','Niemand hat gesagt, dass es Nacht ist.'],sol:'Es war Tag.',expl:'Es war mitten am <b>Tag</b>.',
+  o:[{t:'Es war mitten am Tag.',ok:1},{t:'Der Mond schien hell.',why:'Ein schwarz gekleideter Mann im Mondlicht? Schwierig.'},{t:'Der Mann trug Reflektoren.',why:'Er war komplett schwarz gekleidet.'},{t:'Der Fahrer hat ein Nachtsichtgerät.',why:'Zu kompliziert.'}]}),
+T({t:'Wer es braucht',tag:'Rätsel',q:'Wer es herstellt, verkauft es. Wer es kauft, braucht es nicht selbst. Wer es braucht, sieht es nicht. Was ist es?',a:['SARG','EINSARG','DERSARG'],
+  hints:['Der, der es braucht, kann nichts mehr sehen.','Es hat mit dem Lebensende zu tun.'],sol:'Ein Sarg',expl:'Ein <b>Sarg</b>: Die Angehörigen kaufen ihn, der Verstorbene sieht ihn nicht.'}),
+T({t:'Nicht zum Frühstück',tag:'Rätsel',q:'Was kann man niemals zum Frühstück essen?',a:['MITTAGESSEN','ABENDESSEN','ABENDBROT','DASMITTAGESSEN','DASABENDESSEN','MITTAG','ABENDBROT'],
+  hints:['Es geht nicht um ein bestimmtes Lebensmittel.','Denk an andere Mahlzeiten.'],sol:'Das Mittagessen (oder Abendessen)',expl:'Das <b>Mittagessen</b> und das Abendessen.'}),
+M({t:'Keine Zwillinge',tag:'Laterales Denken',q:'Zwei Brüder wurden am selben Tag, in derselben Stunde, im selben Jahr von derselben Mutter geboren. Trotzdem sind sie keine Zwillinge. Wie geht das?',
+  hints:['Wer sagt, dass es nur zwei Kinder waren?','Es gab noch ein drittes Geschwisterkind.'],sol:'Sie sind Drillinge.',expl:'Sie sind <b>Drillinge</b>. Der dritte wurde nur nicht erwähnt.',
+  o:[{t:'Sie sind Drillinge.',ok:1},{t:'Einer ist adoptiert.',why:'Beide wurden von derselben Mutter geboren.'},{t:'Sie sind in verschiedenen Zeitzonen geboren.',why:'Dieselbe Mutter, dieselbe Stunde.'},{t:'Es sind eineiige Brüder.',why:'Das wären Zwillinge.'}]}),
+M({t:'Acht Tage wach',tag:'Laterales Denken',q:'Ein Mann bleibt acht Tage lang ohne Schlaf und ist danach kein bisschen müde. Wie ist das möglich?',
+  hints:['Wann schläft man normalerweise?','Tage und Nächte sind verschiedene Dinge.'],sol:'Er schläft nachts.',expl:'Er schläft einfach <b>nachts</b>.',
+  o:[{t:'Er schläft nachts.',ok:1},{t:'Er trinkt viel Kaffee.',why:'Acht Tage am Stück? Nein.'},{t:'Er ist ein Roboter.',why:'Bleib bei Menschen.'},{t:'Er macht Mittagsschlaf.',why:'Dann wäre er tagsüber nicht „ohne Schlaf“.'}]}),
+T({t:'Voller Löcher',tag:'Rätsel',q:'Ich bin voller Löcher und halte trotzdem Wasser. Was bin ich?',a:['SCHWAMM','EINSCHWAMM','DERSCHWAMM','BADESCHWAMM','SPUELSCHWAMM'],
+  hints:['Du findest mich in der Küche oder im Bad.','Man drückt mich aus.'],sol:'Ein Schwamm',expl:'Ein <b>Schwamm</b> ist voller Löcher und saugt sich voll Wasser.'}),
+M({t:'Die Einbahnstraße',tag:'Laterales Denken',q:'Ein Taxifahrer fährt eine Einbahnstraße in die falsche Richtung. Ein Polizist sieht es und unternimmt nichts. Warum?',
+  hints:['Wer sagt, dass er gerade arbeitet?','Er „fährt“ nicht im wörtlichen Sinn.'],sol:'Er ist zu Fuß unterwegs.',expl:'Der Taxifahrer ist <b>zu Fuß</b> unterwegs.',
+  o:[{t:'Der Taxifahrer ist gerade zu Fuß unterwegs.',ok:1},{t:'Der Polizist hat Feierabend.',why:'Auch dann würde er wohl etwas sagen.'},{t:'Es ist ein Notfall.',why:'Davon steht nichts da.'},{t:'Der Polizist ist bestochen.',why:'Bitte nicht gleich das Schlimmste annehmen.'}]}),
+T({t:'Minute und Moment',tag:'Rätsel',q:'Was kommt einmal in jeder Minute vor, zweimal in jedem Moment, aber nie in tausend Jahren?',a:['M','DASM','DERBUCHSTABEM'],
+  hints:['Es geht um die Wörter, nicht um die Zeit.','Zähle die Buchstaben.'],sol:'Der Buchstabe M',expl:'Der Buchstabe <b>M</b>: einmal in „Minute“, zweimal in „Moment“, nie in „tausend Jahren“.'}),
+M({t:'Zwanzigmal rasiert',tag:'Laterales Denken',q:'Ein Mann rasiert sich jeden Tag zwanzigmal und hat trotzdem einen dichten Vollbart. Wie geht das?',
+  hints:['Wen rasiert er eigentlich?','Denk an seinen Beruf.'],sol:'Er ist Barbier.',expl:'Er ist <b>Barbier</b> und rasiert andere.',
+  o:[{t:'Er ist Barbier und rasiert andere.',ok:1},{t:'Sein Bart wächst sehr schnell.',why:'So schnell wächst kein Bart.'},{t:'Er rasiert nur die Beine.',why:'Kreativ, aber nicht gemeint.'},{t:'Sein Rasierer ist kaputt.',why:'Zu einfach gedacht.'}]})
+];
+
+/* ---------- MAC & META ---------- */
+const FM=[
+{ t:'Einmal ist keinmal', tag:'Meta', q:'Einmal ist keinmal.',
+  hints:['Nimm den Satz wörtlich.','Klicke (oder tippe) zweimal schnell hintereinander auf die Fläche.'], sol:'Doppelklick auf die Fläche',
+  expl:'Einmal ist keinmal, also <b>zweimal</b>: Ein Doppelklick hat es gelöst.',
+  render(b,api){const r=h('div',{class:'rclick'},'Hier.');let last=0;r.addEventListener('click',()=>{const n=Date.now();if(n-last<420){api.solve();return}last=n;setTimeout(()=>{if(last===n)api.say(pick(['Keinmal.','Das zählt nicht.','Hm.']),'info')},440)});b.append(r)}},
+{ t:'Rückgängig', tag:'Meta · Mac', q:'Hoppla. Das Lösungswort wurde gerade versehentlich gelöscht. Mach es ungeschehen.',
+  hints:['Jedes Programm kennt einen Befehl für Versehen.','Drücke ⌘ + Z.'], hintsT:['Jedes Programm kennt einen Befehl für Versehen.','Tippe auf den Pfeil, der nach links zurückbiegt.'],
+  sol:'⌘ + Z (Widerrufen)', solT:'Das Widerrufen-Symbol ↶ antippen.', expl:'„Ungeschehen machen“ heißt am Rechner <b>Widerrufen</b>, also ⌘ + Z.',
+  render(b,api){b.append(h('div',{class:'big'},'<s style="opacity:.3">L Ö S U N G S W O R T</s>'));
+    if(TOUCH){symPick(b,api,['↶','↷','⌫','✂','⎘','⇥'],'↶','Das macht nichts ungeschehen.');return}
+    return onDoc('keydown',e=>{if((e.metaKey||e.ctrlKey)&&e.key.toLowerCase()==='z'){e.preventDefault();api.solve()}})}},
+{ t:'Der Vorhang', tag:'Meta', q:'Hinter diesem Vorhang wartet das Lösungswort. Das Schild sagt allerdings etwas anderes.',
+  hints:['Schilder sind nicht immer verbindlich.','Zieh den Vorhang mit der Maus oder dem Finger zur Seite.'], sol:'BÜHNE',
+  expl:'Man musste den Vorhang nur beiseiteschieben. Dahinter lag die <b>Bühne</b>.',
+  render(b,api){const st=h('div',{class:'stage'},'<span>Lösungswort: <b>BÜHNE</b></span>');const cu=h('div',{class:'curtain'},'Bitte nicht berühren.');st.append(cu);b.append(st);
+    let x0=null,dx=0;cu.addEventListener('pointerdown',e=>{x0=e.clientX-dx;try{cu.setPointerCapture(e.pointerId)}catch(_){}});
+    cu.addEventListener('pointermove',e=>{if(x0===null)return;dx=Math.max(-600,Math.min(600,e.clientX-x0));cu.style.transform=`translateX(${dx}px)`});
+    const up=()=>{x0=null};cu.addEventListener('pointerup',up);cu.addEventListener('pointercancel',up);
+    textQuiz(b,api,['BÜHNE'],{noFocus:true})}},
+{ t:'Neustart', tag:'Meta', q:'Manchmal hilft nur noch eines: alles noch einmal von vorn.',
+  hints:['Nicht das Rätsel neu beginnen, sondern die ganze Seite.','Lade die Seite neu (⌘ + R oder der Pfeil neben der Adresse).'], hintsT:['Nicht das Rätsel neu beginnen, sondern die ganze Seite.','Lade die Seite neu: Tippe in Safari auf den runden Pfeil in der Adressleiste.'],
+  sol:'Die Seite neu laden.', expl:'Der klassische IT-Rat: <b>Neu laden</b>. Dein Spielstand bleibt dabei erhalten.',
+  render(b,api){b.append(h('div',{class:'cmdzone'},'⏻'));if(window.__reloadHit){window.__reloadHit=false;setTimeout(()=>api.solve(),500);return}
+    try{sessionStorage.setItem('ue_reload',JSON.stringify({p:P.name,s:cur.S.key,i:cur.i}))}catch(e){}
+    return()=>{try{sessionStorage.removeItem('ue_reload')}catch(e){}}}},
+{ t:'Die bewegliche Antwort', tag:'Meta', q:'Die Antwort auf diese Frage ändert sich jede Minute. Du hast sie gerade direkt vor Augen, nur nicht in diesem Spiel.',
+  hints:['Sie steht in einer Ecke deines Bildschirms.','Wie spät ist es? Antworte im Format hh:mm.'], sol:'Die aktuelle Uhrzeit',
+  expl:'Gesucht war die <b>aktuelle Uhrzeit</b>. Sie steht oben auf deinem Bildschirm.',
+  render(b,api){textQuiz(b,api,()=>{const out=[];for(const m of[-1,0,1]){const d=new Date(Date.now()+m*60000);const mm=String(d.getMinutes()).padStart(2,'0');const H=d.getHours();[H,H%12||12].forEach(x=>out.push(x+mm,String(x).padStart(2,'0')+mm))}return out},{ph:'hh:mm'})}},
+T({ t:'Leuchtturm', tag:'Meta', q:'Die Antwort auf diese Frage hast du schon gelesen, bevor du die Frage gelesen hast.', a:['LEUCHTTURM'],
+  hints:['Lies alles, was über dieser Frage steht.','Die Überschrift.'], sol:'LEUCHTTURM', expl:'Die Antwort stand groß in der <b>Überschrift</b>.'}),
+{ t:'Der Geheimcode', tag:'Meta', q:'Ein legendärer Cheat-Code aus den 1980er-Jahren öffnet diese Tür. Gib ihn ein, mit der Tastatur oder den Knöpfen.',
+  hints:['Der Code stammt aus Spielen der Firma Konami.','↑ ↑ ↓ ↓ ← → ← → B A'], sol:'↑ ↑ ↓ ↓ ← → ← → B A',
+  expl:'Der <b>Konami-Code</b>. Er steckt bis heute als Geheimnis in vielen Spielen und Webseiten.',
+  render(b,api){const seq=['U','U','D','D','L','R','L','R','B','A'];let pos=0;const disp=h('div',{class:'big'},'· · · · · · · · · ·');b.append(disp);
+    const press=k=>{if(k===seq[pos])pos++;else{pos=k===seq[0]?1:0;api.say('Falsche Eingabe. Von vorn.','info')}disp.textContent=Array.from({length:10},(_,j)=>j<pos?'●':'·').join(' ');if(pos===seq.length)api.solve()};
+    const pad=h('div',{class:'symgrid'});[['↑','U'],['↓','D'],['←','L'],['→','R'],['B','B'],['A','A']].forEach(([l,k])=>{const x=h('button',{class:'sym',type:'button'},l);x.onclick=()=>press(k);pad.append(x)});b.append(pad);
+    const map={ArrowUp:'U',ArrowDown:'D',ArrowLeft:'L',ArrowRight:'R',b:'B',B:'B',a:'A',A:'A'};
+    return onDoc('keydown',e=>{const k=map[e.key];if(k){if(e.key.startsWith('Arrow'))e.preventDefault();press(k)}})}},
+{ t:'Unsichtbar', tag:'Meta', q:'Dieses Lösungswort kann man nicht sehen. Man kann es nur …',
+  hints:['Mach den Ton an.','Klicke auf den Lautsprecher.'], hintsT:['Mach den Ton an und schalte den Stummschalter am iPhone aus.','Tippe auf den Lautsprecher.'], sol:'ECHO',
+  expl:'Das Wort wurde <b>vorgelesen</b>: Echo, etwas, das man nur hört und nie sieht.',
+  render(b,api){const sp=h('button',{class:'sym',type:'button',style:'margin:24px auto;display:block'},'🔈');
+    sp.onclick=()=>{try{const u=new SpeechSynthesisUtterance('Das Lösungswort lautet: Echo. Ich wiederhole: Echo.');u.lang='de-DE';speechSynthesis.cancel();speechSynthesis.speak(u)}catch(e){api.say('Dein Browser kann leider nicht sprechen. Das Wort lautet ECHO.','info')}};
+    b.append(sp);textQuiz(b,api,['ECHO'],{noFocus:true});return()=>{try{speechSynthesis.cancel()}catch(e){}}}},
+{ t:'Ein Schritt zurück', tag:'Meta', q:'Um weiterzukommen, musst du einen Schritt zurück machen.',
+  hints:['Nicht im Spiel, sondern im Browser.','Klicke auf den Zurück-Pfeil des Browsers oder drücke ⌘ + [.'], hintsT:['Nicht im Spiel, sondern im Browser.','Wische vom linken Bildschirmrand nach rechts oder tippe auf den Zurück-Pfeil von Safari.'],
+  sol:'Die Zurück-Funktion des Browsers benutzen.', expl:'Der <b>Zurück-Knopf</b> des Browsers hat dich hier weitergebracht.',
+  render(b,api){b.append(h('div',{class:'cmdzone'},'←'));let popped=false;try{history.pushState({ue:1},'')}catch(e){}
+    const off=onWin('popstate',()=>{popped=true;api.solve()});return()=>{off();if(!popped)try{history.back()}catch(e){}}}},
+{ t:'Lauter!', tag:'Meta', q:'Ich höre dich nicht! Was ist das Gegenteil von leise? Antworte so laut du kannst.',
+  hints:['Wie „schreit“ man in einem Textfeld?','Schreib die Antwort in GROSSBUCHSTABEN.'], sol:'LAUT (in Großbuchstaben)',
+  expl:'Im Internet schreit man in <b>GROSSBUCHSTABEN</b>.',
+  render(b,api){vQuiz(b,api,(v,raw)=>/^LAUT!*$/.test(raw)?true:norm(raw)==='LAUT'?'Wie bitte? Ich höre dich nicht. Lauter!':null,{raw:true})}},
+{ t:'Zu nah dran', tag:'Meta', q:'Du stehst viel zu nah vor diesem Bild. Tritt einen Schritt zurück.',
+  hints:['Nicht du sollst dich bewegen, sondern die Ansicht.','Verkleinere die Ansicht mit ⌘ und − (Minus).'], hintsT:['Nicht du sollst dich bewegen, sondern das Bild.','Zieh das Bild mit zwei Fingern zusammen, als wolltest du es verkleinern.'],
+  sol:'Ansicht verkleinern (⌘ −)', solT:'Das Bild mit zwei Fingern zusammenziehen.', expl:'Ein Schritt zurück heißt am Bildschirm: <b>herauszoomen</b>.',
+  render(b,api){const pic=h('div',{class:'closeup'},'<span>🦒</span>');b.append(pic);const dpr=window.devicePixelRatio;
+    const off=onWin('resize',()=>{if(window.devicePixelRatio<dpr-0.04)api.solve()});
+    let d0=0;const dist=t=>Math.hypot(t[0].clientX-t[1].clientX,t[0].clientY-t[1].clientY);
+    pic.addEventListener('touchstart',e=>{if(e.touches.length===2){e.preventDefault();d0=dist(e.touches)}},{passive:false});
+    pic.addEventListener('touchmove',e=>{if(e.touches.length===2&&d0){e.preventDefault();const r=dist(e.touches)/d0;pic.firstChild.style.transform=`scale(${Math.max(.15,Math.min(1,r))})`;if(r<.55)api.solve()}},{passive:false});
+    return off}},
+{ t:'Der unsichtbare Knopf', tag:'Meta', q:'Irgendwo in dieser Fläche ist ein Knopf. Man sieht ihn nur nicht.',
+  hints:['Man kann Knöpfe auch ohne Hinsehen finden. Achte auf deinen Mauszeiger.','Drücke die Tab-Taste, dann bekommt der Knopf einen Rahmen. Oder fahre die Fläche ab, bis der Zeiger zur Hand wird.'], hintsT:['Man kann Knöpfe auch ohne Hinsehen finden.','Tippe nacheinander in die vier Ecken der Fläche.'],
+  sol:'Den unsichtbaren Knopf finden und drücken.', expl:'Unsichtbar heißt nicht unauffindbar: Mauszeiger, Tab-Taste oder systematisches Abtasten verraten ihn.',
+  render(b,api){const ar=h('div',{class:'arena'});const p=pick([['8px','8px','auto','auto'],['8px','auto','auto','8px'],['auto','8px','8px','auto'],['auto','auto','8px','8px']]);
+    const x=h('button',{class:'invis',type:'button','aria-label':'Knopf',style:`top:${p[0]};left:${p[1]};bottom:${p[2]};right:${p[3]}`});x.onclick=e=>{e.stopPropagation();api.solve()};ar.append(x);b.append(ar);
+    ar.addEventListener('click',()=>api.say(pick(['Nichts.','Leer.','Hier nicht.']),'info'))}},
+{ t:'Seitenweg', tag:'Meta', q:'Die Lösung liegt nicht weiter unten. Sie liegt woanders.',
+  hints:['Nicht jede Fläche geht nur nach unten.','Wische in der grauen Fläche zur Seite (Trackpad: zwei Finger seitwärts, Maus: ⇧ + Mausrad).'], hintsT:['Nicht jede Fläche geht nur nach unten.','Wische in der grauen Fläche nach links.'],
+  sol:'KOMPASS', expl:'Die Fläche ließ sich <b>seitwärts</b> scrollen. Ganz rechts lag das Wort.',
+  render(b,api){const s=h('div',{class:'hscroll'});s.innerHTML=['Hier ist nichts.','·','Weiter?','·','Fast.','·','Gleich.'].map(t=>`<span>${t}</span>`).join('')+'<span class="deep">Lösungswort: <b>KOMPASS</b></span>';b.append(s);textQuiz(b,api,['KOMPASS'],{noFocus:true})}},
+{ t:'Die Adresse', tag:'Meta', q:'Die Lösung steht nicht auf der Seite, sondern in ihrer Adresse.',
+  hints:['Jede Seite hat eine Adresse. Wo siehst du sie?','Schau in die Adressleiste des Browsers, ganz ans Ende.'], hintsT:['Jede Seite hat eine Adresse.','Tippe oben in die Adressleiste, dann siehst du die vollständige Adresse.'],
+  sol:'LEUCHTFEUER', expl:'Am Ende der Adresse stand <b>#loesungswort-leuchtfeuer</b>.',
+  render(b,api){try{history.replaceState(history.state,'',location.pathname+location.search+'#loesungswort-leuchtfeuer')}catch(e){}textQuiz(b,api,['LEUCHTFEUER'],{noFocus:true});
+    return()=>{try{history.replaceState(history.state,'',location.pathname+location.search)}catch(e){}}}},
+{ t:'Nur einfügen', tag:'Meta', q:'Dieses Feld nimmt keine Tastatur an. Das Passwort steht direkt hier: <b>FLASCHENPOST</b>',
+  hints:['Tippen geht nicht. Aber es gibt einen anderen Weg, Text in ein Feld zu bekommen.','Kopiere das Passwort (⌘ + C) und füge es ins Feld ein (⌘ + V).'], hintsT:['Tippen geht nicht. Aber es gibt einen anderen Weg, Text in ein Feld zu bekommen.','Drücke lange auf das Passwort und kopiere es. Dann drücke lange ins Feld und tippe auf „Einsetzen“.'],
+  sol:'Passwort kopieren und einfügen.', expl:'Wenn Tippen verboten ist, hilft <b>Kopieren und Einfügen</b>.',
+  render(b,api){const f=h('form',{class:'row'});const inp=h('input',{class:'up',placeholder:'Passwort',autocomplete:'off',spellcheck:'false'});f.append(inp,h('button',{class:'primary',type:'submit'},'Prüfen'));b.append(f);
+    const no=()=>api.say('Dieses Feld nimmt keine Tastatur an.','info');
+    inp.addEventListener('beforeinput',e=>{const t=e.inputType||'';if(t.startsWith('insert')&&t!=='insertFromPaste'&&t!=='insertFromDrop'){e.preventDefault();no()}});
+    inp.addEventListener('keydown',e=>{if(e.key.length===1&&!e.metaKey&&!e.ctrlKey){e.preventDefault();no()}});
+    const chk=()=>{if(norm(inp.value)==='FLASCHENPOST')api.solve()};inp.addEventListener('input',chk);f.addEventListener('submit',e=>{e.preventDefault();chk();if(!solvedNow)api.wrong()})}},
+{ t:'Heuhaufen', tag:'Meta', q:'Irgendwo in diesem Heuhaufen steckt das Wort NADEL, direkt gefolgt von einer Ziffer. Welche Ziffer ist es?',
+  hints:['Mit den Augen dauert das ewig. Dein Browser kann suchen.','Drücke ⌘ + F und suche nach NADEL.'], hintsT:['Mit den Augen dauert das ewig. Dein Browser kann suchen.','Tippe in Safari auf das Teilen-Symbol (oder „Aa“) und wähle „Auf Seite suchen“. Suche nach NADEL.'],
+  sol:'Die Ziffer hinter NADEL (per Suchfunktion)', expl:'Mit der <b>Suchfunktion</b> des Browsers (⌘ + F) findet man die Nadel sofort.',
+  render(b,api){const L='BCDFGHJKMPQRSTVWXZ';const digit=String(1+Math.floor(Math.random()*9));let s='';for(let i=0;i<2600;i++)s+=L[Math.floor(Math.random()*L.length)];
+    const p=500+Math.floor(Math.random()*1800);s=s.slice(0,p)+'NADEL'+digit+s.slice(p);b.append(h('div',{class:'hay'},s));textQuiz(b,api,[digit],{ph:'Ziffer',noFocus:true})}},
+{ t:'Tag und Nacht', tag:'Meta', q:'Dieses Rätsel löst sich, sobald bei deinem Gerät die Tageszeit wechselt. Warten musst du dafür nicht.',
+  hints:['Dein Gerät kennt einen hellen und einen dunklen Modus.','Schalte das Erscheinungsbild um. Mac: Systemeinstellungen → Erscheinungsbild. iPhone: Kontrollzentrum → Helligkeit lange drücken → Dunkelmodus.'],
+  sol:'Hell-/Dunkelmodus umschalten.', expl:'Die „Tageszeit“ deines Geräts ist der <b>Dunkelmodus</b>. Webseiten merken, wenn er umgeschaltet wird.',
+  render(b,api){b.append(h('div',{class:'cmdzone'},'◐'));const mq=window.matchMedia('(prefers-color-scheme: dark)');const fn=()=>api.solve();
+    try{mq.addEventListener('change',fn)}catch(e){mq.addListener(fn)}return()=>{try{mq.removeEventListener('change',fn)}catch(e){mq.removeListener(fn)}}}},
+{ t:'Funkstille', tag:'Meta', q:'Dieses Rätsel braucht absolute Ruhe. Keine Verbindung zur Außenwelt.',
+  hints:['Das Spiel ist längst geladen. Es braucht das Internet gerade nicht.','Trenne kurz die Internetverbindung: WLAN aus (Mac) oder Flugmodus (iPhone). Danach wieder einschalten.'],
+  sol:'Kurz die Internetverbindung trennen.', expl:'Das Spiel läuft komplett im Browser. Als die <b>Verbindung weg</b> war, hat es das gemerkt.',
+  render(b,api){b.append(h('div',{class:'cmdzone'},'📡'));if(!navigator.onLine){setTimeout(()=>api.solve(),400);return}return onWin('offline',()=>api.solve())}},
+{ t:'Ohne Worte', tag:'Meta', q:'Beantworte die Frage mit einem einzigen Zeichen, aber ohne Buchstaben: Was geht jeden Morgen im Osten auf?',
+  hints:['Manche Zeichen sind keine Buchstaben, sondern kleine Bilder.','Füge ein Emoji ein. Mac: ⌃ + ⌘ + Leertaste. iPhone: die Emoji-Tastatur.'], sol:'☀️',
+  expl:'Gesucht war ein <b>Emoji</b>: ☀️.',
+  render(b,api){vQuiz(b,api,(v,raw)=>/[☀🌞🌅🌄🔆🌤⛅]/u.test(raw)?true:/[a-zäöüß]/i.test(raw)?'Ohne Buchstaben, bitte.':'Das geht im Osten nicht auf.',{raw:true,ph:'Ein Zeichen'})}},
+{ t:'In Sicherheit', tag:'Meta · Mac', q:'Bevor es weitergeht: Bring deinen Fortschritt in Sicherheit.',
+  hints:['Wie sicherst du in fast jedem Programm deine Arbeit?','Drücke ⌘ + S.'], hintsT:['Wie sicherst du in fast jedem Programm deine Arbeit?','Tippe auf das Symbol, mit dem man früher Dateien gespeichert hat.'],
+  sol:'⌘ + S (Sichern)', solT:'Das Disketten-Symbol 💾 antippen.', expl:'<b>Sichern</b> heißt am Mac ⌘ + S. Das Symbol dafür ist bis heute eine Diskette.',
+  render(b,api){if(TOUCH){symPick(b,api,['💾','📁','🗑','🔒','📎','✉️'],'💾','Damit sicherst du nichts.');return}
+    b.append(h('div',{class:'cmdzone'},'⌘ ?'));return onDoc('keydown',e=>{if((e.metaKey||e.ctrlKey)&&e.key.toLowerCase()==='s'){e.preventDefault();api.solve()}})}},
+{ t:'Zeig es mir', tag:'Meta', q:'Ohne etwas zu tippen: Zeig mir das Tier in diesem Satz.',
+  hints:['Es gibt eine Art, auf ein Wort zu zeigen, die der Browser bemerkt.','Markiere das Wort (mit der Maus ziehen oder lange drücken).'], sol:'Das Wort „Fuchs“ markieren.',
+  expl:'Zeigen heißt hier: <b>markieren</b>.',
+  render(b,api){b.append(h('div',{class:'copyme'},'Gestern lief ein Fuchs quer über die Wiese.'));return onDoc('selectionchange',()=>{const s=String(window.getSelection()||'').trim().toLowerCase();if(s==='fuchs')api.solve()})}},
+{ t:'Aller guten Dinge', tag:'Meta', q:'Aller guten Dinge sind …',
+  hints:['Ergänze das Sprichwort.','Klicke (oder tippe) dreimal schnell hintereinander auf die Fläche.'], sol:'Dreifachklick',
+  expl:'Aller guten Dinge sind <b>drei</b>, also ein Dreifachklick.',
+  render(b,api){const r=h('div',{class:'rclick'},'Hier.');let ts=[];r.addEventListener('click',()=>{const n=Date.now();ts=ts.filter(t=>n-t<750);ts.push(n);if(ts.length>=3)api.solve();else if(ts.length===1)setTimeout(()=>{if(ts.length===1&&ts[0]===n)api.say('…','info')},800)});b.append(r)}},
+{ t:'Zeig mir was', tag:'Meta', q:'Dieses Rätsel möchte etwas sehen. Irgendein Bild genügt.',
+  hints:['Das Rätsel kann Dateien annehmen.','Ziehe ein beliebiges Bild auf die Fläche oder klicke darauf und wähle eines aus.'], hintsT:['Das Rätsel kann Dateien annehmen.','Tippe auf die Fläche und wähle ein beliebiges Foto aus.'],
+  sol:'Ein Bild hineinziehen oder auswählen.', expl:'Das Rätsel wollte ein <b>Bild</b> sehen. Keine Sorge: Es wird nirgendwohin hochgeladen, nur kurz angezeigt.',
+  render(b,api){const z=h('label',{class:'drop'},'<span>👁</span>');const inp=h('input',{type:'file',accept:'image/*',style:'display:none'});z.append(inp);b.append(z);
+    const got=f=>{if(f&&f.type&&f.type.startsWith('image/')){const u=URL.createObjectURL(f);z.innerHTML=`<img src="${u}" alt="">`;setTimeout(()=>api.solve(),600)}else api.wrong('Das ist kein Bild.')};
+    inp.onchange=()=>got(inp.files[0]);z.addEventListener('dragover',e=>{e.preventDefault();z.classList.add('over')});z.addEventListener('dragleave',()=>z.classList.remove('over'));
+    z.addEventListener('drop',e=>{e.preventDefault();z.classList.remove('over');got(e.dataTransfer.files[0])})}},
+{ t:'Nur mit links', tag:'Tastatur', q:'Nenne ein Wort mit mindestens 5 Buchstaben, das man im Zehnfingersystem nur mit der linken Hand tippt.',
+  hints:['Die linke Hand tippt Q W E R T, A S D F G und Y X C V B.','Links gibt es nur zwei Vokale: A und E. Denk an etwas zum Trinken.'], sol:'z. B. WASSER, ABWASSER, ERDGAS',
+  expl:'Links liegen nur Q W E R T, A S D F G und Y X C V B, also zum Beispiel <b>WASSER</b> oder <b>ERDGAS</b>.',
+  render(b,api){vQuiz(b,api,v=>{if(v.length<5)return 'Mindestens 5 Buchstaben, bitte.';const bad=[...new Set([...v].filter(c=>!'QWERTASDFGYXCVB'.includes(c)))];return bad.length?`Diese Buchstaben tippt die rechte Hand: ${bad.join(', ')}`:(/[AE]/.test(v)&&new Set(v).size>=3)?true:'Das sieht nicht nach einem echten Wort aus.'},{ph:'Ein Wort'})}},
+{ t:'Geheime Optionen', tag:'Meta · Mac', q:'Auf dem Mac verbirgt eine bestimmte Taste oft geheime Optionen. Halte sie gedrückt und klicke auf den Knopf.',
+  qT:'Auf dem Mac verbirgt eine bestimmte Taste oft geheime Optionen. Welches Zeichen hat sie?',
+  hints:['Die Taste heißt auf Englisch „Option“.','Halte ⌥ (Wahltaste, alt) gedrückt und klicke auf den Knopf.'], hintsT:['Die Taste heißt auf Englisch „Option“.','Ihr Zeichen sieht aus wie eine Weiche bei der Eisenbahn.'],
+  sol:'⌥ + Klick', solT:'⌥', expl:'Die <b>Wahltaste ⌥</b> (alt) verändert am Mac viele Menüs und Klicks.',
+  render(b,api){if(TOUCH){symPick(b,api,['⌘','⌥','⇧','⌃','⎋','⇪'],'⌥','Diese Taste verbirgt keine Optionen.');return}
+    const wrap=h('div',{style:'text-align:center;margin-top:24px'});const bt=h('button',{class:'primary',type:'button'},'Normaler Knopf');wrap.append(bt);b.append(wrap);
+    bt.addEventListener('click',e=>{if(e.altKey)api.solve();else api.say(pick(['Nur ein normaler Klick.','Nichts Geheimes passiert.']),'info')});
+    const ud=e=>{bt.textContent=e.altKey?'Geheime Option ✦':'Normaler Knopf'};const a=onDoc('keydown',ud),c=onDoc('keyup',ud);return()=>{a();c()}}}
+];
+
+/* ---------- CODE ---------- */
+const FC=[
+T({t:'Punkt und Strich',tag:'Code',q:'Übersetze die Nachricht.',big:'−·−  ·−  ··−·  ··−·  ·  ·',a:['KAFFEE'],
+  hints:['Ein Code aus der Zeit der Telegrafen.','Morsecode: K = −·−, A = ·−, F = ··−·, E = ·'],sol:'KAFFEE',expl:'Morsecode: K, A, F, F, E, E → <b>KAFFEE</b>.'}),
+T({t:'Dreizehn weiter',tag:'Code',q:'Nach derselben Regel: Was bedeutet das zweite Wort?',big:'HALLO → UNYYB<small>und</small>QRAXRA → ?',a:['DENKEN'],
+  hints:['Jeder Buchstabe wird um gleich viele Stellen im Alphabet verschoben.','Um 13 Stellen. Weil das Alphabet 26 Buchstaben hat, verschlüsselt und entschlüsselt dieselbe Regel.'],sol:'DENKEN',expl:'ROT13: Jeder Buchstabe rückt 13 Stellen weiter. QRAXRA → <b>DENKEN</b>.'}),
+T({t:'Zahlenwort',tag:'Code',q:'Was bedeutet die zweite Zahlenreihe?',big:'8 · 1 · 12 · 12 · 15 → HALLO<small>und</small>18 · 1 · 5 · 20 · 19 · 5 · 12 → ?',a:['RÄTSEL','RAETSEL'],
+  hints:['A = 1, B = 2, C = 3 …','R ist der 18. Buchstabe. Umlaute schreibt man in solchen Codes als A + E.'],sol:'RAETSEL (Rätsel)',expl:'Jede Zahl ist die Position im Alphabet: R-A-E-T-S-E-L, also <b>RÄTSEL</b>.'}),
+T({t:'Nullen und Einsen',tag:'Code',q:'Welche Zahl ist das im Dezimalsystem?',big:'101010',a:['42'],
+  hints:['Es ist eine Binärzahl.','Von rechts: 1, 2, 4, 8, 16, 32. Addiere die Stellen mit einer 1.'],sol:'42',expl:'32 + 8 + 2 = <b>42</b>, bekanntlich die Antwort auf alles.'}),
+T({t:'Spiegelalphabet',tag:'Code',q:'In diesem Code wird das Alphabet gespiegelt. Was heißt das zweite Wort?',big:'ABC → ZYX<small>und</small>HKRVO → ?',a:['SPIEL'],
+  hints:['A wird zu Z, B zu Y, C zu X …','H ↔ S, K ↔ P, R ↔ I, V ↔ E, O ↔ L.'],sol:'SPIEL',expl:'Atbash-Code: das Alphabet von hinten. HKRVO → <b>SPIEL</b>.'}),
+T({t:'Alte Handys',tag:'Code',q:'So hat man früher SMS geschrieben. Was steht hier?',big:'222 · 666 · 3 · 33 → CODE<small>und</small>44 · 2 · 88 · 7777 → ?',a:['HAUS'],
+  hints:['Denk an die Zifferntasten eines alten Handys.','Auf der 2 liegen A, B, C. Zweimal die 2 drücken ergibt B. Auf der 4 liegen G, H, I.'],sol:'HAUS',expl:'44 = H, 2 = A, 88 = U, 7777 = S → <b>HAUS</b>.'}),
+T({t:'Römische Rechnung',tag:'Code',q:'Rechne und antworte in derselben Schrift.',big:'MMXXVI + IV = ?',a:['MMXXX'],wm:v=>v==='2030'?'Richtig gerechnet. Aber in welcher Schrift war die Frage?':null,
+  hints:['MMXXVI ist 2026.','2026 + 4 = 2030. Jetzt zurück in römische Zahlen.'],sol:'MMXXX',expl:'2026 + 4 = 2030 = <b>MMXXX</b>.'}),
+T({t:'Doppelt minus eins',tag:'Muster',q:'Wie geht es weiter?',big:'2 · 3 · 5 · 9 · 17 · ?',a:['33'],
+  hints:['Schau dir an, wie die Abstände wachsen.','Jede Zahl mal zwei, minus eins.'],sol:'33',expl:'Immer ×2 − 1: 17 × 2 − 1 = <b>33</b>.'}),
+T({t:'Kaninchenzahlen',tag:'Muster',q:'Wie geht es weiter?',big:'1 · 1 · 2 · 3 · 5 · 8 · 13 · ?',a:['21'],
+  hints:['Schau dir immer zwei Nachbarn an.','Jede Zahl ist die Summe der beiden davor.'],sol:'21',expl:'Fibonacci-Folge: 8 + 13 = <b>21</b>.'}),
+T({t:'Zwei Buchstaben',tag:'Code',q:'Welche Zahl ist das?',big:'FF',a:['255'],
+  hints:['Diese Schreibweise benutzt man für Farben im Web.','Hexadezimal: F = 15. FF = 15 × 16 + 15.'],sol:'255',expl:'Hexadezimal: 15 × 16 + 15 = <b>255</b>. Deshalb reicht jeder Farbkanal im Web von 00 bis FF.'}),
+{t:'Das Zahlenschloss',tag:'Code · Logik',q:'Ein dreistelliges Zahlenschloss. Fünf Hinweise:',
+  hints:['Beginne mit der Zeile, in der nichts stimmt. Diese Ziffern fallen weg.','7, 3 und 8 fallen weg. Aus 682 muss dann die 2 stimmen und an dritter Stelle stehen.'],sol:'042',
+  expl:'7, 3 und 8 sind falsch. Aus 682 bleibt die 2 an Stelle 3. Aus 206 stimmen 2 und 0, die 0 gehört an Stelle 1. Aus 614 fehlt noch die 4 an Stelle 2: <b>042</b>.',
+  render(b,api){b.append(h('div',{class:'big',style:'text-align:left;font-size:1.05rem;letter-spacing:.02em'},'<b>682</b> · eine Ziffer stimmt und steht richtig<br><b>614</b> · eine Ziffer stimmt, steht aber falsch<br><b>206</b> · zwei Ziffern stimmen, beide stehen falsch<br><b>738</b> · nichts stimmt<br><b>780</b> · eine Ziffer stimmt, steht aber falsch'));
+    textQuiz(b,api,['042'],{ph:'Code',wm:v=>v==='42'?'Ein Zahlenschloss hat drei Stellen.':null})}},
+T({t:'Hoch hinaus',tag:'Muster',q:'Wie geht es weiter?',big:'1 · 4 · 27 · 256 · ?',a:['3125'],
+  hints:['Schau dir die Position jeder Zahl an.','1¹, 2², 3³, 4⁴ …'],sol:'3125',expl:'Jede Zahl hoch sich selbst: 5⁵ = <b>3125</b>.'}),
+T({t:'Funkspruch',tag:'Code',q:'Ein Funkspruch kommt herein. Was ist gemeint?',big:'Lima · India · Charlie · Hotel · Tango',a:['LICHT'],
+  hints:['Piloten und Funker buchstabieren so.','Nimm nur den ersten Buchstaben jedes Wortes.'],sol:'LICHT',expl:'Das internationale Buchstabieralphabet: <b>LICHT</b>.'}),
+T({t:'Kopfstand-Jahr',tag:'Code · Perspektive',q:'Welches Jahr zwischen 1901 und 2000 sieht auf dem Kopf stehend genau gleich aus?',a:['1961'],ph:'Jahr',
+  hints:['Gedreht bleiben nur 0, 1 und 8 gleich. 6 und 9 tauschen die Rollen.','Das Jahr beginnt mit 19 und muss deshalb mit 61 enden.'],sol:'1961',expl:'Um 180° gedreht wird aus 1961 wieder <b>1961</b>.'}),
+T({t:'Anfangsverdacht',tag:'Code',q:'Ein Satz mit einer versteckten Botschaft. Was ist gemeint?',big:'Große Elefanten hüpfen immer rückwärts nachts.',a:['GEHIRN'],
+  hints:['Nicht alles in diesem Satz ist wichtig.','Lies nur die Anfangsbuchstaben.'],sol:'GEHIRN',expl:'Die Anfangsbuchstaben ergeben <b>GEHIRN</b>.'}),
+T({t:'Binär rechnen',tag:'Code',q:'Rechne im Binärsystem.',big:'11 + 1 = ?',a:['100'],wm:v=>v==='12'?'Das wäre dezimal gedacht.':v==='4'?'Richtig gerechnet. Aber antworte binär.':null,
+  hints:['11 ist binär die Zahl 3.','3 + 1 = 4. Wie schreibt man 4 binär?'],sol:'100',expl:'11 ist binär 3. 3 + 1 = 4, binär <b>100</b>.'}),
+T({t:'Löffelsprache',tag:'Code',q:'Eine Geheimsprache, die Kinder auf dem Schulhof sprechen. Was heißt das zweite Wort?',big:'HALLO → HALEWALLOLEWO<small>und</small>TILEWISCH → ?',a:['TISCH'],
+  hints:['Hinter manchen Buchstaben wird etwas eingefügt.','Hinter jedem Vokal stehen „LEW“ und der Vokal noch einmal. Streiche das wieder.'],sol:'TISCH',expl:'In der Löffelsprache wird jeder Vokal mit „lew“ verdoppelt. TI<b>LEWI</b>SCH → <b>TISCH</b>.'}),
+T({t:'Tastendruck',tag:'Code',q:'Auf einer Telefontastatur steht jede Ziffer für mehrere Buchstaben. Welches Tier ist gemeint?',big:'2 ABC · 3 DEF · 4 GHI · 5 JKL · 6 MNO · 7 PQRS · 8 TUV · 9 WXYZ<small>Ein Tier:</small>6 · 2 · 8 · 7',a:['MAUS'],
+  hints:['Probiere für jede Ziffer die möglichen Buchstaben.','6 = M, N oder O. Das Tier ist klein und grau.'],sol:'MAUS',expl:'6 = M, 2 = A, 8 = U, 7 = S → <b>MAUS</b>.'}),
+T({t:'Dreieckig',tag:'Muster',q:'Wie geht es weiter?',big:'1 · 3 · 6 · 10 · 15 · ?',a:['21'],
+  hints:['Schau dir die Abstände an.','+2, +3, +4, +5 …'],sol:'21',expl:'Dreieckszahlen: 15 + 6 = <b>21</b>.'}),
+T({t:'Immer mehr',tag:'Muster',q:'Wie geht es weiter?',big:'2 · 4 · 12 · 48 · 240 · ?',a:['1440'],
+  hints:['Teile jede Zahl durch die vorige.','×2, ×3, ×4, ×5 …'],sol:'1440',expl:'Das Muster ist ×2, ×3, ×4, ×5, ×6. Also 240 × 6 = <b>1440</b>.'}),
+T({t:'Buchstabensprünge',tag:'Muster',q:'Welcher Buchstabe kommt als Nächstes?',big:'A · C · F · J · O · ?',a:['U'],ph:'Ein Buchstabe',
+  hints:['Zähle die Abstände im Alphabet.','+2, +3, +4, +5 … O ist der 15. Buchstabe.'],sol:'U',expl:'O ist der 15. Buchstabe, plus 6 ergibt den 21.: <b>U</b>.'}),
+T({t:'Römisch mal',tag:'Code',q:'Rechne und antworte römisch.',big:'IV × IX = ?',a:['XXXVI'],wm:v=>v==='36'?'Richtig gerechnet. Jetzt bitte römisch.':null,
+  hints:['IV = 4, IX = 9.','36 = 30 + 6.'],sol:'XXXVI',expl:'4 × 9 = 36 = <b>XXXVI</b>.'}),
+{t:'Farbcodes',tag:'Code',q:'Im Web steht <b>#FF0000</b> für Rot. Welche Farben sind diese?',
+  hints:['Die drei Paare stehen für Rot, Grün und Blau.','FF heißt „voll an“, 00 heißt „aus“.'],sol:'GRÜN · BLAU · WEISS',
+  expl:'#00FF00 ist <b>Grün</b>, #0000FF ist <b>Blau</b>, und alle drei voll ergibt <b>Weiß</b>.',
+  render(b,api){multi(b,api,[{l:'#00FF00 →',a:['GRÜN']},{l:'#0000FF →',a:['BLAU']},{l:'#FFFFFF →',a:['WEISS']}])}},
+T({t:'Zickzack',tag:'Code',q:'Die Buchstaben eines Wortes wurden abwechselnd auf zwei Zeilen verteilt: der 1., 3., 5. … nach oben, der 2., 4., 6. … nach unten.',big:'oben: D · N · M · L<br>unten: E · K · A',a:['DENKMAL'],
+  hints:['Lies im Zickzack: oben, unten, oben, unten …','D, E, N, K …'],sol:'DENKMAL',expl:'Abwechselnd gelesen: D-E-N-K-M-A-L → <b>DENKMAL</b>.'}),
+T({t:'Computerzahlen',tag:'Code',q:'So speichert ein Computer Buchstaben. Was steht in der zweiten Zeile?',big:'72 · 65 · 76 · 76 · 79 → HALLO<small>und</small>83 · 79 · 78 · 78 · 69 → ?',a:['SONNE'],
+  hints:['A ist 65, B ist 66, C ist 67 …','83 ist S, 79 ist O.'],sol:'SONNE',expl:'ASCII-Code: 83 S, 79 O, 78 N, 78 N, 69 E → <b>SONNE</b>.'})
+];
+
+/* ---------- MEISTERKLASSE ---------- */
+const FP=[
+M({t:'Drei Türen',tag:'Wahrscheinlichkeit',q:'In einer Spielshow gibt es drei Türen. Hinter einer steht ein Auto, hinter den anderen je eine Ziege. Du wählst Tür 1. Der Moderator, der weiß, wo das Auto steht, öffnet Tür 3: eine Ziege. Er bietet dir an, zu Tür 2 zu wechseln. Was tust du?',
+  hints:['Der Moderator öffnet nie die Tür mit dem Auto. Das ist eine Information.','Deine erste Wahl war zu 1/3 richtig. Wo steckt der Rest?'],sol:'Wechseln (Gewinnchance 2/3)',
+  expl:'<b>Wechseln</b>: Deine erste Wahl trifft nur mit 1/3. Die übrigen 2/3 bündeln sich auf der Tür, die der Moderator übrig lässt.',
+  o:[{t:'Wechseln. Dann gewinne ich mit 2/3 Wahrscheinlichkeit.',ok:1},{t:'Bleiben. Die erste Intuition ist meistens richtig.',why:'Deine erste Wahl hatte eine Chance von 1/3, und daran hat sich nichts geändert.'},{t:'Egal, es steht 50 zu 50.',why:'Das denken fast alle. Aber der Moderator hat nicht zufällig gewählt.'}]}),
+T({t:'Gleicher Geburtstag',tag:'Wahrscheinlichkeit',q:'Wie viele Personen müssen mindestens in einem Raum sein, damit es wahrscheinlicher als 50 % ist, dass zwei am selben Tag Geburtstag haben?',a:['23'],ph:'Anzahl',wm:v=>+v>100?'Viel weniger. Es geht um irgendein Paar, nicht um einen bestimmten Tag.':null,
+  hints:['Es geht um irgendein Paar im Raum, nicht um einen bestimmten Tag.','Die Zahl liegt zwischen 20 und 30.'],sol:'23',expl:'Schon bei <b>23</b> Personen gibt es 253 mögliche Paare, und die Wahrscheinlichkeit liegt über 50 %.'}),
+T({t:'Vater und Sohn',tag:'Logik',q:'Ein Vater ist viermal so alt wie sein Sohn. In 20 Jahren ist er nur noch doppelt so alt. Wie alt ist der Vater heute?',a:['40'],ph:'Alter',
+  hints:['Nenne das Alter des Sohnes x. Dann ist der Vater 4x.','4x + 20 = 2 × (x + 20).'],sol:'40',expl:'4x + 20 = 2x + 40, also x = 10. Der Vater ist <b>40</b>.'}),
+T({t:'Die Turmuhr',tag:'Denkfalle',q:'Eine Turmuhr braucht 5 Sekunden, um 6 Uhr zu schlagen. Wie lange braucht sie für 12 Uhr?',a:['11','11SEKUNDEN'],ph:'Sekunden',wm:v=>v==='10'?'Zähl die Pausen zwischen den Schlägen, nicht die Schläge.':null,
+  hints:['Zwischen 6 Schlägen liegen wie viele Pausen?','5 Pausen in 5 Sekunden. Wie viele Pausen haben 12 Schläge?'],sol:'11 Sekunden',expl:'6 Schläge haben 5 Pausen à 1 Sekunde. 12 Schläge haben 11 Pausen: <b>11 Sekunden</b>.'}),
+T({t:'Der Ziegelstein',tag:'Denkfalle',q:'Ein Ziegelstein wiegt 1 kg plus einen halben Ziegelstein. Wie viel wiegt er?',a:['2','2KG','ZWEI','ZWEIKILO','2KILO'],ph:'kg',wm:v=>v==='15'||v==='15KG'?'Was wiegt denn der halbe Ziegelstein?':null,
+  hints:['Ein halber Ziegelstein wiegt halb so viel wie ein ganzer.','Ganzer = 1 kg + halber. Also wiegt der halbe genau 1 kg.'],sol:'2 kg',expl:'Der halbe Ziegel wiegt 1 kg, der ganze also <b>2 kg</b>.'}),
+M({t:'Ritter und Schurken',tag:'Logik',q:'Auf einer Insel sagen Ritter immer die Wahrheit, Schurken lügen immer. Du triffst A und B. A sagt: „Wir sind beide Schurken.“ Was sind A und B?',
+  hints:['Kann ein Ritter diesen Satz sagen?','Wenn A ein Ritter wäre, wäre er nach seiner eigenen Aussage ein Schurke.'],sol:'A ist Schurke, B ist Ritter.',
+  expl:'Ein Ritter kann sich nicht Schurke nennen, also ist A ein <b>Schurke</b>. Sein Satz ist gelogen, also sind nicht beide Schurken: B ist ein <b>Ritter</b>.',
+  o:[{t:'A ist ein Schurke, B ist ein Ritter.',ok:1},{t:'Beide sind Schurken.',why:'Dann hätte A die Wahrheit gesagt, und Schurken lügen immer.'},{t:'A ist ein Ritter, B ist ein Schurke.',why:'Ein Ritter würde nie behaupten, ein Schurke zu sein.'},{t:'Beide sind Ritter.',why:'Dann hätte A gelogen.'}]}),
+T({t:'Lauter Einsen',tag:'Zählen',q:'Wie oft kommt die Ziffer 1 vor, wenn man alle Zahlen von 1 bis 100 aufschreibt?',a:['21'],ph:'Anzahl',wm:v=>v==='20'?'Fast. Hast du die 100 und die 11 richtig gezählt?':null,
+  hints:['Zähle Einerstellen und Zehnerstellen getrennt.','Einer: 1, 11, 21 … 91 (10-mal). Zehner: 10 bis 19 (10-mal). Und dann noch …'],sol:'21',expl:'10-mal an der Einerstelle, 10-mal an der Zehnerstelle, einmal in der 100: <b>21</b>.'}),
+{t:'Der bemalte Würfel',tag:'Raumdenken',q:'Ein großer Holzwürfel wird von außen komplett rot angemalt und dann in 27 gleich große kleine Würfel zersägt (3 × 3 × 3).',
+  hints:['Die Ecken haben drei bemalte Seiten, die Kanten zwei.','Ein Würfel hat 8 Ecken und 12 Kanten. Und genau in der Mitte steckt einer.'],sol:'1 · 12 · 8',
+  expl:'Nur der Würfel ganz innen bleibt unbemalt (<b>1</b>). Jede der 12 Kanten hat einen Würfel mit zwei roten Seiten (<b>12</b>), die 8 Ecken haben drei (<b>8</b>).',
+  render(b,api){multi(b,api,[{l:'Wie viele kleine Würfel sind gar nicht bemalt?',a:['1','EINER','EINS']},{l:'Wie viele haben genau zwei rote Seiten?',a:['12']},{l:'Wie viele haben genau drei rote Seiten?',a:['8']}],true)}},
+T({t:'Der verlorene Hut',tag:'Perspektive',q:'Ein Ruderer fährt flussaufwärts. Unter einer Brücke fällt ihm sein Hut ins Wasser. Erst nach 10 Minuten merkt er es, wendet sofort und rudert mit gleicher Kraft zurück. Wie lange war der Hut im Wasser, als er ihn einholt?',a:['20','20MINUTEN','ZWANZIG'],ph:'Minuten',
+  hints:['Betrachte alles aus der Sicht des Wassers.','Für das Wasser entfernt er sich 10 Minuten lang vom Hut und kommt dann genauso schnell zurück.'],sol:'20 Minuten',
+  expl:'Aus Sicht des Wassers treibt der Hut still. Der Ruderer entfernt sich 10 Minuten und braucht genauso lange zurück: <b>20 Minuten</b>.'}),
+T({t:'Hundert Türen',tag:'Logik',q:'100 Türen sind geschlossen. Person 1 öffnet alle. Person 2 schließt jede zweite. Person 3 schaltet jede dritte um (offen ↔ zu), Person 4 jede vierte, und so weiter bis Person 100. Wie viele Türen sind am Ende offen?',a:['10','ZEHN'],ph:'Anzahl',
+  hints:['Eine Tür wird so oft umgeschaltet, wie ihre Nummer Teiler hat.','Nur Zahlen mit einer ungeraden Anzahl von Teilern bleiben offen: die Quadratzahlen.'],sol:'10',expl:'Offen bleiben nur die Quadratzahlen 1, 4, 9 … 100, also <b>10</b> Türen.'}),
+T({t:'Welcher Tag?',tag:'Logik',q:'Der dritte Tag vor dem Tag nach morgen ist ein Samstag. Welcher Wochentag ist heute?',a:['SONNTAG'],ph:'Wochentag',
+  hints:['Übersetze Schritt für Schritt: „Der Tag nach morgen“ ist übermorgen.','Übermorgen minus drei Tage ist gestern. Gestern war Samstag.'],sol:'Sonntag',expl:'Drei Tage vor übermorgen ist gestern. Gestern war Samstag, also ist heute <b>Sonntag</b>.'}),
+T({t:'Vier Gewichte',tag:'Logik',q:'Mit welchen vier Gewichten kannst du auf einer Balkenwaage jedes ganze Gewicht von 1 bis 40 kg abwiegen? Gewichte dürfen auf beide Schalen.',a:['1,3,9,27'],ph:'z. B. 1, 2, 3, 4',
+  hints:['Jedes Gewicht kann links liegen, rechts liegen oder gar nicht benutzt werden.','Drei Möglichkeiten pro Gewicht: Denk an Dreierpotenzen.'],sol:'1, 3, 9, 27 kg',expl:'Mit Dreierpotenzen geht alles: <b>1, 3, 9 und 27 kg</b>, zusammen 40.'}),
+T({t:'Zwei Kerzen',tag:'Logik',q:'Zwei gleich lange Kerzen: Die eine brennt in 4 Stunden ab, die andere in 3. Wann muss man beide gleichzeitig anzünden, damit um Mitternacht die eine genau doppelt so lang ist wie die andere?',a:['21:36'],ph:'hh:mm',
+  hints:['Nach t Stunden ist die erste noch 1 − t/4 lang, die zweite 1 − t/3.','1 − t/4 = 2 × (1 − t/3). Löse nach t auf.'],sol:'21:36 Uhr',expl:'1 − t/4 = 2 − 2t/3 ergibt t = 2,4 Stunden, also 2 h 24 min. Anzünden um <b>21:36 Uhr</b>.'}),
+{t:'Lichter aus',tag:'Logik · Simulation',q:'Jeder Klick schaltet ein Licht und seine direkten Nachbarn (oben, unten, links, rechts) um. Mach alle Lichter aus.',
+  hints:['Die Reihenfolge der Klicks ist egal. Jedes Feld muss höchstens einmal gedrückt werden.','Arbeite Zeile für Zeile: Ein Licht schaltest du aus, indem du auf das Feld direkt darunter klickst.'],sol:'Alle Lichter ausschalten.',
+  expl:'Die Reihenfolge ist egal, und jedes Feld braucht man höchstens einmal. So lässt sich jedes lösbare Feld knacken.',
+  render(b,api){let g,n;const ui=h('div');b.append(ui);
+    const tog=(a,i)=>{const r=Math.floor(i/3),c=i%3;[[r,c],[r-1,c],[r+1,c],[r,c-1],[r,c+1]].forEach(([y,x])=>{if(y>=0&&y<3&&x>=0&&x<3)a[y*3+x]^=1})};
+    function reset(){do{g=Array(9).fill(0);shuffle([0,1,2,3,4,5,6,7,8]).slice(0,4).forEach(i=>tog(g,i))}while(g.every(x=>!x));n=0;draw()}
+    function draw(){ui.innerHTML='';const grid=h('div',{class:'lights'});g.forEach((v,i)=>{const x=h('button',{class:'light'+(v?' on':''),type:'button'});x.onclick=()=>{tog(g,i);n++;draw();if(g.every(v=>!v))api.solve()};grid.append(x)});ui.append(grid);
+      const a=h('div',{class:'acts',style:'justify-content:center'});a.append(h('span',{class:'lbl'},`Klicks: ${n}`));const r=h('button',{class:'hint',type:'button'},'↻ Neues Feld');r.onclick=reset;a.append(r);ui.append(a)}
+    reset()}},
+{t:'Der Turm',tag:'Logik · Simulation',q:'Versetze den ganzen Turm vom linken auf den rechten Stab. Klicke erst auf einen Stab und dann auf das Ziel. Du darfst immer nur die oberste Scheibe bewegen und nie eine größere auf eine kleinere legen.',
+  hints:['Um die größte Scheibe zu bewegen, müssen alle anderen auf dem mittleren Stab liegen.','Die kleinste Scheibe wandert bei jedem zweiten Zug in dieselbe Richtung weiter: links → rechts → Mitte → links …'],sol:'Mindestens 15 Züge',
+  expl:'Die Türme von Hanoi: Mit 4 Scheiben braucht man mindestens 15 Züge, allgemein 2ⁿ − 1.',
+  render(b,api){let pegs,sel,n;const ui=h('div');b.append(ui);const cols=['var(--red)','var(--orange)','var(--yellow)','var(--green)'];
+    function reset(){pegs=[[4,3,2,1],[],[]];sel=null;n=0;draw()}
+    function draw(){ui.innerHTML='';const row=h('div',{class:'hanoi'});
+      pegs.forEach((p,k)=>{const col=h('button',{class:'peg'+(sel===k?' sel':''),type:'button'});col.append(h('i',{class:'rod'}));p.forEach(d=>col.append(h('span',{class:'disc',style:`width:${26+d*20}%;background:${cols[d-1]}`})));
+        col.onclick=()=>{if(sel===null){if(p.length)sel=k}else if(sel===k)sel=null;else{const from=pegs[sel],d=from[from.length-1];if(!p.length||p[p.length-1]>d){p.push(from.pop());n++;sel=null;if(pegs[2].length===4){draw();api.solve();return}}else{api.say('Größere Scheiben dürfen nicht auf kleinere.','info');sel=null}}draw()};row.append(col)});
+      ui.append(row);const a=h('div',{class:'acts',style:'justify-content:center'});a.append(h('span',{class:'lbl'},`Züge: ${n} · Minimum: 15`));const r=h('button',{class:'hint',type:'button'},'↻ Neu');r.onclick=reset;a.append(r);ui.append(a)}
+    reset()}},
+M({t:'Zwei Zündschnüre',tag:'Logik',q:'Du hast zwei Zündschnüre. Jede brennt genau eine Stunde, aber ungleichmäßig: Die Hälfte der Schnur brennt nicht unbedingt in 30 Minuten. Wie misst du genau 45 Minuten ab?',
+  hints:['Man kann eine Schnur auch an beiden Enden gleichzeitig anzünden.','An beiden Enden angezündet, brennt eine Schnur in genau 30 Minuten ab, egal wie ungleichmäßig.'],sol:'Schnur 1 beidseitig, Schnur 2 einseitig anzünden. Nach 30 min Schnur 2 am anderen Ende anzünden.',
+  expl:'Schnur 1 an <b>beiden Enden</b>, Schnur 2 an einem Ende anzünden. Nach 30 Minuten ist Schnur 1 weg. Jetzt Schnur 2 am zweiten Ende anzünden: Der Rest brennt in 15 Minuten ab.',
+  o:[{t:'Schnur 1 an beiden Enden und Schnur 2 an einem Ende anzünden. Ist Schnur 1 abgebrannt, Schnur 2 am anderen Ende anzünden.',ok:1},{t:'Schnur 1 bis zur Mitte abbrennen lassen, dann …',why:'Die Mitte ist nicht nach 30 Minuten erreicht. Die Schnüre brennen ungleichmäßig.'},{t:'Beide Schnüre an beiden Enden anzünden.',why:'Dann hast du zweimal 30 Minuten gleichzeitig.'},{t:'Das ist unmöglich.',why:'Es geht. Denk ans Anzünden von beiden Seiten.'}]}),
+T({t:'Gemeinsam fressen',tag:'Logik',q:'Ein Löwe frisst ein Schaf in 2 Stunden, ein Wolf in 3 Stunden, ein Hund in 6 Stunden. Wie lange brauchen alle drei zusammen für ein Schaf?',a:['1','1STUNDE','EINESTUNDE','60','60MINUTEN','1H'],ph:'Stunden',
+  hints:['Rechne aus, welchen Anteil jedes Tier pro Stunde schafft.','1/2 + 1/3 + 1/6 = ?'],sol:'1 Stunde',expl:'Pro Stunde schaffen sie 1/2 + 1/3 + 1/6 = 1 Schaf, also <b>eine Stunde</b>.'}),
+T({t:'Drei Häuser',tag:'Logik',q:'Drei Häuser stehen nebeneinander: ein rotes, ein grünes und ein blaues. Anna wohnt links von Ben. Das blaue Haus steht ganz rechts. Carla wohnt im roten Haus. Das grüne Haus steht nicht in der Mitte. Wer wohnt im grünen Haus?',a:['ANNA'],ph:'Name',
+  hints:['Lege zuerst die Farben fest.','Blau rechts, Grün nicht in der Mitte: Also Grün links, Rot in der Mitte.'],sol:'Anna',expl:'Grün, Rot, Blau. Carla wohnt in der Mitte (rot). Anna links von Ben: Anna im grünen Haus, Ben im blauen.'}),
+T({t:'Plus wie mal',tag:'Logik',q:'Welche Zahl (außer 0) ergibt mit sich selbst multipliziert dasselbe wie mit sich selbst addiert?',a:['2','ZWEI'],ph:'Zahl',
+  hints:['x × x = x + x.','Probiere kleine Zahlen.'],sol:'2',expl:'2 × 2 = 4 = 2 + 2. Die Antwort ist <b>2</b>.'}),
+T({t:'Teilbar durch alles',tag:'Logik',q:'Welches ist die kleinste Zahl, die sich ohne Rest durch alle Zahlen von 1 bis 10 teilen lässt?',a:['2520'],ph:'Zahl',wm:v=>v==='3628800'?'Das ist 10! und viel zu groß.':null,
+  hints:['Du brauchst nicht alle Zahlen zu multiplizieren. Manche stecken schon in anderen.','8 × 9 × 5 × 7.'],sol:'2520',expl:'Man braucht 2³, 3², 5 und 7: 8 × 9 × 5 × 7 = <b>2520</b>.'}),
+{t:'Dreiecke zählen',tag:'Zählen',q:'Wie viele Dreiecke stecken in dieser Figur?',
+  hints:['Zähle nicht nur die kleinen Flächen. Auch zusammengesetzte Dreiecke zählen.','Jedes Dreieck hat seine Spitze oben. Seine Grundseite liegt auf einer der beiden waagerechten Linien. Jede Linie hat 4 Punkte.'],sol:'12',
+  expl:'Jede waagerechte Linie hat 4 Schnittpunkte, also 6 mögliche Grundseiten. 2 Linien × 6 = <b>12</b> Dreiecke.',
+  render(b,api){b.append(h('div',{class:'svgbox'},'<svg viewBox="0 0 300 200" width="300" height="200" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linejoin="round" stroke-linecap="round"><path d="M150 10 L10 190 L290 190 Z M150 10 L110 190 M150 10 L190 190 M72.2 110 L227.8 110"/></svg>'));
+    textQuiz(b,api,['12','ZWOELF'],{ph:'Anzahl',wm:v=>v==='6'?'Das sind nur die Dreiecke mit der Grundseite unten. Es gibt noch eine waagerechte Linie.':v==='8'||v==='9'||v==='10'?'Hast du auch die zusammengesetzten Dreiecke mitgezählt?':null})}},
+T({t:'Die nachgehende Uhr',tag:'Logik',q:'Eine Zeigeruhr geht jede Stunde genau eine Minute nach. Nach wie vielen Stunden zeigt sie zum ersten Mal wieder die richtige Uhrzeit?',a:['720','720STUNDEN','30TAGE'],ph:'Stunden',
+  hints:['Auf dem Zifferblatt sieht 12 Stunden zu spät genauso aus wie pünktlich.','12 Stunden sind 720 Minuten.'],sol:'720 Stunden (30 Tage)',expl:'Sie muss 12 Stunden = 720 Minuten verlieren. Bei einer Minute pro Stunde dauert das <b>720 Stunden</b>, also 30 Tage.'}),
+T({t:'OTTO',tag:'Kombinatorik',q:'Auf wie viele verschiedene Arten kann man die Buchstaben des Wortes OTTO anordnen?',a:['6','SECHS'],ph:'Anzahl',wm:v=>v==='24'?'Zwei gleiche Buchstaben zu vertauschen, ergibt nichts Neues.':null,
+  hints:['Vier Buchstaben, aber je zwei sind gleich.','4! geteilt durch 2! und noch einmal 2!.'],sol:'6',expl:'24 ÷ 2 ÷ 2 = <b>6</b>: OTTO, OOTT, TTOO, TOOT, OTOT, TOTO.'}),
+T({t:'Rechtecke im Quadrat',tag:'Zählen',q:'Ein Quadrat ist in 2 × 2 gleich große Felder geteilt. Wie viele Rechtecke findest du darin? Quadrate zählen mit.',a:['9','NEUN'],ph:'Anzahl',wm:v=>v==='5'?'Auch 1×2- und 2×1-Rechtecke zählen.':null,
+  hints:['Zähle 1×1, 1×2, 2×1 und 2×2 getrennt.','4 + 2 + 2 + 1.'],sol:'9',expl:'4 kleine, 2 liegende, 2 stehende und das große: <b>9</b>.'}),
+{t:'Schiebepuzzle',tag:'Logik · Simulation',q:'Bring die Zahlen in die richtige Reihenfolge: 1 bis 8, das leere Feld unten rechts. Klicke auf ein Feld neben der Lücke, um es zu verschieben.',
+  hints:['Löse zuerst die obere Reihe, dann die linke Spalte.','Für die letzten Felder: Lass die Steine im Kreis rotieren, bis sie passen.'],sol:'1 2 3 / 4 5 6 / 7 8 _',
+  expl:'Das klassische 8er-Schiebepuzzle. Profis lösen es Reihe für Reihe.',
+  render(b,api){let t,n;const ui=h('div');b.append(ui);const goal=[1,2,3,4,5,6,7,8,0];
+    const nb=i=>{const r=Math.floor(i/3),c=i%3;return[[r-1,c],[r+1,c],[r,c-1],[r,c+1]].filter(([y,x])=>y>=0&&y<3&&x>=0&&x<3).map(([y,x])=>y*3+x)};
+    function reset(){t=goal.slice();let e=8,prev=-1;for(let k=0;k<80;k++){const m=pick(nb(e).filter(x=>x!==prev));t[e]=t[m];t[m]=0;prev=e;e=m}if(t.join()===goal.join())return reset();n=0;draw()}
+    function draw(){ui.innerHTML='';const g=h('div',{class:'slide'});t.forEach((v,i)=>{const x=h('button',{class:'tile'+(v?'':' empty'),type:'button'},v?String(v):'');x.onclick=()=>{const e=t.indexOf(0);if(v&&nb(i).includes(e)){t[e]=v;t[i]=0;n++;draw();if(t.join()===goal.join())api.solve()}};g.append(x)});ui.append(g);
+      const a=h('div',{class:'acts',style:'justify-content:center'});a.append(h('span',{class:'lbl'},`Züge: ${n}`));const r=h('button',{class:'hint',type:'button'},'↻ Neu mischen');r.onclick=reset;a.append(r);ui.append(a)}
+    reset()}}
+];
+
+/* ---------- Story-Level & freie Bereiche ---------- */
 const WORLDS=[
   {name:'Aufwärmen',gl:'?',c:'#E5432D',fg:'#fff',ds:'Knöpfe, die fliehen, und Fragen, die man genau lesen muss.',lv:W1},
   {name:'Muster',gl:'1·2',c:'#F08A24',fg:'#fff',ds:'Folgen, Codes und Zahlen, die nicht sind, was sie scheinen.',lv:W2},
@@ -760,87 +1316,106 @@ const WORLDS=[
   {name:'Transfer',gl:'→',c:'#2E9E62',fg:'#fff',ds:'Erkenne die Regel und übertrage sie auf Neues.',lv:W4},
   {name:'Meisterklasse',gl:'∞',c:'#3AA6DD',fg:'#fff',ds:'Logik, Simulationen und die letzten Umwege.',lv:W5}
 ];
-const TOTAL=WORLDS.reduce((s,w)=>s+w.lv.length,0);
+const CATS=[
+  {name:'Sprache',gl:'Aa',font:'var(--serif)',c:'#E5432D',fg:'#fff',lv:FS},
+  {name:'Logik',gl:'?',font:'var(--sans)',c:'#F6C62E',fg:'#111',lv:FL},
+  {name:'Laterales Denken',gl:'&',font:'var(--serif)',c:'#3AA6DD',fg:'#fff',lv:FX},
+  {name:'Mac',gl:'⌘',font:'var(--sans)',c:'#2E9E62',fg:'#fff',lv:FM},
+  {name:'Code',gl:'{ }',font:'var(--mono)',c:'#F08A24',fg:'#fff',lv:FC},
+  {name:'Meisterklasse',gl:'∞',font:'var(--serif)',c:'#5E6E82',fg:'#fff',lv:FP}
+];
+WORLDS.forEach((W,w)=>{W.key=String(w);W.kind='story';W.idx=w});
+CATS.forEach((C,c)=>{C.key='F'+c;C.kind='free';C.idx=c});
+const TOTAL=WORLDS.reduce((s,W)=>s+W.lv.length,0),FREE_TOTAL=CATS.reduce((s,C)=>s+C.lv.length,0);
 
 /* ---------- Status ---------- */
-const R=(w,i)=>P.res[w+'-'+i];
+const R=(S,i)=>P.res[S.key+'-'+i];
 const score=p=>Object.values(p.res).reduce((s,r)=>s+(r.pts||0),0);
 const solvedOf=p=>Object.values(p.res).filter(r=>r.status==='done').length;
-const worldCount=(w,p)=>{p=p||P;let n=0;for(let i=0;i<WORLDS[w].lv.length;i++)if(p.res[w+'-'+i])n++;return n};
-const worldScore=w=>{let s=0;for(let i=0;i<WORLDS[w].lv.length;i++){const r=R(w,i);if(r)s+=r.pts||0}return s};
-const worldOpen=w=>w===0||worldCount(w-1)===WORLDS[w-1].lv.length;
-function firstOpen(w){for(let i=0;i<WORLDS[w].lv.length;i++)if(!R(w,i))return i;return -1}
-const accessible=(w,i)=>!!R(w,i)||i===firstOpen(w);
-function setTheme(w){const W=WORLDS[w];document.documentElement.style.setProperty('--c',W?W.c:'#E5432D');document.documentElement.style.setProperty('--cfg',W?W.fg:'#fff')}
+const setCount=(S,p)=>{p=p||P;let n=0;for(let i=0;i<S.lv.length;i++)if(p.res[S.key+'-'+i])n++;return n};
+const setScore=S=>{let s=0;for(let i=0;i<S.lv.length;i++){const r=R(S,i);if(r)s+=r.pts||0}return s};
+const setSolved=S=>{let s=0;for(let i=0;i<S.lv.length;i++){const r=R(S,i);if(r&&r.status==='done')s++}return s};
+const worldOpen=w=>w===0||setCount(WORLDS[w-1])===WORLDS[w-1].lv.length;
+const storyDone=()=>WORLDS.every(W=>setCount(W)===W.lv.length);
+function firstOpen(S){for(let i=0;i<S.lv.length;i++)if(!R(S,i))return i;return -1}
+const accessible=(S,i)=>S.kind==='free'||!!R(S,i)||i===firstOpen(S);
+const setLabel=S=>S.kind==='story'?`Level 0${S.idx+1} · ${S.name}`:`Frei 0${S.idx+1} · ${S.name}`;
+function setTheme(S){S=S||WORLDS[0];document.documentElement.style.setProperty('--c',S.c);document.documentElement.style.setProperty('--cfg',S.fg)}
 function runCleanup(){if(cleanup){try{cleanup()}catch(e){}cleanup=null}document.title=BASE_TITLE}
 function topbar(){const w=$('#who');if(!P){w.innerHTML='';return}
   w.innerHTML=`<span>👤 ${esc(P.name)}</span><span class="pts">${score(P)} P.</span><a id="sw"><span class="long">Spieler </span>wechseln</a>`;$('#sw').onclick=showStart}
 $('#brand').onclick=()=>P?showHub():showStart();
+function openSet(S){const f=firstOpen(S);f===-1?showSetEnd(S):showSet(S,f)}
+function specCard(C,k,prog){
+  const n=prog?setCount(C):0;
+  return h('button',{class:'spec',type:'button',style:`background:${C.c};color:${C.fg}`},
+    `<small>0${k+1} · ${C.name}</small><span><b style="font-family:${C.font}">${C.gl}</b>${prog?`<span class="bar"><i style="width:${n/C.lv.length*100}%"></i></span><span class="pm"><span>${n} / ${C.lv.length}</span><span>${setScore(C)} P.</span></span>`:`<span class="pm"><span>${C.lv.length} Rätsel</span></span>`}</span>`);
+}
 
 /* ---------- Startseite ---------- */
 function showStart(){
-  runCleanup();P=null;setTheme(0);topbar();window.scrollTo(0,0);
-  const specs=[['Aa','var(--red)','var(--serif)','#fff'],['?','var(--yellow)','var(--sans)','#111'],['&','var(--sky)','var(--serif)','#fff'],['⌘','var(--green)','var(--sans)','#fff'],['{ }','var(--orange)','var(--mono)','#fff'],['∞','var(--steel)','var(--serif)','#fff']];
-  const labels=['Sprache','Logik','Laterales Denken','Mac','Code','Meisterklasse'];
-  app.innerHTML=`<div class="eyebrow">Elisas Rätsel Eck · 75 Rätsel · 5 Level</div>
+  runCleanup();P=null;setTheme(WORLDS[0]);topbar();window.scrollTo(0,0);
+  app.innerHTML=`<div class="eyebrow">Elisas Rätsel Eck · ${TOTAL+FREE_TOTAL} Rätsel</div>
   <h1 class="hero">Denk um<br><em>die Ecke.</em></h1>
-  <p class="lead">Rätsel, bei denen Geradeausdenken nicht hilft. Mal musst du kreativ sein, mal eine Regel übertragen, mal die Seite selbst austricksen.</p>
-  <div class="specimens">${specs.map((s,k)=>`<div class="spec" style="background:${s[1]};color:${s[3]}"><small>0${k+1} · ${labels[k]}</small><b style="font-family:${s[2]}">${s[0]}</b></div>`).join('')}</div>
+  <p class="lead">Rätsel, bei denen Geradeausdenken nicht hilft. Spiel dich im Story-Modus durch fünf Level oder such dir im freien Modus einen Bereich aus.</p>
+  <div class="eyebrow" style="margin-top:34px">Freier Modus · wähle einen Bereich</div>
+  <div class="specimens" id="specs" style="margin-top:14px"></div>
   <div class="eyebrow" style="margin-bottom:10px">Wie heißt du?</div>
   <form class="namebox" id="nf"><input id="nm" placeholder="Dein Name" maxlength="24" autocomplete="off"><button class="primary" type="submit">Los geht’s →</button></form>
   <div class="msg" id="nmsg"></div>
   <div class="board" id="board"></div>`;
-  const nm=$('#nm');setTimeout(()=>nm.focus(),60);
+  const nm=$('#nm');if(DB.last)nm.value=DB.last;if(!TOUCH)setTimeout(()=>nm.focus(),60);
+  CATS.forEach((C,k)=>{const el=specCard(C,k,false);el.onclick=()=>{const n=nm.value.trim();if(!n){$('#nmsg').textContent='Trag zuerst deinen Namen ein, dann geht es direkt los.';nm.focus();return}login(n,()=>openSet(C))};$('#specs').append(el)});
   $('#nf').onsubmit=e=>{e.preventDefault();const n=nm.value.trim();if(!n){$('#nmsg').textContent='Ohne Namen geht es nicht. Er wird noch wichtig.';return}login(n)};
   const list=Object.values(DB.players).sort((a,b)=>score(b)-score(a));
   if(list.length){const bd=$('#board');bd.append(h('h3',{},'Bestenliste'));
-    list.forEach((p,k)=>{const r=h('div',{class:'brow'},`<span class="n">${String(k+1).padStart(2,'0')}</span><span>${esc(p.name)}</span><span class="s">${score(p)} P.</span><span class="c">${solvedOf(p)} / ${TOTAL} gelöst</span>`);
+    list.forEach((p,k)=>{const r=h('div',{class:'brow'},`<span class="n">${String(k+1).padStart(2,'0')}</span><span>${esc(p.name)}</span><span class="s">${score(p)} P.</span><span class="c">${solvedOf(p)} gelöst</span>`);
       const b=h('button',{class:'ghostbtn',type:'button'},'Weiterspielen');b.onclick=()=>login(p.name);r.append(b);bd.append(r)})}
 }
-function login(name){
+function login(name,then){
   const key=Object.keys(DB.players).find(k=>k.toLowerCase()===name.toLowerCase());
   if(key)P=DB.players[key];else{P={name,res:{}};DB.players[name]=P}
-  DB.last=P.name;save();showHub();
+  DB.last=P.name;save();(then||showHub)();
 }
 
 /* ---------- Übersicht ---------- */
 function showHub(){
-  runCleanup();setTheme(0);topbar();window.scrollTo(0,0);
-  const done=Object.keys(P.res).length;
+  runCleanup();setTheme(WORLDS[0]);topbar();window.scrollTo(0,0);
   app.innerHTML=`<div class="hubhead"><div><div class="eyebrow">Übersicht</div><h2>Hallo, <em>${esc(P.name)}.</em></h2></div>
-    <div class="totals"><b>${score(P)}</b>von ${TOTAL*100} Punkten · ${solvedOf(P)} gelöst</div></div>
+    <div class="totals"><b>${score(P)}</b>Punkte · ${solvedOf(P)} Rätsel gelöst</div></div>
+    <div class="sec"><h3>Story-Modus</h3><span>${WORLDS.length} Level · eins nach dem anderen</span></div>
     <div class="worlds" id="worlds"></div>
-    ${done===TOTAL?'<div style="text-align:center;margin-top:30px"><button class="primary" id="fin">Zur Gesamtauswertung →</button></div>':''}
+    ${storyDone()?'<div style="text-align:center;margin-top:24px"><button class="primary" id="fin">Story-Auswertung →</button></div>':''}
+    <div class="sec"><h3>Freier Modus</h3><span>${CATS.length} Bereiche · freie Wahl</span></div>
+    <div class="specimens" id="free" style="margin-top:22px"></div>
     <div class="foot"><button id="rs">Meinen Spielstand zurücksetzen</button></div>`;
-  const g=$('#worlds');
-  WORLDS.forEach((W,w)=>{const n=worldCount(w),open=worldOpen(w);
+  WORLDS.forEach((W,w)=>{const n=setCount(W),open=worldOpen(w);
     const c=h('button',{class:'world',type:'button',style:`background:${W.c};color:${W.fg}`},
       `${open?'':'<span class="lock">🔒</span>'}<span class="num">LEVEL 0${w+1}</span><span class="gl">${W.gl}</span><span class="tt">${W.name}</span><span class="ds">${W.ds}</span>
-      <span class="bar"><i style="width:${n/W.lv.length*100}%"></i></span><span class="meta"><span>${n} / ${W.lv.length}</span><span>${worldScore(w)} P.</span></span>`);
-    c.disabled=!open;if(!open)c.title='Schließe zuerst das vorherige Level ab.';
-    c.onclick=()=>{const f=firstOpen(w);f===-1?showWorldEnd(w):showLevel(w,f)};g.append(c)});
+      <span class="bar"><i style="width:${n/W.lv.length*100}%"></i></span><span class="meta"><span>${n} / ${W.lv.length}</span><span>${setScore(W)} P.</span></span>`);
+    c.disabled=!open;if(!open)c.title='Schließe zuerst das vorherige Level ab.';c.onclick=()=>openSet(W);$('#worlds').append(c)});
+  CATS.forEach((C,k)=>{const el=specCard(C,k,true);el.onclick=()=>openSet(C);$('#free').append(el)});
   const fin=$('#fin');if(fin)fin.onclick=showFinal;
   const rs=$('#rs');let armed=false;rs.onclick=()=>{if(!armed){armed=true;rs.textContent='Wirklich alles löschen? Nochmal klicken.';return}P.res={};save();showHub()};
 }
 
 /* ---------- Rätselansicht ---------- */
-function showLevel(w,i){
-  runCleanup();setTheme(w);topbar();cur={w,i};hintsUsed=0;wrongs=0;solvedNow=false;
-  const W=WORLDS[w],L=W.lv[i];
-  app.innerHTML='';
+function showSet(S,i){
+  runCleanup();setTheme(S);topbar();cur={S,i};hintsUsed=0;wrongs=0;solvedNow=false;window.scrollTo(0,0);
+  const L=S.lv[i];app.innerHTML='';
   const head=h('div',{class:'lvhead'});const back=h('button',{class:'back',type:'button'},'← Übersicht');back.onclick=showHub;
-  head.append(back,h('div',{class:'lvtitle'},`<span class="chip">Level 0${w+1} · ${W.name}</span><span class="pts" style="font-family:var(--mono);font-size:.85rem;color:var(--muted)">${worldScore(w)} / ${W.lv.length*100} P.</span>`));
+  head.append(back,h('div',{class:'lvtitle'},`<span class="chip">${setLabel(S)}</span><span class="pts">${setScore(S)} / ${S.lv.length*100} P.</span>`));
   app.append(head);
-  const map=h('nav',{class:'map'});
-  W.lv.forEach((_,k)=>{const r=R(w,k);const d=h('button',{class:'dot'+(r?' '+r.status:'')+(k===i?' cur':''),type:'button',title:`Rätsel ${k+1}`},String(k+1));d.disabled=!accessible(w,k);d.onclick=()=>showLevel(w,k);map.append(d)});
+  const map=h('nav',{class:'map'+(S.lv.length>15?' map25':'')});
+  S.lv.forEach((_,k)=>{const r=R(S,k);const d=h('button',{class:'dot'+(r?' '+r.status:'')+(k===i?' cur':''),type:'button',title:`Rätsel ${k+1}`},String(k+1));d.disabled=!accessible(S,k);d.onclick=()=>showSet(S,k);map.append(d)});
   app.append(map);
   const card=h('section',{class:'card'});app.append(card);
-  card.append(h('div',{class:'tag'},`<b>Rätsel ${i+1}</b> / ${W.lv.length} · ${TOUCH?L.tag.replace(' · Mac',''):L.tag}`),h('h2',{},L.t));
+  card.append(h('div',{class:'tag'},`<b>Rätsel ${i+1}</b> / ${S.lv.length} · ${TOUCH?L.tag.replace(' · Mac',''):L.tag}`),h('h2',{},L.t));
   if(pf(L,'q'))card.append(h('p',{class:'q'},pf(L,'q')));
   const box=h('div',{class:'box'});card.append(box);
   const msg=h('div',{class:'msg'});card.append(msg);
   const hintBox=h('div',{class:'hints'});card.append(hintBox);
-  const api={solve:()=>solve(w,i),
+  const api={solve:()=>solve(S,i),
     wrong:m=>{wrongs++;msg.className='msg';msg.textContent=m||pick(['Nicht ganz.','Leider nein. Dreh den Gedanken noch einmal um.','Falsch, aber vielleicht ist die Richtung schon richtig.','Nein. Denk um die Ecke.']);card.classList.remove('shake');void card.offsetWidth;card.classList.add('shake')},
     say:(m,cls)=>{msg.className='msg '+(cls||'');msg.textContent=m}};
   const r=L.render(box,api);if(typeof r==='function')cleanup=r;
@@ -848,68 +1423,71 @@ function showLevel(w,i){
   const hb=h('button',{class:'hint',type:'button'},'💡 Tipp (−25)');
   const HS=pf(L,'hints');hb.onclick=()=>{if(hintsUsed>=HS.length)return;hintBox.append(h('p',{},`<b>Tipp ${hintsUsed+1}:</b> ${HS[hintsUsed]}`));hintsUsed++;if(hintsUsed>=HS.length)hb.remove();hb.blur()};
   left.append(hb);
-  const pr=R(w,i);
+  const pr=R(S,i);
   if(!pr||pr.status!=='done'){const sk=h('button',{class:'hint',type:'button'},'Überspringen');let armed=false;
-    sk.onclick=()=>{if(!armed){armed=true;sk.textContent='Wirklich? Lösung ansehen (0 Punkte)';return}skip(w,i)};left.append(sk)}
+    sk.onclick=()=>{if(!armed){armed=true;sk.textContent='Wirklich? Lösung ansehen (0 Punkte)';return}skip(S,i)};left.append(sk)}
   tools.append(left);
   if(pr)tools.append(h('span',{class:'lbl'},pr.status==='done'?`✓ bereits gelöst (${pr.pts} P.)`:'übersprungen'));
   card.append(tools);
 }
-function nextIdx(w,i){const n=WORLDS[w].lv.length;for(let k=i+1;k<n;k++)if(!R(w,k))return k;return firstOpen(w)}
-function finishPanel(w,i,html,cls){
+function nextIdx(S,i){for(let k=i+1;k<S.lv.length;k++)if(!R(S,k))return k;return firstOpen(S)}
+function finishPanel(S,i,html,cls){
   const card=app.querySelector('.card');
   card.querySelectorAll('.box input,.box button,.tools button').forEach(x=>x.disabled=true);
   const t=card.querySelector('.tools');if(t)t.remove();card.querySelector('.msg').textContent='';
   const p=h('div',{class:'solved '+(cls||'')},html);card.append(p);
-  const n=nextIdx(w,i);const nx=h('div',{class:'next'});
-  const b=h('button',{class:'primary',type:'button'},n===-1?'Level abschließen →':`Weiter zu Rätsel ${n+1} →`);
-  b.onclick=()=>n===-1?showWorldEnd(w):showLevel(w,n);nx.append(b);card.append(nx);
-  setTimeout(()=>b.focus(),50);p.scrollIntoView({behavior:'smooth',block:'nearest'});
-  // Karte aktualisieren
-  const dots=app.querySelectorAll('.map .dot');const r=R(w,i);if(dots[i]&&r){dots[i].classList.add(r.status)}
-  dots.forEach((d,k)=>d.disabled=!accessible(w,k));
-  const pts=app.querySelector('.lvtitle .pts');if(pts)pts.textContent=`${worldScore(w)} / ${WORLDS[w].lv.length*100} P.`;
+  const n=nextIdx(S,i);const nx=h('div',{class:'next'});
+  const b=h('button',{class:'primary',type:'button'},n===-1?(S.kind==='story'?'Level abschließen →':'Bereich abschließen →'):`Weiter zu Rätsel ${n+1} →`);
+  b.onclick=()=>n===-1?showSetEnd(S):showSet(S,n);nx.append(b);card.append(nx);
+  setTimeout(()=>b.focus({preventScroll:true}),50);p.scrollIntoView({behavior:'smooth',block:'nearest'});
+  const dots=app.querySelectorAll('.map .dot');const r=R(S,i);if(dots[i]&&r)dots[i].classList.add(r.status);
+  dots.forEach((d,k)=>d.disabled=!accessible(S,k));
+  const pts=app.querySelector('.lvtitle .pts');if(pts)pts.textContent=`${setScore(S)} / ${S.lv.length*100} P.`;
   topbar();
 }
-function solve(w,i){
+function solve(S,i){
   if(solvedNow)return;solvedNow=true;runCleanup();
-  const L=WORLDS[w].lv[i],pts=Math.max(10,100-25*hintsUsed-5*wrongs);
-  const pr=R(w,i);const best=pr&&pr.status==='done'?Math.max(pr.pts,pts):pts;
-  P.res[w+'-'+i]={status:'done',pts:best};save();
-  finishPanel(w,i,`<div class="check">✓</div><div><b>Gelöst!</b> +${pts} Punkte${hintsUsed?` <span style="color:var(--muted)">(${hintsUsed} Tipp${hintsUsed>1?'s':''})</span>`:''}<p>${pf(L,'expl')}</p></div>`);
+  const L=S.lv[i],pts=Math.max(10,100-25*hintsUsed-5*wrongs);
+  const pr=R(S,i);const best=pr&&pr.status==='done'?Math.max(pr.pts,pts):pts;
+  P.res[S.key+'-'+i]={status:'done',pts:best};save();
+  finishPanel(S,i,`<div class="check">✓</div><div><b>Gelöst!</b> +${pts} Punkte${hintsUsed?` <span style="color:var(--muted)">(${hintsUsed} Tipp${hintsUsed>1?'s':''})</span>`:''}<p>${pf(L,'expl')}</p></div>`);
 }
-function skip(w,i){
+function skip(S,i){
   if(solvedNow)return;solvedNow=true;runCleanup();
-  const L=WORLDS[w].lv[i];P.res[w+'-'+i]={status:'skipped',pts:0};save();
-  finishPanel(w,i,`<div class="check">→</div><div><b>Übersprungen.</b> Lösung: ${pf(L,'sol')}<p>${pf(L,'expl')}</p></div>`,'skip');
+  const L=S.lv[i];P.res[S.key+'-'+i]={status:'skipped',pts:0};save();
+  finishPanel(S,i,`<div class="check">→</div><div><b>Übersprungen.</b> Lösung: ${pf(L,'sol')}<p>${pf(L,'expl')}</p></div>`,'skip');
 }
 function rankFor(pct){return pct>=.87?'Meisterin oder Meister der Seitenwege':pct>=.67?'Ausgezeichnet um die Ecke gedacht':pct>=.45?'Auf gutem Umweg':pct>=.2?'Die Ecken werden sichtbar':'Geradeausdenker, aber nicht mehr lange'}
-function showWorldEnd(w){
-  runCleanup();setTheme(w);topbar();window.scrollTo(0,0);
-  const W=WORLDS[w],sc=worldScore(w),max=W.lv.length*100;
-  let solvedN=0;for(let i=0;i<W.lv.length;i++){const r=R(w,i);if(r&&r.status==='done')solvedN++}
-  app.innerHTML='';const back=h('button',{class:'back',type:'button'},'← Übersicht');back.onclick=showHub;{const d=h('div',{class:'lvhead'});d.append(back);app.append(d)}
-  const card=h('section',{class:'card end'},`<span class="chip">Level 0${w+1} · ${W.name} geschafft</span><div class="score">${sc}<span style="font-size:1.3rem;color:var(--muted)"> / ${max}</span></div><div class="rank">${rankFor(sc/max)}</div><p class="q" style="margin:0 auto 22px">${solvedN} von ${W.lv.length} Rätseln selbst gelöst. Über die Punkte im Level kannst du jedes Rätsel noch einmal spielen.</p>`);
+function showSetEnd(S){
+  runCleanup();setTheme(S);topbar();window.scrollTo(0,0);
+  const sc=setScore(S),max=S.lv.length*100,sn=setSolved(S);
+  app.innerHTML='';{const d=h('div',{class:'lvhead'});const back=h('button',{class:'back',type:'button'},'← Übersicht');back.onclick=showHub;d.append(back);app.append(d)}
+  const card=h('section',{class:'card end'},`<span class="chip">${setLabel(S)} geschafft</span><div class="score">${sc}<span style="font-size:1.3rem;color:var(--muted)"> / ${max}</span></div><div class="rank">${rankFor(sc/max)}</div><p class="q" style="margin:0 auto 22px">${sn} von ${S.lv.length} Rätseln selbst gelöst. Über die Punkte kannst du jedes Rätsel noch einmal spielen.</p>`);
   const a=h('div',{class:'acts',style:'justify-content:center'});
-  const re=h('button',{class:'ghostbtn',type:'button'},'Level ansehen');re.onclick=()=>showLevel(w,0);a.append(re);
-  if(w<WORLDS.length-1){const nx=h('button',{class:'primary',type:'button'},`Weiter zu Level 0${w+2} →`);nx.onclick=()=>{const f=firstOpen(w+1);f===-1?showWorldEnd(w+1):showLevel(w+1,f)};a.append(nx)}
-  else{const nx=h('button',{class:'primary',type:'button'},'Zur Gesamtauswertung →');nx.onclick=showFinal;a.append(nx)}
+  const re=h('button',{class:'ghostbtn',type:'button'},'Rätsel ansehen');re.onclick=()=>showSet(S,0);a.append(re);
+  if(S.kind==='story'){
+    if(S.idx<WORLDS.length-1){const nx=h('button',{class:'primary',type:'button'},`Weiter zu Level 0${S.idx+2} →`);nx.onclick=()=>openSet(WORLDS[S.idx+1]);a.append(nx)}
+    else{const nx=h('button',{class:'primary',type:'button'},'Zur Story-Auswertung →');nx.onclick=showFinal;a.append(nx)}
+  }else{const N=CATS[(S.idx+1)%CATS.length];const nx=h('button',{class:'primary',type:'button'},`Weiter mit ${N.name} →`);nx.onclick=()=>openSet(N);a.append(nx)}
   card.append(a);app.append(card);
 }
 function showFinal(){
-  runCleanup();setTheme(4);topbar();window.scrollTo(0,0);
-  const sc=score(P),max=TOTAL*100;
-  app.innerHTML=`<div class="end"><div class="eyebrow">Gesamtauswertung</div><h1 class="hero" style="margin-top:14px">${esc(P.name)},<br><em>geschafft.</em></h1>
-    <div class="score">${sc}<span style="font-size:1.4rem;color:var(--muted)"> / ${max}</span></div><div class="rank">${rankFor(sc/max)}</div>
-    <p class="lead" style="margin:0 auto 26px">${solvedOf(P)} von ${TOTAL} Rätseln selbst gelöst.</p></div>`;
+  runCleanup();setTheme(WORLDS[4]);topbar();window.scrollTo(0,0);
+  let sc=0;WORLDS.forEach(W=>sc+=setScore(W));const max=TOTAL*100;
+  app.innerHTML=`<div class="end"><div class="eyebrow">Story-Auswertung</div><h1 class="hero" style="margin-top:14px">${esc(P.name)},<br><em>geschafft.</em></h1>
+    <div class="score">${sc}<span style="font-size:1.4rem;color:var(--muted)"> / ${max}</span></div><div class="rank">${rankFor(sc/max)}</div></div>`;
   const specs=h('div',{class:'specimens',style:'grid-template-columns:repeat(5,1fr)'});
-  WORLDS.forEach((W,w)=>specs.append(h('div',{class:'spec',style:`background:${W.c};color:${W.fg};aspect-ratio:1`},`<small>${W.name}</small><b style="font-family:var(--mono);font-size:1.8rem">${worldScore(w)}</b>`)));
+  WORLDS.forEach(W=>specs.append(h('div',{class:'spec',style:`background:${W.c};color:${W.fg};aspect-ratio:1`},`<small>${W.name}</small><b style="font-family:var(--mono);font-size:1.8rem">${setScore(W)}</b>`)));
   app.append(specs);
-  const a=h('div',{class:'acts',style:'justify-content:center'});const b1=h('button',{class:'primary',type:'button'},'Zur Bestenliste');b1.onclick=showStart;const b2=h('button',{class:'ghostbtn',type:'button'},'Übersicht');b2.onclick=showHub;a.append(b2,b1);app.append(a);
+  const a=h('div',{class:'acts',style:'justify-content:center'});const b1=h('button',{class:'primary',type:'button'},'Freier Modus');b1.onclick=showHub;const b2=h('button',{class:'ghostbtn',type:'button'},'Bestenliste');b2.onclick=showStart;a.append(b2,b1);app.append(a);
 }
 
-showStart();
+/* ---------- Start (inkl. Rückkehr nach „Neu laden“-Rätsel) ---------- */
+(function boot(){let rl=null;try{rl=JSON.parse(sessionStorage.getItem('ue_reload'));sessionStorage.removeItem('ue_reload')}catch(e){}
+  if(rl&&DB.players[rl.p]){const S=[...WORLDS,...CATS].find(x=>x.key===rl.s);if(S&&S.lv[rl.i]){P=DB.players[rl.p];window.__reloadHit=true;showSet(S,rl.i);return}}
+  showStart()})();
 })();
+
 </script>
 </body>
 </html>
