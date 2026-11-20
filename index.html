@@ -203,6 +203,10 @@ button.spec{border:0;text-align:left;cursor:pointer;font-family:inherit}
 .spec .pm{font-family:var(--mono);font-size:.66rem;display:flex;justify-content:space-between;margin-top:6px;opacity:.9}
 .spec .bar{display:block;height:4px;background:rgba(0,0,0,.15);border-radius:2px;overflow:hidden;margin-top:10px}
 .spec .bar i{display:block;height:100%;background:currentColor}
+.mapq{grid-template-columns:repeat(auto-fill,minmax(26px,30px));gap:4px;justify-content:start}.mapq .dot{font-size:.58rem}
+.quizimg{padding:12px}
+.opt.right,.opt.right:disabled{opacity:1;border-color:var(--c);background:color-mix(in srgb,var(--c) 16%,#fff);font-weight:600}
+.opt.gone{text-decoration:line-through}
 .map25{grid-template-columns:repeat(auto-fill,minmax(32px,42px));justify-content:start}
 .lvtitle .pts{font-family:var(--mono);font-size:.85rem;color:var(--muted)}
 .stage{position:relative;height:190px;border-radius:18px;background:#fff6e0;margin-top:16px;overflow:hidden;display:grid;place-items:center;font-size:1.4rem}
@@ -288,7 +292,7 @@ function mc(b,api,q,opts,onOk){
   const wrap=h('div',{class:'mc'});
   if(q)wrap.append(h('p',{class:'q'},q));
   shuffle(opts.slice()).forEach(o=>{const bt=h('button',{class:'opt',type:'button'},o.t);
-    bt.onclick=()=>{if(o.ok)onOk();else{api.wrong(o.why);bt.disabled=true}};wrap.append(bt)});
+    bt.onclick=()=>{if(o.ok){bt.classList.add('right');onOk()}else{api.wrong(o.why);bt.disabled=true}};wrap.append(bt)});
   b.append(wrap);
 }
 function multi(b,api,rows,wide){
@@ -1308,6 +1312,167 @@ T({t:'Rechtecke im Quadrat',tag:'Zählen',q:'Ein Quadrat ist in 2 × 2 gleich gr
     reset()}}
 ];
 
+/* Multiple-Choice-Quizfrage; Tipps = Joker, die je eine falsche Antwort nennen */
+function Q(q,right,wrongs,expl,o){o=o||{};
+  return {onHint(k,box){box.querySelectorAll('.opt').forEach(x=>{if(x.textContent===wrongs[k]){x.disabled=true;x.classList.add('gone')}})},t:o.t||'',tag:o.tag||'Quiz',q,img:o.img,hints:[`Diese Antwort ist es nicht: „${wrongs[0]}“.`,`Diese auch nicht: „${wrongs[1]}“.`],sol:right,expl:expl||`Richtig: <b>${right}</b>.`,
+    render(b,api){if(o.img)b.append(h('div',{class:'svgbox quizimg'},o.img));
+      mc(b,api,'',[{t:right,ok:1}].concat(wrongs.map(w=>({t:w,why:pick(['Leider nein.','Knapp daneben.','Nope.','Das war nichts.','Falsch geraten.'])}))),()=>api.solve())}};
+}
+/* ---------- SPEZIAL: How I Met Your Mother ---------- */
+const HIMYM_DATA=[
+['In welchem Jahr erzählt Ted seinen Kindern die ganze Geschichte?','2030',['2025','2028','2035'],'Der Erzähler-Ted sitzt im Jahr <b>2030</b> mit Penny und Luke auf dem Sofa.'],
+['Wie heißen Teds Kinder?','Penny und Luke',['Lucy und Marvin','Ellie und Luke','Penny und Max'],'Tochter <b>Penny</b> und Sohn <b>Luke</b> müssen sich neun Staffeln lang die Geschichte anhören.'],
+['Wer spricht im Original den erzählenden Ted aus der Zukunft?','Bob Saget',['Josh Radnor','Alan Thicke','Morgan Freeman'],'Die Stimme des älteren Ted gehört <b>Bob Saget</b>.'],
+['Was stiehlt Ted im Pilotfilm für Robin aus einem Restaurant?','Ein blaues Waldhorn',['Eine gelbe Rose','Ein Gemälde','Eine Ananas'],'Das <b>blaue Waldhorn</b> taucht im allerletzten Bild der Serie wieder auf.'],
+['Welchen Fehler macht Ted schon beim ersten Date mit Robin?','Er sagt „Ich liebe dich“',['Er vergisst ihren Namen','Er bringt Marshall mit','Er schläft im Taxi ein'],'Ted sagt beim ersten Date „<b>Ich liebe dich</b>“. Legendär, aber nicht im guten Sinn.'],
+['Welcher Gegenstand begleitet die Suche nach der Mutter durch die ganze Serie?','Ein gelber Regenschirm',['Ein roter Cowboyhut','Ein grüner Schal','Ein blaues Waldhorn'],'Der <b>gelbe Regenschirm</b> gehört der Mutter.'],
+['An welchem Feiertag nimmt Ted den gelben Regenschirm in einem Club mit?','St. Patrick’s Day',['Halloween','Silvester','Thanksgiving'],'Ted findet den Schirm an <b>St. Patrick’s Day</b> und nimmt ihn mit.'],
+['Wie heißt die Mutter mit vollem Namen?','Tracy McConnell',['Cindy McConnell','Stella Zinman','Tracy Scherbatsky'],'Ihr Name ist <b>Tracy McConnell</b>.'],
+['Welches Instrument spielt die Mutter?','Bass',['Waldhorn','Schlagzeug','Geige'],'Die Mutter spielt <b>Bass</b>.'],
+['Wie heißt die Band der Mutter?','Superfreakonomics',['Yellow Umbrella','The Mosbys','Farhampton Five'],'Ihre Band heißt <b>Superfreakonomics</b>.'],
+['Wo begegnen sich Ted und die Mutter zum ersten Mal richtig?','Am Bahnhof von Farhampton',['In MacLaren’s Pub','In Teds Hörsaal','Auf einer Halloween-Party'],'Auf dem Bahnsteig in <b>Farhampton</b>, nach Barneys und Robins Hochzeit.'],
+['Bei Teds allererster Vorlesung landet er im falschen Hörsaal. Welches Fach wird dort unterrichtet?','Wirtschaft',['Architektur','Kunstgeschichte','Jura'],'Ted steht in einer <b>Wirtschaftsvorlesung</b>. Und genau dort sitzt die Mutter.'],
+['Mit wem wohnt die Mutter zusammen, als Ted sie knapp verpasst?','Cindy',['Stella','Zoey','Patrice'],'Ihre Mitbewohnerin ist <b>Cindy</b>, mit der Ted kurz zusammen war.'],
+['Wie hieß der früh verstorbene Freund der Mutter?','Max',['Louis','Tony','Kevin'],'<b>Max</b> starb an ihrem 21. Geburtstag.'],
+['Wie heißt der Freund der Mutter, dessen Antrag sie ablehnt?','Louis',['Max','Gael','Don'],'Sie lehnt den Antrag von <b>Louis</b> ab.'],
+['In welchem Jahr stirbt die Mutter?','2024',['2030','2020','2016'],'Laut dem Finale stirbt Tracy <b>2024</b>.'],
+['Wo macht Ted der Mutter den Heiratsantrag?','Am Leuchtturm von Farhampton',['Am Bahnhof','In MacLaren’s Pub','Auf dem Empire State Building'],'Ted macht den Antrag am <b>Leuchtturm von Farhampton</b>.'],
+['In welcher Staffel sieht man das Gesicht der Mutter zum ersten Mal?','Am Ende von Staffel 8',['In Staffel 1','In Staffel 5','Erst im Serienfinale'],'Ganz am Ende von <b>Staffel 8</b> kauft sie ein Zugticket nach Farhampton.'],
+['Wer spielt die Mutter?','Cristin Milioti',['Sarah Chalke','Jennifer Morrison','Ashley Williams'],'<b>Cristin Milioti</b>. Die anderen drei spielen Stella, Zoey und Victoria.'],
+['Wie endet die Serie?','Ted steht mit dem blauen Waldhorn unter Robins Fenster',['Ted und die Mutter heiraten','Barney eröffnet Puzzles','Marshall wird Präsident'],'Das letzte Bild schließt den Kreis zum Pilotfilm: Ted mit dem <b>blauen Waldhorn</b>.'],
+['Wie heißt die allerletzte Folge?','Last Forever',['Something New','The End of the Aisle','Legendary'],'Das Finale heißt <b>„Last Forever“</b>.'],
+['Wie viele Staffeln hat die Serie?','9',['7','8','10'],'Es sind <b>neun</b> Staffeln.'],
+['Über welchen Zeitraum spielt fast die gesamte neunte Staffel?','Ein einziges Hochzeitswochenende',['Ein Jahr in Rom','Teds Zeit als Professor','Die Zeit nach der Scheidung'],'Staffel 9 erzählt fast nur das <b>Hochzeitswochenende</b> von Barney und Robin.'],
+['Wer hat die Serie erfunden?','Carter Bays und Craig Thomas',['Chuck Lorre und Bill Prady','David Crane und Marta Kauffman','Greg Daniels und Michael Schur'],'<b>Carter Bays</b> und <b>Craig Thomas</b>.'],
+['Wer spielt Barney Stinson?','Neil Patrick Harris',['Jason Segel','Josh Radnor','Thomas Lennon'],'<b>Neil Patrick Harris</b>.'],
+['Wie heißt der Barkeeper bei MacLaren’s?','Carl',['Ranjit','Sven','Tony'],'Der Barkeeper heißt <b>Carl</b>.'],
+['Wie heißt die Kellnerin bei MacLaren’s?','Wendy',['Wanda','Wilma','Patrice'],'<b>Wendy the Waitress</b>.'],
+['Wie heißt der Fahrer, der immer wieder auftaucht?','Ranjit',['Carl','Kevin','Jerome'],'<b>Ranjit</b> fährt die Gang mal Taxi, mal Limousine.'],
+['Wo liegt Teds Wohnung?','Direkt über MacLaren’s Pub',['Gegenüber vom Central Park','In Brooklyn','Neben Robins Sender'],'Die Wohnung liegt <b>direkt über MacLaren’s</b>.'],
+['Was antwortet Barney, wenn man ihn fragt, was er beruflich macht?','„Please!“',['„Geheim.“','„Suit up!“','„Challenge accepted!“'],'Er sagt immer nur „<b>Please!</b>“. Erst im Finale stellt sich heraus, dass das sein Job ist.'],
+['Wofür steht Barneys Job „P.L.E.A.S.E.“?','Provide Legal Exculpation And Sign Everything',['Personal Legal Executive And Senior Expert','Plan, Lead, Execute And Sell Everything','Professional Lawyer Executing All Signed Entries'],'Er unterschreibt alles und ist der <b>Sündenbock</b> für illegale Geschäfte.'],
+['Bei welcher Bank arbeitet Barney, und für welche baut Ted die neue Zentrale?','Goliath National Bank',['First National Bank','Gotham Trust','Bank of Manhattan'],'<b>Goliath National Bank (GNB)</b>.'],
+['Wen hielt Barney lange für seinen leiblichen Vater?','Bob Barker',['Alan Thicke','Ted Danson','Morgan Freeman'],'Seine Mutter ließ ihn glauben, der Showmaster <b>Bob Barker</b> sei sein Vater.'],
+['Wie heißt Barneys leiblicher Vater?','Jerome Whittaker',['Sam Gibbs','Marvin Eriksen','Alfred Mosby'],'<b>Jerome Whittaker</b>, gespielt von John Lithgow.'],
+['Wie heißt Barneys Halbbruder?','James',['Marcus','Carl','Tony'],'<b>James</b> Stinson.'],
+['Wie heißt Barneys Halbschwester?','Carly',['Katie','Cindy','Claire'],'<b>Carly</b> Whittaker.'],
+['Wie heißt Barneys Mutter?','Loretta',['Virginia','Judy','Lorraine'],'<b>Loretta</b> Stinson.'],
+['Wie heißt Barneys Buch voller Aufreißmaschen?','The Playbook',['The Suitbook','Legendary Moves','Barney’s Bible'],'Das <b>Playbook</b>.'],
+['Wie heißt Barneys Regelwerk für Männerfreundschaften?','The Bro Code',['The Playbook','The Bromandments','The Suit Rules'],'Der <b>Bro Code</b>. Den gibt es übrigens als echtes Buch.'],
+['Welche erfundene Identität stützt Barney mit gefälschten Webseiten?','Lorenzo Von Matterhorn',['Jerome Whittaker','Teddy Westside','Swarley'],'Wer <b>Lorenzo Von Matterhorn</b> googelt, findet nur Lügen.'],
+['Welches Wort zerteilt Barney mit „wait for it“?','Legendary',['Awesome','Amazing','Incredible'],'„Legen – wait for it – <b>dary</b>!“'],
+['Mit welchem Satz fordert Barney alle auf, sich in Schale zu werfen?','„Suit up!“',['„Dress up!“','„Tie up!“','„Gear up!“'],'„<b>Suit up!</b>“'],
+['Was ruft Barney, bevor er sich in eine absurde Herausforderung stürzt?','„Challenge accepted!“',['„Game on!“','„Bring it!“','„Legendary!“'],'„<b>Challenge accepted!</b>“'],
+['Womit bestätigt Barney eine noch so unglaubliche Geschichte?','„True story.“',['„Believe me.“','„No joke.“','„Fact.“'],'„<b>True story.</b>“'],
+['Mit welchem Satz stellt Barney Ted Frauen in der Bar vor?','„Have you met Ted?“',['„This is my bro.“','„Meet the architect.“','„Say hi to Teddy.“'],'„<b>Have you met Ted?</b>“'],
+['Welchen Namen schreibt eine Barista auf Barneys Becher?','Swarley',['Barnes','Stinsy','Barnaby'],'Aus Barney wird <b>Swarley</b>. Der Name bleibt hängen.'],
+['Wie heißt Barneys großer Musical-Song?','„Nothing Suits Me Like a Suit“',['„Suit Up Forever“','„Legendary“','„The Bro Song“'],'„<b>Nothing Suits Me Like a Suit</b>“ aus „Girls Versus Suits“.'],
+['Was hat Barney neben Anzügen als großes Hobby?','Zaubertricks',['Bergsteigen','Kochen','Golf'],'Barney liebt <b>Zaubertricks</b>.'],
+['Wie heißt die Masche, bei der man sich nackt auf der Couch präsentiert?','The Naked Man',['The Full Monty','The Surprise','The Lorenzo'],'„<b>The Naked Man</b>“.'],
+['Wie oft funktioniert „The Naked Man“ laut den Freunden?','Zwei von drei Mal',['Nie','Immer','Einmal von zehn'],'Angeblich <b>zwei von drei Mal</b>.'],
+['Wie heißt Barneys Diagramm, das Attraktivität gegen Verrücktheit aufträgt?','Hot/Crazy-Skala',['Barney-Kurve','Stinson-Matrix','Legendär-Index'],'Die <b>Hot/Crazy-Skala</b>.'],
+['Wie heißt die Linie auf der Hot/Crazy-Skala, die man nicht überschreiten sollte?','Vicky-Mendoza-Diagonale',['Stinson-Linie','Robin-Grenze','Scherbatsky-Achse'],'Die <b>Vicky-Mendoza-Diagonale</b>.'],
+['Welche Theorie besagt, dass Frauen in Gruppen attraktiver wirken als allein?','Cheerleader-Effekt',['Meerjungfrauen-Theorie','Oliven-Theorie','Dobler-Dahmer-Theorie'],'Der <b>Cheerleader-Effekt</b>.'],
+['Was ist Barneys „Perfect Week“?','Sieben Tage, sieben Frauen, keine einzige Abfuhr',['Sieben Tage im Anzug','Sieben Tage ohne Lüge','Sieben Tage nur Laser Tag'],'Sieben Frauen in sieben Tagen, <b>ohne Abfuhr</b>.'],
+['Wie nennt Barney die Mutter seiner Tochter?','Nummer 31',['Nummer 1','Die Perfekte','Das Regenschirm-Mädchen'],'Sie war die <b>31.</b> Frau seines „perfekten Monats“.'],
+['Wie heißt Barneys Tochter?','Ellie',['Penny','Lucy','Daisy'],'Barneys Tochter heißt <b>Ellie</b>.'],
+['Wie heißt Barneys Liste der Frauen, die seine Hochzeit sabotieren könnten?','The Bracket',['The Blacklist','The Playbook','The Hot/Crazy-Skala'],'Ein Turnierbaum: <b>The Bracket</b>.'],
+['Was trägt Barney eine Zeit lang, um sich Ohrfeigen zu ersparen?','Eine Entchen-Krawatte',['Einen gelben Anzug','Eine Ananas-Fliege','Einen Cowboyhut'],'Die <b>Ducky Tie</b>.'],
+['Was vermutete Barney bei der Ohrfeigen-Wette als Robins Geheimnis?','Dass sie Pornos gedreht hat',['Dass sie verheiratet war','Dass sie eine Popsängerin war','Dass sie aus Kanada geflohen ist'],'Barney tippte auf <b>Pornos</b>, Marshall auf eine heimliche Ehe. Beide lagen falsch.'],
+['Was vermutete Marshall bei der Ohrfeigen-Wette als Robins Geheimnis?','Dass sie heimlich verheiratet war',['Dass sie Pornos gedreht hat','Dass sie vorbestraft ist','Dass sie einen Zwilling hat'],'Marshall tippte auf eine <b>heimliche Ehe</b>.'],
+['Wer ist die Schiedsrichterin der Ohrfeigen-Wette?','Lily',['Ted','Robin','Carl'],'<b>Lily</b> ist Slap Bet Commissioner.'],
+['Welche Wahl ließ Lily Marshall nach der gewonnenen Ohrfeigen-Wette?','10 Ohrfeigen sofort oder 5 jederzeit',['1 sofort oder 3 jederzeit','5 sofort oder 10 jederzeit','Eine pro Jahr, für immer'],'<b>10 sofort oder 5 irgendwann</b>. Marshall nimmt die fünf.'],
+['Wie heißt der Feiertag, an dem Marshall Barney ohrfeigt?','Slapsgiving',['Slaptember','Slapmas','Slappy New Year'],'<b>Slapsgiving</b>, an Thanksgiving.'],
+['Wie heißt Robins Popstar-Alter-Ego?','Robin Sparkles',['Robin Daggers','Robin Glitter','Robin Stars'],'<b>Robin Sparkles</b>, Kanadas Teenie-Star.'],
+['Wie heißt Robin Sparkles’ größter Hit?','„Let’s Go to the Mall“',['„Hot Dog Party“','„Canada Rocks“','„Shopping Girl“'],'„<b>Let’s Go to the Mall</b>“.'],
+['Welcher Robin-Sparkles-Song ist eine traurige Ballade?','„Sandcastles in the Sand“',['„Let’s Go to the Mall“','„Snow Day in Vancouver“','„Mall Rats Forever“'],'„<b>Sandcastles in the Sand</b>“.'],
+['Um wen geht es in Robin Sparkles’ Song „P.S. I Love You“?','Paul Shaffer',['Alan Thicke','Ted Mosby','Simon'],'P.S. steht für <b>Paul Shaffer</b>, den Bandleader aus der Late Show.'],
+['In welcher Kinderserie spielte Robin neben Alan Thicke?','Space Teens',['Mall Rats','Canada Kids','Galaxy Girls'],'<b>Space Teens</b>.'],
+['Wie lautet Robins voller Name?','Robin Charles Scherbatsky Jr.',['Robin Elizabeth Scherbatsky','Robin Catherine Scherbatsky','Robin Sparkles Scherbatsky'],'<b>Robin Charles Scherbatsky Jr.</b> Ihr Vater wollte unbedingt einen Sohn.'],
+['Welche Donutkette liebt Robin?','Tim Hortons',['Dunkin’','Krispy Kreme','Mister Donut'],'<b>Tim Hortons</b>, natürlich.'],
+['Was trinkt Robin am liebsten?','Scotch',['Wodka','Rotwein','Gin Tonic'],'<b>Scotch</b>, am liebsten alt.'],
+['Wie viele Hunde hat Robin, als Ted sie kennenlernt?','Fünf',['Einen','Zwei','Keinen'],'<b>Fünf</b> Hunde.'],
+['Wie heißt Robins kleine Schwester?','Katie',['Kelly','Kim','Kara'],'<b>Katie</b>.'],
+['Wie heißt Robins erster Sender in New York?','Metro News One',['World Wide News','GNB News','NY1 Morning'],'<b>Metro News One</b>.'],
+['Wie heißt Robins eitler Co-Moderator?','Sandy Rivers',['Sandy Banks','Sandy Bridges','Sandy Stone'],'<b>Sandy Rivers</b>.'],
+['Wen schikaniert Robin bei der Arbeit ständig?','Patrice',['Cindy','Quinn','Nora'],'Die arme, immer freundliche <b>Patrice</b>.'],
+['Wie heißt Robins Co-Moderator und Freund, der für einen Job nach Chicago geht?','Don',['Kevin','Simon','Gael'],'<b>Don</b>.'],
+['Wie heißt Robins Therapeut, mit dem sie kurz zusammen ist?','Kevin',['Gael','Don','Simon'],'<b>Kevin</b>.'],
+['Wer spielt Robins Therapeuten Kevin?','Kal Penn',['John Cho','Aziz Ansari','Jason Segel'],'<b>Kal Penn</b>.'],
+['Welcher Popstar spielt Robins argentinischen Freund Gael?','Enrique Iglesias',['Ricky Martin','Marc Anthony','Pitbull'],'<b>Enrique Iglesias</b>.'],
+['Wo macht Barney Robin den Heiratsantrag?','Auf dem Dach des Senders World Wide News',['In MacLaren’s Pub','Am Leuchtturm von Farhampton','Im Central Park'],'Auf dem <b>Dach von World Wide News</b>.'],
+['Wo heiraten Barney und Robin?','Im Farhampton Inn',['In MacLaren’s','In Vancouver','In der Kirche in St. Cloud'],'Im <b>Farhampton Inn</b>.'],
+['Wie lange hält die Ehe von Barney und Robin?','Drei Jahre',['Ein Jahr','Fünf Jahre','Zehn Jahre'],'Nach <b>drei Jahren</b> lassen sie sich scheiden.'],
+['Wer ist am Ende der Serie mit Ted zusammen?','Robin',['Victoria','Stella','Zoey'],'Am Ende geht Ted wieder auf <b>Robin</b> zu.'],
+['Aus welcher Stadt in Minnesota stammt Marshall?','St. Cloud',['Minneapolis','Duluth','Rochester'],'<b>St. Cloud</b>, Minnesota.'],
+['Wie heißen Marshalls ältere Brüder?','Marcus und Marvin',['Marty und Mike','Mitch und Max','Mark und Matt'],'<b>Marcus</b> und <b>Marvin</b>.'],
+['Wie heißt Marshalls und Lilys Sohn mit vollem Namen?','Marvin Waitforit Eriksen',['Marvin Ted Eriksen','Marshall Junior Eriksen','Marvin Barney Eriksen'],'<b>Marvin Waitforit Eriksen</b>, Barney sei Dank.'],
+['Was wollte Marshall ursprünglich als Anwalt tun?','Die Umwelt retten',['Promis verteidigen','Reich werden','Politiker werden'],'Er wollte <b>Umweltanwalt</b> werden.'],
+['Was wird Marshall am Ende?','Richter',['Staatsanwalt','Senator','Polizeichef'],'Marshall wird <b>Richter</b>.'],
+['Bei welcher Firma arbeitet Marshall eine Zeit lang mit Barney zusammen?','Goliath National Bank',['Gruber Mills','Honeywell Partners','Mosbius Designs'],'Bei der <b>GNB</b>.'],
+['Welches Auto fährt Marshall jahrelang?','Pontiac Fiero',['Ford Mustang','Chevrolet Camaro','VW Käfer'],'Einen <b>Pontiac Fiero</b>.'],
+['Welche Kassette steckt im Fiero fest?','The Proclaimers – „I’m Gonna Be (500 Miles)“',['Bon Jovi – „Livin’ on a Prayer“','Journey – „Don’t Stop Believin’“','Queen – „Don’t Stop Me Now“'],'<b>„500 Miles“</b> von The Proclaimers, in Dauerschleife.'],
+['Welchen Kilometerstand – oder besser Meilenstand – erreicht der Fiero kurz vor seinem Ende?','200.000 Meilen',['100.000 Meilen','500.000 Meilen','1.000.000 Meilen'],'<b>200.000 Meilen</b>.'],
+['An welches Fabelwesen glaubt Marshall fest?','Bigfoot',['Einhörner','Vampire','Die Zahnfee'],'Marshall glaubt an <b>Bigfoot</b>.'],
+['Wie heißt das Spiel, das Marshall aus Backgammon entwickelt hat?','Marshgammon',['Marshopoly','Eriksen-Dame','Backhammer'],'<b>Marshgammon</b>.'],
+['Was ruft Marshall, wenn er jemanden argumentativ überführt hat?','„Lawyered!“',['„Objection!“','„Case closed!“','„Gavel!“'],'„<b>Lawyered!</b>“'],
+['Welchen Spitznamen trug Marshall im College?','Big Fudge',['Big Minnesota','The Tower','Moose'],'<b>Big Fudge</b>.'],
+['Wie nennt Lily Marshall liebevoll?','Marshmallow',['Big Fudge','Teddy Bear','Marsh'],'<b>Marshmallow</b>.'],
+['Wie nennt Marshall Lily liebevoll?','Lilypad',['Lilypie','Little Bean','Flower'],'<b>Lilypad</b>.'],
+['Was hält Marshall angeblich nicht aus, damit die „Oliven-Theorie“ funktioniert?','Oliven',['Tomaten','Käse','Pilze'],'Marshall behauptet, <b>Oliven</b> zu hassen. In Wahrheit mag er sie.'],
+['Welchen Beruf hat Lily?','Kindergärtnerin',['Anwältin','Bankerin','Journalistin'],'Lily ist <b>Kindergärtnerin</b>. Später wird sie Kunstberaterin.'],
+['Wohin geht Lily am Ende der ersten Staffel?','Nach San Francisco, für ein Kunststipendium',['Nach Paris','Nach Rom','Nach Minnesota'],'Lily geht für ein Kunststipendium nach <b>San Francisco</b>.'],
+['Was verheimlicht Lily lange vor Marshall?','Hohe Kreditkartenschulden',['Einen Ex-Mann','Ein Tattoo','Eine Allergie gegen Hunde'],'Ihre <b>Kreditkartenschulden</b> vom Shoppen.'],
+['Was macht Lilys Vater Mickey beruflich, wenn auch erfolglos?','Brettspiele erfinden',['Zaubertricks','Autos verkaufen','Gedichte schreiben'],'Mickey erfindet <b>Brettspiele</b>.'],
+['Wie heißt Lilys Ex aus der Highschool, der nie loslassen kann?','Scooter',['Brad','Tony','Max'],'<b>Scooter</b>.'],
+['Wie nennt Lily die Gegend, in der sie und Marshall eine Wohnung kaufen?','Dowisetrepla',['Mansowepla','Dowestpla','Sotra'],'„<b>Do</b>wn<b>t</b>own <b>We</b>st of the <b>Se</b>wage <b>Tre</b>atment <b>Pla</b>nt“.'],
+['Für wen arbeitet Lily als Kunstberaterin?','The Captain',['Barney','Hammond Druthers','Sandy Rivers'],'Für <b>The Captain</b>, Zoeys Ex-Mann.'],
+['In welches Land ziehen Lily und Marshall für ein Jahr?','Italien',['Frankreich','Deutschland','Kanada'],'Wegen Lilys Job geht es nach <b>Italien</b>.'],
+['An welcher Uni haben Ted, Marshall und Lily studiert?','Wesleyan University',['Columbia','Harvard','NYU'],'An der <b>Wesleyan University</b>.'],
+['Welches Wort benutzt der Erzähler-Ted, wenn die Freunde im College etwas anderes rauchen?','Sandwich',['Brezel','Pfannkuchen','Ananas'],'Sie essen angeblich ein „<b>Sandwich</b>“.'],
+['An welcher Uni unterrichtet Ted später Architektur?','Columbia University',['Wesleyan','Yale','NYU'],'An der <b>Columbia University</b>.'],
+['Wie heißt Teds eigenes Architekturbüro?','Mosbius Designs',['Mosby & Partners','Ted Inc.','Westside Design'],'<b>Mosbius Designs</b>.'],
+['Wie heißt Teds tyrannischer Chef im Architekturbüro?','Hammond Druthers',['Arthur Hobbs','Bill Druthers','Jerome Hammond'],'<b>Hammond Druthers</b>.'],
+['Wie heißt Teds Partygänger-Alter-Ego?','Teddy Westside',['T-Mos','Ted the Architect','Professor Mosby'],'<b>Teddy Westside</b>.'],
+['Welches Tattoo hat Ted am unteren Rücken?','Einen Schmetterling',['Ein Herz','Einen Anker','Einen Drachen'],'Einen <b>Schmetterling</b>. Stella entfernt ihn.'],
+['Welche Farbe haben Teds Cowboystiefel?','Rot',['Schwarz','Braun','Weiß'],'<b>Rote</b> Cowboystiefel.'],
+['Was findet Ted nach einer durchzechten Nacht in seinem Bett?','Eine Ananas',['Eine Ziege','Ein Waldhorn','Eine Ente'],'Eine <b>Ananas</b>, und niemand weiß, woher.'],
+['Welches Tier lebt an Teds 30. Geburtstag in der Wohnung?','Eine Ziege',['Ein Hund','Eine Ente','Ein Schwein'],'Eine <b>Ziege</b>.'],
+['Welches Kostüm trägt Ted jedes Halloween in der Hoffnung, ein bestimmtes Mädchen wiederzutreffen?','Hanging Chad',['Einen Piraten','Einen Hotdog','Einen Superhelden'],'Als „<b>Hanging Chad</b>“. Er wartet auf das Slutty Pumpkin.'],
+['Wie nennt Ted seine Liste von Dingen, für die er zu alt ist?','Die Murtaugh-Liste',['Die Mosby-Liste','Die Oldie-Liste','Die 30er-Liste'],'Die <b>Murtaugh-Liste</b>.'],
+['Aus welchem Film stammt der Name der Murtaugh-Liste?','Lethal Weapon',['Stirb langsam','Zurück in die Zukunft','Rocky'],'Aus <b>Lethal Weapon</b>: „Ich bin zu alt für diesen Mist.“'],
+['Was besagt die Dobler-Dahmer-Theorie?','Ob eine Geste romantisch oder gruselig ist, hängt davon ab, ob der andere dich mag',['Man sollte nie zwei Dates am selben Tag haben','Wer zuerst anruft, verliert','Je teurer das Date, desto besser'],'Wird man gemocht, ist man <b>Dobler</b>, sonst <b>Dahmer</b>.'],
+['Was besagt die „Zitronen-Regel“?','Man darf ein Date in den ersten fünf Minuten abbrechen',['Saure Getränke sind beim ersten Date verboten','Wer zuerst bestellt, zahlt','Man darf nie zweimal ins selbe Restaurant'],'Die <b>Lemon Law</b>: fünf Minuten Rückgaberecht.'],
+['Was besagt Teds „Platin-Regel“?','Nie mit jemandem ausgehen, den man regelmäßig sieht',['Nie nach 2 Uhr nachts ausgehen','Nie den Ex eines Freundes daten','Immer einen Anzug tragen'],'Die <b>Platinum Rule</b>.'],
+['Welche Regel hat Teds Mutter?','Nach 2 Uhr nachts passiert nichts Gutes',['Nie ohne Jacke aus dem Haus','Kein Alkohol unter der Woche','Immer zuerst anrufen'],'<b>Nothing good happens after 2 a.m.</b>'],
+['Wie nennt die Gruppe das Zurückfallen in alte Verhaltensweisen bei alten Freunden?','Revertigo',['Throwbackitis','Retroflex','Backslide'],'<b>Revertigo</b>.'],
+['Wie nennt Robin die Frauen, die auf Partys ständig „Woo!“ rufen?','Woo Girls',['Party Girls','Yeah Girls','Shout Girls'],'<b>Woo Girls</b>.'],
+['Wer lässt Ted vor dem Altar stehen?','Stella',['Victoria','Robin','Zoey'],'<b>Stella</b> geht zurück zu Tony.'],
+['Welchen Beruf hat Stella?','Dermatologin',['Zahnärztin','Tierärztin','Chirurgin'],'Stella ist <b>Dermatologin</b>.'],
+['Wie lange dauert Teds erstes Date mit Stella?','Zwei Minuten',['Zehn Minuten','Eine Stunde','Einen Tag'],'Ein ganzes Date in <b>zwei Minuten</b>.'],
+['Wie heißt Stellas Tochter?','Lucy',['Penny','Ellie','Daisy'],'<b>Lucy</b>.'],
+['Wie heißt der Film, den Tony über die geplatzte Hochzeit gedreht hat?','„The Wedding Bride“',['„Left at the Altar“','„Runaway Stella“','„The Jilted Architect“'],'„<b>The Wedding Bride</b>“.'],
+['Wie heißt Teds Figur in „The Wedding Bride“?','Jed Mosely',['Ned Mosby','Ted Mosely','Fred Mobley'],'Ein wenig schmeichelhafter <b>Jed Mosely</b>.'],
+['Welche Popsängerin spielt Abby, die Empfangsdame in Stellas Praxis?','Britney Spears',['Katy Perry','Jennifer Lopez','Mandy Moore'],'<b>Britney Spears</b>.'],
+['Wer spielt Stella?','Sarah Chalke',['Cristin Milioti','Jennifer Morrison','Ashley Williams'],'<b>Sarah Chalke</b>.'],
+['Wohin geht Victoria für ein Stipendium?','Nach Deutschland',['Nach Frankreich','Nach Italien','Nach Japan'],'Victoria geht nach <b>Deutschland</b>.'],
+['Was ist Victorias Beruf?','Konditorin',['Floristin','Journalistin','Architektin'],'Victoria ist <b>Konditorin</b>.'],
+['Welches Gebäude will Zoey vor dem Abriss retten?','Das Arcadian',['Das Chrysler Building','MacLaren’s Pub','Das Flatiron Building'],'Das <b>Arcadian</b>, das Ted abreißen soll.'],
+['Wie wird Zoeys Ex-Mann nur genannt?','The Captain',['The Major','The Admiral','The Colonel'],'<b>The Captain</b>.'],
+['Wen hat Ted zweimal an ihrem Geburtstag verlassen?','Natalie',['Karen','Jeanette','Zoey'],'<b>Natalie</b>, und sie rächt sich handfest.'],
+['Wie heißt Teds anstrengende College-Freundin, zu der er immer wieder zurückkehrt?','Karen',['Natalie','Cindy','Jeanette'],'<b>Karen</b>.'],
+['Wie heißt Barneys britische Freundin aus Staffel 6?','Nora',['Quinn','Abby','Zoey'],'<b>Nora</b>.'],
+['Welchen Künstlernamen hat Barneys Freundin Quinn als Stripperin?','Karma',['Destiny','Lexi','Candy'],'<b>Karma</b>.'],
+['Welche Bar wollen Ted und Barney eines Tages eröffnen?','Puzzles',['MacLaren’s 2','The Legendary','Bro Bar'],'<b>Puzzles</b>.'],
+['Was ist der Witz an der Bar „Puzzles“?','Warum sie so heißt, ist selbst das Rätsel',['Man kann dort Puzzles kaufen','Der Eingang ist ein Labyrinth','Jedes Getränk ist ein Rätsel'],'Warum heißt sie <b>Puzzles</b>? Genau das ist das Puzzle.'],
+['Woran knüpfen Lily und Marshall die Entscheidung für ein Baby?','An die Sichtung aller fünf Doppelgänger',['An einen Lottogewinn','An Marshalls Richterjob','An den Umzug nach Italien'],'Erst wenn alle <b>fünf Doppelgänger</b> gesichtet sind.'],
+['Wer ist Robins Doppelgängerin?','Eine lesbische Robin',['Eine Polizistin','Eine Popsängerin','Eine Kanadierin mit Akzent'],'Eine <b>lesbische Robin</b>.'],
+['Was macht Lilys Doppelgängerin beruflich?','Sie ist Stripperin',['Sie ist Kindergärtnerin','Sie ist Kellnerin','Sie ist Polizistin'],'Lilys Doppelgängerin ist <b>Stripperin</b>.'],
+['Was zeichnet Marshalls Doppelgänger aus?','Ein riesiger Schnurrbart',['Eine Glatze','Ein Pferdeschwanz','Ein Zylinder'],'Ein gewaltiger <b>Schnurrbart</b>.'],
+['Welche Show besuchen Ted und Barney begeistert, obwohl sie absurd klingt?','Robots vs. Wrestlers',['Ninjas vs. Pirates','Dinos vs. Aliens','Cowboys vs. Robots'],'<b>Robots vs. Wrestlers</b>.'],
+];
+const HIMYM=HIMYM_DATA.map(d=>Q(d[0],d[1],d[2],d[3],{tag:'HIMYM'}));
+
 /* ---------- Story-Level & freie Bereiche ---------- */
 const WORLDS=[
   {name:'Aufwärmen',gl:'?',c:'#E5432D',fg:'#fff',ds:'Knöpfe, die fliehen, und Fragen, die man genau lesen muss.',lv:W1},
@@ -1324,9 +1489,13 @@ const CATS=[
   {name:'Code',gl:'{ }',font:'var(--mono)',c:'#F08A24',fg:'#fff',lv:FC},
   {name:'Meisterklasse',gl:'∞',font:'var(--serif)',c:'#5E6E82',fg:'#fff',lv:FP}
 ];
+const SPECIALS=[
+  {name:'How I Met Your Mother',gl:'☂',font:'var(--serif)',c:'#1F3A5F',fg:'#F6C62E',lv:HIMYM}
+];
 WORLDS.forEach((W,w)=>{W.key=String(w);W.kind='story';W.idx=w});
+SPECIALS.forEach((C,c)=>{C.key='S'+c;C.kind='special';C.idx=c;C.lv.forEach((L,i)=>{if(!L.t)L.t='Frage '+(i+1)})});
 CATS.forEach((C,c)=>{C.key='F'+c;C.kind='free';C.idx=c});
-const TOTAL=WORLDS.reduce((s,W)=>s+W.lv.length,0),FREE_TOTAL=CATS.reduce((s,C)=>s+C.lv.length,0);
+const TOTAL=WORLDS.reduce((s,W)=>s+W.lv.length,0),FREE_TOTAL=CATS.reduce((s,C)=>s+C.lv.length,0)+SPECIALS.reduce((s,C)=>s+C.lv.length,0);
 
 /* ---------- Status ---------- */
 const R=(S,i)=>P.res[S.key+'-'+i];
@@ -1338,18 +1507,18 @@ const setSolved=S=>{let s=0;for(let i=0;i<S.lv.length;i++){const r=R(S,i);if(r&&
 const worldOpen=w=>w===0||setCount(WORLDS[w-1])===WORLDS[w-1].lv.length;
 const storyDone=()=>WORLDS.every(W=>setCount(W)===W.lv.length);
 function firstOpen(S){for(let i=0;i<S.lv.length;i++)if(!R(S,i))return i;return -1}
-const accessible=(S,i)=>S.kind==='free'||!!R(S,i)||i===firstOpen(S);
-const setLabel=S=>S.kind==='story'?`Level 0${S.idx+1} · ${S.name}`:`Frei 0${S.idx+1} · ${S.name}`;
+const accessible=(S,i)=>S.kind!=='story'||!!R(S,i)||i===firstOpen(S);
+const setLabel=S=>S.kind==='story'?`Level 0${S.idx+1} · ${S.name}`:S.kind==='special'?`Spezial · ${S.name}`:`Frei 0${S.idx+1} · ${S.name}`;
 function setTheme(S){S=S||WORLDS[0];document.documentElement.style.setProperty('--c',S.c);document.documentElement.style.setProperty('--cfg',S.fg)}
 function runCleanup(){if(cleanup){try{cleanup()}catch(e){}cleanup=null}document.title=BASE_TITLE}
 function topbar(){const w=$('#who');if(!P){w.innerHTML='';return}
   w.innerHTML=`<span>👤 ${esc(P.name)}</span><span class="pts">${score(P)} P.</span><a id="sw"><span class="long">Spieler </span>wechseln</a>`;$('#sw').onclick=showStart}
 $('#brand').onclick=()=>P?showHub():showStart();
 function openSet(S){const f=firstOpen(S);f===-1?showSetEnd(S):showSet(S,f)}
-function specCard(C,k,prog){
+function specCard(C,k,prog,pre){
   const n=prog?setCount(C):0;
   return h('button',{class:'spec',type:'button',style:`background:${C.c};color:${C.fg}`},
-    `<small>0${k+1} · ${C.name}</small><span><b style="font-family:${C.font}">${C.gl}</b>${prog?`<span class="bar"><i style="width:${n/C.lv.length*100}%"></i></span><span class="pm"><span>${n} / ${C.lv.length}</span><span>${setScore(C)} P.</span></span>`:`<span class="pm"><span>${C.lv.length} Rätsel</span></span>`}</span>`);
+    `<small>${pre||'0'+(k+1)} · ${C.name}</small><span><b style="font-family:${C.font}">${C.gl}</b>${prog?`<span class="bar"><i style="width:${n/C.lv.length*100}%"></i></span><span class="pm"><span>${n} / ${C.lv.length}</span><span>${setScore(C)} P.</span></span>`:`<span class="pm"><span>${C.lv.length} ${C.kind==='special'?'Fragen':'Rätsel'}</span></span>`}</span>`);
 }
 
 /* ---------- Startseite ---------- */
@@ -1357,15 +1526,18 @@ function showStart(){
   runCleanup();P=null;setTheme(WORLDS[0]);topbar();window.scrollTo(0,0);
   app.innerHTML=`<div class="eyebrow">Elisas Rätsel Eck · ${TOTAL+FREE_TOTAL} Rätsel</div>
   <h1 class="hero">Denk um<br><em>die Ecke.</em></h1>
-  <p class="lead">Rätsel, bei denen Geradeausdenken nicht hilft. Spiel dich im Story-Modus durch fünf Level oder such dir im freien Modus einen Bereich aus.</p>
+  <p class="lead">Rätsel, bei denen Geradeausdenken nicht hilft. Spiel dich im Story-Modus durch fünf Level, such dir im freien Modus einen Bereich aus, oder teste dein Insiderwissen in den Spezial-Quizzen.</p>
   <div class="eyebrow" style="margin-top:34px">Freier Modus · wähle einen Bereich</div>
   <div class="specimens" id="specs" style="margin-top:14px"></div>
+  <div class="eyebrow">Spezial-Quizze</div>
+  <div class="specimens" id="specials" style="margin-top:14px"></div>
   <div class="eyebrow" style="margin-bottom:10px">Wie heißt du?</div>
   <form class="namebox" id="nf"><input id="nm" placeholder="Dein Name" maxlength="24" autocomplete="off"><button class="primary" type="submit">Los geht’s →</button></form>
   <div class="msg" id="nmsg"></div>
   <div class="board" id="board"></div>`;
   const nm=$('#nm');if(DB.last)nm.value=DB.last;if(!TOUCH)setTimeout(()=>nm.focus(),60);
   CATS.forEach((C,k)=>{const el=specCard(C,k,false);el.onclick=()=>{const n=nm.value.trim();if(!n){$('#nmsg').textContent='Trag zuerst deinen Namen ein, dann geht es direkt los.';nm.focus();return}login(n,()=>openSet(C))};$('#specs').append(el)});
+  SPECIALS.forEach((C,k)=>{const el=specCard(C,k,false,'S'+(k+1));el.onclick=()=>{const n=nm.value.trim();if(!n){$('#nmsg').textContent='Trag zuerst deinen Namen ein, dann geht es direkt los.';nm.focus();return}login(n,()=>openSet(C))};$('#specials').append(el)});
   $('#nf').onsubmit=e=>{e.preventDefault();const n=nm.value.trim();if(!n){$('#nmsg').textContent='Ohne Namen geht es nicht. Er wird noch wichtig.';return}login(n)};
   const list=Object.values(DB.players).sort((a,b)=>score(b)-score(a));
   if(list.length){const bd=$('#board');bd.append(h('h3',{},'Bestenliste'));
@@ -1388,6 +1560,8 @@ function showHub(){
     ${storyDone()?'<div style="text-align:center;margin-top:24px"><button class="primary" id="fin">Story-Auswertung →</button></div>':''}
     <div class="sec"><h3>Freier Modus</h3><span>${CATS.length} Bereiche · freie Wahl</span></div>
     <div class="specimens" id="free" style="margin-top:22px"></div>
+    <div class="sec"><h3>Spezial-Quizze</h3><span>Wissen für Insider</span></div>
+    <div class="specimens" id="spec" style="margin-top:22px"></div>
     <div class="foot"><button id="rs">Meinen Spielstand zurücksetzen</button></div>`;
   WORLDS.forEach((W,w)=>{const n=setCount(W),open=worldOpen(w);
     const c=h('button',{class:'world',type:'button',style:`background:${W.c};color:${W.fg}`},
@@ -1395,6 +1569,7 @@ function showHub(){
       <span class="bar"><i style="width:${n/W.lv.length*100}%"></i></span><span class="meta"><span>${n} / ${W.lv.length}</span><span>${setScore(W)} P.</span></span>`);
     c.disabled=!open;if(!open)c.title='Schließe zuerst das vorherige Level ab.';c.onclick=()=>openSet(W);$('#worlds').append(c)});
   CATS.forEach((C,k)=>{const el=specCard(C,k,true);el.onclick=()=>openSet(C);$('#free').append(el)});
+  SPECIALS.forEach((C,k)=>{const el=specCard(C,k,true,'S'+(k+1));el.onclick=()=>openSet(C);$('#spec').append(el)});
   const fin=$('#fin');if(fin)fin.onclick=showFinal;
   const rs=$('#rs');let armed=false;rs.onclick=()=>{if(!armed){armed=true;rs.textContent='Wirklich alles löschen? Nochmal klicken.';return}P.res={};save();showHub()};
 }
@@ -1406,11 +1581,11 @@ function showSet(S,i){
   const head=h('div',{class:'lvhead'});const back=h('button',{class:'back',type:'button'},'← Übersicht');back.onclick=showHub;
   head.append(back,h('div',{class:'lvtitle'},`<span class="chip">${setLabel(S)}</span><span class="pts">${setScore(S)} / ${S.lv.length*100} P.</span>`));
   app.append(head);
-  const map=h('nav',{class:'map'+(S.lv.length>15?' map25':'')});
+  const map=h('nav',{class:'map'+(S.lv.length>25?' mapq':S.lv.length>15?' map25':'')});
   S.lv.forEach((_,k)=>{const r=R(S,k);const d=h('button',{class:'dot'+(r?' '+r.status:'')+(k===i?' cur':''),type:'button',title:`Rätsel ${k+1}`},String(k+1));d.disabled=!accessible(S,k);d.onclick=()=>showSet(S,k);map.append(d)});
   app.append(map);
   const card=h('section',{class:'card'});app.append(card);
-  card.append(h('div',{class:'tag'},`<b>Rätsel ${i+1}</b> / ${S.lv.length} · ${TOUCH?L.tag.replace(' · Mac',''):L.tag}`),h('h2',{},L.t));
+  card.append(h('div',{class:'tag'},`<b>${S.kind==='special'?'Frage':'Rätsel'} ${i+1}</b> / ${S.lv.length} · ${TOUCH?L.tag.replace(' · Mac',''):L.tag}`),h('h2',{},L.t));
   if(pf(L,'q'))card.append(h('p',{class:'q'},pf(L,'q')));
   const box=h('div',{class:'box'});card.append(box);
   const msg=h('div',{class:'msg'});card.append(msg);
@@ -1421,7 +1596,7 @@ function showSet(S,i){
   const r=L.render(box,api);if(typeof r==='function')cleanup=r;
   const tools=h('div',{class:'tools'}),left=h('div',{class:'l'});
   const hb=h('button',{class:'hint',type:'button'},'💡 Tipp (−25)');
-  const HS=pf(L,'hints');hb.onclick=()=>{if(hintsUsed>=HS.length)return;hintBox.append(h('p',{},`<b>Tipp ${hintsUsed+1}:</b> ${HS[hintsUsed]}`));hintsUsed++;if(hintsUsed>=HS.length)hb.remove();hb.blur()};
+  const HS=pf(L,'hints');hb.onclick=()=>{if(hintsUsed>=HS.length)return;hintBox.append(h('p',{},`<b>Tipp ${hintsUsed+1}:</b> ${HS[hintsUsed]}`));if(L.onHint)L.onHint(hintsUsed,box);hintsUsed++;if(hintsUsed>=HS.length)hb.remove();hb.blur()};
   left.append(hb);
   const pr=R(S,i);
   if(!pr||pr.status!=='done'){const sk=h('button',{class:'hint',type:'button'},'Überspringen');let armed=false;
@@ -1468,6 +1643,7 @@ function showSetEnd(S){
   if(S.kind==='story'){
     if(S.idx<WORLDS.length-1){const nx=h('button',{class:'primary',type:'button'},`Weiter zu Level 0${S.idx+2} →`);nx.onclick=()=>openSet(WORLDS[S.idx+1]);a.append(nx)}
     else{const nx=h('button',{class:'primary',type:'button'},'Zur Story-Auswertung →');nx.onclick=showFinal;a.append(nx)}
+  }else if(S.kind==='special'){const nx=h('button',{class:'primary',type:'button'},'Zur Übersicht →');nx.onclick=showHub;a.append(nx)
   }else{const N=CATS[(S.idx+1)%CATS.length];const nx=h('button',{class:'primary',type:'button'},`Weiter mit ${N.name} →`);nx.onclick=()=>openSet(N);a.append(nx)}
   card.append(a);app.append(card);
 }
@@ -1484,7 +1660,7 @@ function showFinal(){
 
 /* ---------- Start (inkl. Rückkehr nach „Neu laden“-Rätsel) ---------- */
 (function boot(){let rl=null;try{rl=JSON.parse(sessionStorage.getItem('ue_reload'));sessionStorage.removeItem('ue_reload')}catch(e){}
-  if(rl&&DB.players[rl.p]){const S=[...WORLDS,...CATS].find(x=>x.key===rl.s);if(S&&S.lv[rl.i]){P=DB.players[rl.p];window.__reloadHit=true;showSet(S,rl.i);return}}
+  if(rl&&DB.players[rl.p]){const S=[...WORLDS,...CATS,...SPECIALS].find(x=>x.key===rl.s);if(S&&S.lv[rl.i]){P=DB.players[rl.p];window.__reloadHit=true;showSet(S,rl.i);return}}
   showStart()})();
 })();
 
