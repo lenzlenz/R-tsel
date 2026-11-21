@@ -208,6 +208,24 @@ button.spec{border:0;text-align:left;cursor:pointer;font-family:inherit}
 .opt.right,.opt.right:disabled{opacity:1;border-color:var(--c);background:color-mix(in srgb,var(--c) 16%,#fff);font-weight:600}
 .opt.gone{text-decoration:line-through}
 
+.dresswrap{display:grid;grid-template-columns:minmax(220px,300px) 1fr;gap:28px;align-items:start;margin-top:14px}
+.dressfig{background:#f6f3ea;border-radius:22px;padding:16px;position:sticky;top:12px}.dressfig svg{width:100%;height:auto;display:block}
+.drow{display:flex;align-items:center;gap:8px;flex-wrap:wrap;margin:12px 0}.drow .lbl{min-width:70px}
+.sw{width:30px;height:30px;border-radius:50%;border:2px solid #fff;box-shadow:0 0 0 1.5px var(--line);cursor:pointer;padding:0}.sw.on{box-shadow:0 0 0 3px var(--ink)}
+.dslots{display:flex;flex-wrap:wrap;gap:6px;margin:6px 0 12px}.dslots .tab{padding:7px 13px;font-size:.88rem}
+.dops{display:grid;grid-template-columns:repeat(auto-fill,minmax(130px,1fr));gap:8px}
+.dop{border:1.5px solid var(--line);background:#fff;border-radius:12px;padding:12px 10px;font-weight:600;cursor:pointer;color:var(--ink);font-family:var(--sans)}.dop.on{background:var(--c);color:var(--cfg);border-color:var(--c)}
+.dresstasks{margin-top:22px;border-top:1.5px solid var(--line);padding-top:12px}.dresstasks p{margin:7px 0;color:#555}.dresstasks p.got{color:var(--ink)}.dresstasks p.got b{color:#2E7D5B}
+.flipwrap{display:grid;grid-template-columns:minmax(240px,340px) 1fr;gap:28px;align-items:center;margin-top:14px}
+.flipbook{background:#f6f3ea;border-radius:22px;padding:14px 8px;display:grid;gap:0;perspective:700px}
+.fstrip{display:grid;grid-template-columns:34px 1fr 34px;align-items:center;gap:4px}
+.farr{border:0;background:none;font-size:1.1rem;cursor:pointer;color:var(--ink);height:100%}
+.fpage{border:0;border-bottom:2px dashed #c9c3b3;padding:0;cursor:pointer;background:transparent;transform-origin:top center;display:block}
+.fstrip:last-child .fpage{border-bottom:0}.fpage svg{width:100%;height:auto;display:block}
+.fpage.flip{animation:fflip .34s ease}@keyframes fflip{0%{transform:rotateX(0)}50%{transform:rotateX(-90deg)}100%{transform:rotateX(0)}}
+.fname{font-family:var(--serif);font-size:clamp(2.2rem,5vw,3.6rem);line-height:1;margin-bottom:12px;word-break:break-word}.fname i{color:#bbb;font-style:normal;margin:0 2px}
+.ftask{margin:16px 0;background:#f6f3ea;border-radius:14px;padding:12px 16px;display:grid;gap:4px}.ftask:empty{display:none}.ftask b{font-size:1.15rem}
+@media (max-width:700px){.dresswrap,.flipwrap{grid-template-columns:1fr}.dressfig{position:static;max-width:260px;margin:0 auto}.flipbook{max-width:320px;margin:0 auto;width:100%}}
 .tabs{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:18px}
 .tab{border:1.5px solid var(--line);background:#fff;border-radius:999px;padding:9px 18px;font-weight:600;cursor:pointer;color:var(--ink)}
 .tab.on{background:var(--c);border-color:var(--c);color:var(--cfg)}
@@ -2365,9 +2383,9 @@ function showGames(tab){
   tab=tab||'gitter';app.innerHTML='';
   const head=h('div',{class:'lvhead'});const back=h('button',{class:'back',type:'button'},'← Übersicht');back.onclick=showHub;
   head.append(back,h('div',{class:'lvtitle'},'<span class="chip">Spezial · HIMYM-Spielecke</span>'));app.append(head);
-  const tabs=h('div',{class:'tabs'});[['gitter','Buchstabengitter'],['memory','Memory'],['kreuz','Kreuzworträtsel'],['xxl','Kreuzworträtsel XXL']].forEach(([k,l])=>{const b=h('button',{class:'tab'+(k===tab?' on':''),type:'button'},l);b.onclick=()=>showGames(k);tabs.append(b)});app.append(tabs);
+  const tabs=h('div',{class:'tabs'});[['gitter','Buchstabengitter'],['memory','Memory'],['kreuz','Kreuzworträtsel'],['xxl','Kreuzworträtsel XXL'],['dress','Anziehpuppe'],['flip','Klappfiguren']].forEach(([k,l])=>{const b=h('button',{class:'tab'+(k===tab?' on':''),type:'button'},l);b.onclick=()=>showGames(k);tabs.append(b)});app.append(tabs);
   const card=h('section',{class:'card'});app.append(card);
-  ({gitter:gameGrid,memory:gameMemory,kreuz:c=>gameCross(c),xxl:gameCrossXXL})[tab](card);
+  ({gitter:gameGrid,memory:gameMemory,kreuz:c=>gameCross(c),xxl:gameCrossXXL,dress:gameDress,flip:gameFlip})[tab](card);
 }
 function gameWin(card,txt){const p=h('div',{class:'solved'},`<div class="check">✓</div><div><b>Geschafft!</b><p>${txt}</p></div>`);card.append(p);p.scrollIntoView({behavior:'smooth',block:'nearest'})}
 
@@ -2429,6 +2447,192 @@ function gameMemory(card){
 }
 
 const CW_XXL=[{"w": "SHAKERHEIGHTS", "r": 10, "c": 4, "d": "a", "q": "Teds Heimatort in Ohio"}, {"w": "SLAPSGIVING", "r": 5, "c": 13, "d": "d", "q": "Feiertag mit Ohrfeige"}, {"w": "DOWISETREPLA", "r": 5, "c": 11, "d": "d", "q": "Lilys Abkürzung für eine wenig glamouröse Wohngegend"}, {"w": "MARSHGAMMON", "r": 4, "c": 6, "d": "d", "q": "Spiel, das Marshall aus einem Brettspielklassiker entwickelt hat"}, {"w": "WHITTAKER", "r": 5, "c": 1, "d": "a", "q": "Familienname von Barneys leiblichem Vater"}, {"w": "WAITFORIT", "r": 5, "c": 1, "d": "d", "q": "Zweiter Vorname des kleinen Marvin"}, {"w": "MATTERHORN", "r": 8, "c": 15, "d": "d", "q": "… Von …: Nachname dieser erfundenen Identität"}, {"w": "SCHERBATSKY", "r": 10, "c": 4, "d": "d", "q": "Robins Familienname"}, {"w": "PLAYBOOK", "r": 20, "c": 1, "d": "a", "q": "Barneys Sammlung von Aufreißmaschen"}, {"w": "GRAFANELLO", "r": 16, "c": 0, "d": "a", "q": "Familienname von Stellas Tony"}, {"w": "VANSMOOT", "r": 17, "c": 13, "d": "a", "q": "Familienname von „The Captain“"}, {"w": "STINSON", "r": 5, "c": 13, "d": "a", "q": "Familienname des Anzugträgers"}, {"w": "UKULELE", "r": 1, "c": 8, "d": "d", "q": "Instrument, auf dem die Mutter „La Vie en Rose“ spielt"}, {"w": "GLITTER", "r": 14, "c": 20, "d": "d", "q": "Jessica …, Robins Gesangspartnerin aus Teenie-Tagen"}, {"w": "MCCONNELL", "r": 1, "c": 19, "d": "d", "q": "Familienname der Mutter"}, {"w": "REVERTIGO", "r": 0, "c": 4, "d": "d", "q": "Rückfall in alte Muster beim Wiedersehen mit alten Freunden"}, {"w": "NAZANIN", "r": 0, "c": 15, "d": "d", "q": "Vorname der Darstellerin von Nora"}, {"w": "SCOOTER", "r": 18, "c": 4, "d": "a", "q": "Lilys Highschool-Ex, der nicht loslassen kann"}, {"w": "LORETTA", "r": 8, "c": 9, "d": "d", "q": "Sie ließ ihren Sohn glauben, Bob Barker sei sein Vater"}, {"w": "SOLIDS", "r": 0, "c": 17, "d": "d", "q": "The …: Band, die den Titelsong spielt"}, {"w": "PATRICE", "r": 19, "c": 14, "d": "a", "q": "Robins liebste Zielscheibe im Sender"}, {"w": "LOUIS", "r": 16, "c": 18, "d": "d", "q": "Sein Antrag an die Mutter scheitert"}, {"w": "PUNCHY", "r": 14, "c": 11, "d": "a", "q": "Teds viel zu lauter Schulfreund aus Ohio"}, {"w": "PUZZLES", "r": 3, "c": 7, "d": "a", "q": "Name einer Bar, der selbst ein Rätsel ist"}, {"w": "JEROME", "r": 0, "c": 2, "d": "a", "q": "Vorname von Barneys leiblichem Vater"}, {"w": "KAREN", "r": 14, "c": 2, "d": "a", "q": "Teds anstrengende College-Freundin"}, {"w": "DARREN", "r": 3, "c": 0, "d": "a", "q": "Er reißt die Band der Mutter an sich"}, {"w": "KLAUS", "r": 14, "c": 2, "d": "d", "q": "Er wartet auf seinen „Lebenslangerschicksalsschatz“"}, {"w": "EVELYN", "r": 12, "c": 15, "d": "a", "q": "Teds zweiter Vorname"}, {"w": "SAGET", "r": 0, "c": 12, "d": "d", "q": "Familienname der Erzählerstimme"}, {"w": "JAMES", "r": 7, "c": 16, "d": "a", "q": "Barneys Halbbruder"}, {"w": "KARMA", "r": 1, "c": 11, "d": "a", "q": "Bühnenname dieser Verlobten"}, {"w": "ELLIE", "r": 10, "c": 18, "d": "d", "q": "Barneys Tochter"}, {"w": "SANDY", "r": 0, "c": 0, "d": "d", "q": "Robins eitler Co-Moderator mit Vornamen"}, {"w": "GOAT", "r": 16, "c": 0, "d": "d", "q": "Mitbewohner an Teds 30. Geburtstag (englisch)"}, {"w": "LUCY", "r": 2, "c": 17, "d": "a", "q": "Stellas Tochter"}, {"w": "MAX", "r": 0, "c": 6, "d": "d", "q": "Früh verstorbene Liebe der Mutter"}];
+/* ---------- Anziehpuppe ---------- */
+const DRESS_COL=['#1F3A5F','#11141C','#5a3519','#B23A48','#F6C62E','#2E7D5B','#8E6CC4','#E9E4D8','#5B8FD6','#C9773A'];
+const DRESS_SKIN=['#F2D3B8','#E0B08A','#B97D55','#7A4E33'];
+const DRESS_SLOTS=[
+  {k:'kopf',l:'Kopf',o:[['',''],['kurz','Kurze Haare'],['lang','Lange Haare'],['locken','Locken'],['zylinder','Zylinder'],['muetze','Mütze'],['kappe','Kapitänsmütze']],col:true},
+  {k:'brille',l:'Brille',o:[['',''],['brille','Brille'],['sonne','Sonnenbrille']],col:false},
+  {k:'top',l:'Oberteil',o:[['','Unterhemd'],['hemd','Hemd'],['tshirt','T-Shirt'],['pulli','Pulli'],['pyjama','Pyjama'],['kleid','Kleid']],col:true},
+  {k:'hals',l:'Hals',o:[['',''],['krawatte','Krawatte'],['fliege','Fliege'],['schal','Schal']],col:true},
+  {k:'jacke',l:'Jacke',o:[['',''],['sakko','Sakko'],['regen','Regenmantel'],['leder','Lederjacke'],['bademantel','Bademantel']],col:true},
+  {k:'hose',l:'Hose',o:[['','Shorts (Unterwäsche)'],['anzug','Anzughose'],['jeans','Jeans'],['rock','Rock'],['kurz','Kurze Hose']],col:true},
+  {k:'schuhe',l:'Schuhe',o:[['','Barfuß'],['leder','Lederschuhe'],['stiefel','Stiefel'],['sneaker','Sneaker'],['puschen','Hausschuhe']],col:true},
+  {k:'hand',l:'In der Hand',o:[['',''],['schirm','Gelber Schirm'],['horn','Waldhorn'],['ananas','Ananas'],['kuerbis','Kürbis'],['tasche','Aktentasche'],['bier','Bierkrug']],col:false}];
+const DRESS_TASKS=[
+  {n:'Anzugpflicht im Pub',d:'Hemd, Krawatte, Sakko, Anzughose und Lederschuhe.',f:s=>s.top==='hemd'&&s.hals==='krawatte'&&s.jacke==='sakko'&&s.hose==='anzug'&&s.schuhe==='leder'},
+  {n:'Regentag in Manhattan',d:'Regenmantel, Stiefel und der gelbe Schirm.',f:s=>s.jacke==='regen'&&s.schuhe==='stiefel'&&s.hand==='schirm'},
+  {n:'Orchesterprobe',d:'Sakko, Fliege und ein Waldhorn unter dem Arm.',f:s=>s.jacke==='sakko'&&s.hals==='fliege'&&s.hand==='horn'},
+  {n:'Der Morgen danach',d:'Pyjama oder Bademantel, Hausschuhe, Sonnenbrille und eine Ananas, deren Herkunft niemand kennt.',f:s=>(s.top==='pyjama'||s.jacke==='bademantel')&&s.schuhe==='puschen'&&s.brille==='sonne'&&s.hand==='ananas'},
+  {n:'Halloween-Party auf dem Dach',d:'Zylinder, Schal und ein Kürbis.',f:s=>s.kopf==='zylinder'&&s.hals==='schal'&&s.hand==='kuerbis'},
+  {n:'Ganz in Gelb',d:'Mindestens vier Kleidungsstücke in Gelb.',f:s=>['kopf','top','hals','jacke','hose','schuhe'].filter(k=>s[k]&&s[k+'C']==='#F6C62E').length>=4},
+  {n:'Erster Tag als Architekt',d:'Brille, Hemd, Jeans, Sneaker und eine Aktentasche.',f:s=>s.brille==='brille'&&s.top==='hemd'&&s.hose==='jeans'&&s.schuhe==='sneaker'&&s.hand==='tasche'},
+  {n:'Hafenrundfahrt',d:'Kapitänsmütze, Pulli und Stiefel.',f:s=>s.kopf==='kappe'&&s.top==='pulli'&&s.schuhe==='stiefel'},
+  {n:'Feierabend im Biergarten',d:'T-Shirt, kurze Hose, Sneaker und ein Bierkrug.',f:s=>s.top==='tshirt'&&s.hose==='kurz'&&s.schuhe==='sneaker'&&s.hand==='bier'}];
+
+function dressSVG(s){
+  const sk=DRESS_SKIN[s.skin||0],L='#1a1a1a',W='stroke="#1a1a1a" stroke-width="2.2" stroke-linejoin="round" stroke-linecap="round"';
+  const DEF={kopf:'#5a3519',top:'#E9E4D8',hals:'#B23A48',jacke:'#1F3A5F',hose:'#11141C',schuhe:'#11141C'};const C=k=>s[k+'C']||DEF[k];
+  const dark=c=>{const n=parseInt(c.slice(1),16);const f=x=>Math.max(0,Math.round(x*.72));return '#'+((f(n>>16)<<16)|(f((n>>8)&255)<<8)|f(n&255)).toString(16).padStart(6,'0')};
+  let o='';
+  // Körper
+  o+=`<rect x="70" y="196" width="25" height="138" rx="11" fill="${sk}" ${W}/><rect x="105" y="196" width="25" height="138" rx="11" fill="${sk}" ${W}/>`;
+  o+=`<ellipse cx="80" cy="338" rx="15" ry="7" fill="${sk}" ${W}/><ellipse cx="120" cy="338" rx="15" ry="7" fill="${sk}" ${W}/>`;
+  o+=`<rect x="40" y="102" width="20" height="108" rx="10" fill="${sk}" ${W}/><rect x="140" y="102" width="20" height="108" rx="10" fill="${sk}" ${W}/>`;
+  o+=`<circle cx="50" cy="214" r="9" fill="${sk}" ${W}/><circle cx="150" cy="214" r="9" fill="${sk}" ${W}/>`;
+  o+=`<rect x="92" y="80" width="16" height="22" fill="${sk}" ${W}/>`;
+  o+=`<rect x="60" y="98" width="80" height="112" rx="16" fill="${sk}" ${W}/>`;
+  // Unterwäsche
+  o+=`<path d="M66 196 H134 V226 H104 L100 216 L96 226 H66 Z" fill="#E9E4D8" ${W}/>`;
+  if(!s.top)o+=`<path d="M70 108 Q78 100 84 100 Q100 116 116 100 Q122 100 130 108 V206 H70 Z" fill="#f7f5ef" ${W}/>`;
+  // Schuhe
+  const sh=s.schuhe,sc=C('schuhe');
+  if(sh==='leder')o+=`<path d="M64 340 Q64 330 80 330 Q96 330 96 342 Z M104 342 Q104 330 120 330 Q136 330 136 340 Z" fill="${sc}" ${W}/>`;
+  if(sh==='stiefel')o+=`<path d="M68 280 H96 V344 H62 Q62 332 68 330 Z M104 280 H132 V330 Q138 332 138 344 H104 Z" fill="${sc}" ${W}/><path d="M68 290 H96 M104 290 H132" stroke="${dark(sc)}" stroke-width="5"/>`;
+  if(sh==='sneaker')o+=`<path d="M62 344 Q62 328 80 328 Q98 328 98 344 Z M102 344 Q102 328 120 328 Q138 328 138 344 Z" fill="#fff" ${W}/><path d="M68 338 H92 M108 338 H132" stroke="${sc}" stroke-width="4"/><path d="M62 344 H98 M102 344 H138" stroke-width="3" stroke="${L}"/>`;
+  if(sh==='puschen')o+=`<ellipse cx="80" cy="339" rx="19" ry="9" fill="${sc}" ${W}/><ellipse cx="120" cy="339" rx="19" ry="9" fill="${sc}" ${W}/><circle cx="74" cy="333" r="5" fill="#fff" ${W}/><circle cx="126" cy="333" r="5" fill="#fff" ${W}/>`;
+  // Hose
+  const hs=s.hose,hc=C('hose');
+  if(hs==='anzug'||hs==='jeans')o+=`<path d="M64 194 H136 L134 326 H106 L100 230 L94 326 H66 Z" fill="${hc}" ${W}/>`+(hs==='anzug'?`<path d="M80 236 V322 M120 236 V322" stroke="${dark(hc)}" stroke-width="1.6"/>`:`<path d="M70 206 Q80 214 88 206 M112 206 Q120 214 130 206" stroke="#F6C62E" stroke-width="1.6"/><path d="M100 196 V226" stroke="#F6C62E" stroke-width="1.4"/>`);
+  if(hs==='kurz')o+=`<path d="M64 194 H136 L138 256 H104 L100 232 L96 256 H62 Z" fill="${hc}" ${W}/>`;
+  if(hs==='rock')o+=`<path d="M66 194 H134 L150 280 H50 Z" fill="${hc}" ${W}/><path d="M80 200 L72 278 M100 200 V280 M120 200 L128 278" stroke="${dark(hc)}" stroke-width="1.4"/>`;
+  // Oberteil
+  const tp=s.top,tc=C('top');
+  const sleeves=(len,c)=>`<rect x="38" y="100" width="24" height="${len}" rx="11" fill="${c}" ${W}/><rect x="138" y="100" width="24" height="${len}" rx="11" fill="${c}" ${W}/>`;
+  if(tp==='hemd')o+=sleeves(104,tc)+`<rect x="58" y="96" width="84" height="112" rx="16" fill="${tc}" ${W}/><path d="M86 96 L100 114 L114 96" fill="#fff" ${W}/><path d="M100 114 V204" stroke="${dark(tc)}" stroke-width="1.6"/>`+[128,150,172,194].map(y=>`<circle cx="100" cy="${y}" r="2" fill="${L}"/>`).join('');
+  if(tp==='tshirt')o+=sleeves(40,tc)+`<rect x="58" y="96" width="84" height="112" rx="16" fill="${tc}" ${W}/><path d="M88 98 Q100 112 112 98" fill="${sk}" ${W}/>`;
+  if(tp==='pulli')o+=sleeves(108,tc)+`<rect x="56" y="96" width="88" height="116" rx="18" fill="${tc}" ${W}/><path d="M86 98 Q100 110 114 98" fill="none" stroke="${dark(tc)}" stroke-width="5"/><path d="M58 202 H142" stroke="${dark(tc)}" stroke-width="5"/><path d="M40 196 H60 M140 196 H160" stroke="${dark(tc)}" stroke-width="4"/>`;
+  if(tp==='pyjama')o+=sleeves(104,tc)+`<rect x="58" y="96" width="84" height="114" rx="16" fill="${tc}" ${W}/>`+[70,86,114,130].map(x=>`<path d="M${x} 104 V204" stroke="#fff" stroke-width="4" opacity=".55"/>`).join('')+`<path d="M86 96 L100 112 L114 96" fill="#fff" ${W}/>`;
+  if(tp==='kleid')o+=`<path d="M64 100 Q80 94 88 98 Q100 112 112 98 Q120 94 136 100 L138 190 L156 296 H44 L62 190 Z" fill="${tc}" ${W}/><path d="M62 190 H138" stroke="${dark(tc)}" stroke-width="3"/>`;
+  // Hals
+  const hl=s.hals,lc=C('hals');
+  if(hl==='krawatte')o+=`<path d="M95 100 H105 L103 110 L110 176 L100 188 L90 176 L97 110 Z" fill="${lc}" ${W}/>`;
+  if(hl==='fliege')o+=`<path d="M100 104 L82 94 V114 Z M100 104 L118 94 V114 Z" fill="${lc}" ${W}/><circle cx="100" cy="104" r="4" fill="${dark(lc)}" ${W}/>`;
+  // Jacke
+  const jk=s.jacke,jc=C('jacke');
+  const jsl=(c)=>`<rect x="36" y="100" width="26" height="106" rx="12" fill="${c}" ${W}/><rect x="138" y="100" width="26" height="106" rx="12" fill="${c}" ${W}/>`;
+  if(jk==='sakko')o+=jsl(jc)+`<path d="M58 112 Q58 96 76 96 L100 158 V218 H58 Z" fill="${jc}" ${W}/><path d="M142 112 Q142 96 124 96 L100 158 V218 H142 Z" fill="${jc}" ${W}/><path d="M76 96 L84 128 L94 132 M124 96 L116 128 L106 132" fill="none" stroke="${dark(jc)}" stroke-width="2"/><circle cx="104" cy="176" r="2.6" fill="${L}"/><circle cx="104" cy="196" r="2.6" fill="${L}"/><path d="M64 186 H86 M118 150 H134" stroke="${L}" stroke-width="1.6"/>`;
+  if(jk==='regen')o+=jsl(jc)+`<path d="M56 110 Q56 94 78 94 L100 140 L122 94 Q144 94 144 110 L150 286 H50 Z" fill="${jc}" ${W}/><path d="M100 140 V286" stroke="${dark(jc)}" stroke-width="1.6"/><rect x="54" y="190" width="92" height="10" fill="${dark(jc)}" ${W}/><rect x="94" y="187" width="14" height="16" fill="none" ${W}/>`+[156,220,250].map(y=>`<circle cx="106" cy="${y}" r="2.6" fill="${L}"/>`).join('');
+  if(jk==='leder')o+=jsl(jc)+`<path d="M58 108 Q58 96 76 96 L98 122 V206 H58 Z" fill="${jc}" ${W}/><path d="M142 108 Q142 96 124 96 L102 122 V206 H142 Z" fill="${jc}" ${W}/><path d="M76 96 L70 118 L92 128 M124 96 L130 118 L108 128" fill="none" stroke="${L}" stroke-width="2"/><path d="M100 124 V206" stroke="#c9c9c9" stroke-width="2" stroke-dasharray="3 2"/><rect x="58" y="198" width="84" height="10" fill="${dark(jc)}" ${W}/>`;
+  if(jk==='bademantel')o+=jsl(jc)+`<path d="M56 108 Q56 94 78 94 L104 170 L122 94 Q144 94 144 108 L148 268 H52 Z" fill="${jc}" ${W}/><path d="M78 94 L104 170 L96 268" fill="none" stroke="${dark(jc)}" stroke-width="2"/><path d="M58 182 Q100 196 142 182" stroke="${dark(jc)}" stroke-width="6"/><path d="M118 186 L126 214 M122 186 L136 210" stroke="${dark(jc)}" stroke-width="4"/>`;
+  if(hl==='schal')o+=`<path d="M80 92 Q100 108 120 92 L124 106 Q100 122 76 106 Z" fill="${lc}" ${W}/><path d="M108 108 L118 170 H104 L98 112" fill="${lc}" ${W}/>`+[150,160].map(y=>`<path d="M104 ${y} H118" stroke="${dark(lc)}" stroke-width="2"/>`).join('');
+  // Hände über Ärmeln
+  o+=`<circle cx="50" cy="214" r="9" fill="${sk}" ${W}/><circle cx="150" cy="214" r="9" fill="${sk}" ${W}/>`;
+  // Kopf
+  o+=`<circle cx="100" cy="58" r="30" fill="${sk}" ${W}/><circle cx="90" cy="58" r="2.8" fill="${L}"/><circle cx="110" cy="58" r="2.8" fill="${L}"/><path d="M90 72 Q100 80 110 72" fill="none" ${W}/><circle cx="84" cy="68" r="4" fill="#e88" opacity=".35"/><circle cx="116" cy="68" r="4" fill="#e88" opacity=".35"/>`;
+  const kp=s.kopf,kc=C('kopf');
+  if(kp==='kurz')o+=`<path d="M70 56 Q68 24 100 24 Q132 24 130 56 Q126 40 112 38 Q96 44 76 40 Q72 46 70 56 Z" fill="${kc}" ${W}/>`;
+  if(kp==='lang')o+=`<path d="M70 60 Q66 22 100 22 Q134 22 130 60 L136 120 Q120 126 116 112 L122 52 Q110 38 88 40 Q80 46 78 56 L84 112 Q80 126 64 120 Z" fill="${kc}" ${W}/>`;
+  if(kp==='locken')o+=[[74,44],[84,32],[100,26],[116,32],[126,44],[130,58],[70,58]].map(([x,y])=>`<circle cx="${x}" cy="${y}" r="11" fill="${kc}" ${W}/>`).join('');
+  if(kp==='zylinder')o+=`<rect x="78" y="0" width="44" height="34" fill="${kc}" ${W}/><rect x="78" y="22" width="44" height="7" fill="#B23A48" ${W}/><rect x="64" y="32" width="72" height="8" rx="4" fill="${kc}" ${W}/>`;
+  if(kp==='muetze')o+=`<path d="M70 50 Q70 20 100 20 Q130 20 130 50 Z" fill="${kc}" ${W}/><rect x="68" y="44" width="64" height="12" rx="5" fill="${dark(kc)}" ${W}/><circle cx="100" cy="16" r="8" fill="#fff" ${W}/>`;
+  if(kp==='kappe')o+=`<path d="M70 42 Q66 22 100 20 Q134 22 130 42 Z" fill="#fff" ${W}/><rect x="70" y="38" width="60" height="10" fill="${kc}" ${W}/><path d="M72 48 Q100 58 128 48" fill="${L}" ${W}/><path d="M96 26 V36 M92 32 Q96 38 100 32 M92 28 H100" stroke="#F6C62E" stroke-width="1.8"/>`;
+  // Brille
+  if(s.brille==='brille')o+=`<circle cx="89" cy="58" r="8" fill="none" ${W}/><circle cx="111" cy="58" r="8" fill="none" ${W}/><path d="M97 58 H103 M81 56 L71 52 M119 56 L129 52" ${W}/>`;
+  if(s.brille==='sonne')o+=`<path d="M78 52 H98 Q98 66 88 66 Q78 66 78 52 Z M102 52 H122 Q122 66 112 66 Q102 66 102 52 Z" fill="${L}" ${W}/><path d="M98 54 H102 M78 53 L70 50 M122 53 L130 50" ${W}/>`;
+  // Hand-Requisit
+  const hd=s.hand,emb=(k,x,y,w)=>HG[k].replace(/width="320" height="200"/,`x="${x}" y="${y}" width="${w}" height="${w*200/320}"`).replace(/id="ananasClip"/,'id="ananasClipD"').replace(/url\(#ananasClip\)/,'url(#ananasClipD)');
+  if(hd==='schirm')o+=emb('schirm',86,134,140);
+  if(hd==='horn')o+=emb('horn',101,178,112);
+  if(hd==='ananas')o+=emb('ananas',103,160,110);
+  if(hd==='kuerbis')o+=emb('kuerbis',100,178,104);
+  if(hd==='tasche')o+=`<path d="M140 222 Q140 212 150 212 Q160 212 160 222" fill="none" stroke="${L}" stroke-width="4"/><rect x="126" y="222" width="50" height="38" rx="5" fill="#7a4b2a" ${W}/><path d="M126 236 H176" stroke="#5a3519" stroke-width="2"/><rect x="146" y="232" width="10" height="8" fill="#F6C62E" ${W}/>`;
+  if(hd==='bier')o+=`<rect x="140" y="194" width="34" height="46" rx="5" fill="#F0B43A" ${W}/><path d="M138 194 Q140 182 152 186 Q160 178 168 186 Q178 184 176 196 Z" fill="#fff" ${W}/><path d="M174 204 Q188 204 188 216 Q188 228 174 228" fill="none" stroke="${L}" stroke-width="4"/><path d="M150 202 V232 M162 202 V232" stroke="#fff" stroke-width="2" opacity=".6"/><circle cx="150" cy="214" r="9" fill="${sk}" ${W}/>`;
+  return `<svg viewBox="0 0 200 360" xmlns="http://www.w3.org/2000/svg" fill="none">${o}</svg>`;
+}
+function gameDress(card){
+  const store=(P.games=P.games||{});const st=store.dress||(store.dress={s:{},done:[]});const s=st.s;
+  card.append(h('div',{class:'tag'},'<b>Anziehpuppe</b> · '+DRESS_TASKS.length+' Aufträge'),h('h2',{},'Der Kleiderschrank'),
+    h('p',{class:'q'},'Zieh die Figur an, wie du willst. Wähle ein Kleidungsstück und darunter eine Farbe. Schaffst du alle Aufträge? Sie haken sich von selbst ab, sobald das Outfit passt.'));
+  const wrap=h('div',{class:'dresswrap'});const fig=h('div',{class:'dressfig'});const side=h('div',{class:'dressside'});wrap.append(fig,side);card.append(wrap);
+  const tasks=h('div',{class:'dresstasks'});card.append(tasks);
+  const bar=h('div',{class:'acts'});const rnd=h('button',{class:'ghostbtn',type:'button'},'🎲 Zufallsoutfit');const clr=h('button',{class:'hint',type:'button'},'Alles ausziehen');bar.append(rnd,clr);card.append(bar);
+  let cur='top';
+  function draw(){
+    fig.innerHTML=dressSVG(s);side.innerHTML='';
+    const sk=h('div',{class:'drow'},'<span class="lbl">Hautton</span>');DRESS_SKIN.forEach((c,i)=>{const b=h('button',{type:'button',class:'sw'+((s.skin||0)===i?' on':''),style:`background:${c}`,'aria-label':'Hautton '+(i+1)});b.onclick=()=>{s.skin=i;upd()};sk.append(b)});side.append(sk);
+    const tabs=h('div',{class:'dslots'});DRESS_SLOTS.forEach(S=>{const b=h('button',{type:'button',class:'tab'+(S.k===cur?' on':'')},S.l);b.onclick=()=>{cur=S.k;draw()};tabs.append(b)});side.append(tabs);
+    const S=DRESS_SLOTS.find(x=>x.k===cur);const ops=h('div',{class:'dops'});
+    S.o.forEach(([v,l])=>{const b=h('button',{type:'button',class:'dop'+((s[S.k]||'')===v?' on':'')},l||'– nichts –');b.onclick=()=>{s[S.k]=v;upd()};ops.append(b)});side.append(ops);
+    if(S.col&&s[S.k]){const cr=h('div',{class:'drow'},'<span class="lbl">Farbe</span>');DRESS_COL.forEach(c=>{const b=h('button',{type:'button',class:'sw'+((s[S.k+'C']||({kopf:'#5a3519',top:'#E9E4D8',hals:'#B23A48',jacke:'#1F3A5F',hose:'#11141C',schuhe:'#11141C'})[S.k])===c?' on':''),style:`background:${c}`,'aria-label':'Farbe'});b.onclick=()=>{s[S.k+'C']=c;upd()};cr.append(b)});side.append(cr)}
+    tasks.innerHTML='<h4>Aufträge</h4>'+DRESS_TASKS.map((t,i)=>`<p class="${st.done.includes(i)?'got':''}"><b>${st.done.includes(i)?'✓':'○'}</b> <strong>${t.n}</strong> – ${t.d}</p>`).join('');
+  }
+  function upd(){
+    let neu=null;DRESS_TASKS.forEach((t,i)=>{if(!st.done.includes(i)&&t.f(s)){st.done.push(i);neu=t}});save();draw();
+    card.querySelectorAll('.solved').forEach(x=>x.remove());
+    if(neu){if(st.done.length===DRESS_TASKS.length)gameWin(card,'Alle Aufträge erfüllt. Du bist offiziell Stilberater der Clique.');
+      else{const m=h('div',{class:'solved'},`<div class="check">✓</div><div><b>${neu.n}</b><p>Auftrag erfüllt · ${st.done.length} / ${DRESS_TASKS.length}</p></div>`);card.append(m)}}
+  }
+  rnd.onclick=()=>{DRESS_SLOTS.forEach(S=>{s[S.k]=pick(S.o)[0];if(S.col)s[S.k+'C']=pick(DRESS_COL)});upd()};
+  clr.onclick=()=>{DRESS_SLOTS.forEach(S=>{s[S.k]='';});upd()};
+  draw();
+}
+
+/* ---------- Klappfiguren (Körper mischen) ---------- */
+const FLIP_FIG=[
+  {n:['KA','PI','TÄN'],c:'#1F3A5F'},{n:['AS','TRO','NAUT'],c:'#5B8FD6'},{n:['DI','RI','GENT'],c:'#11141C'},
+  {n:['BAL','LE','RINA'],c:'#E58FB0'},{n:['DE','TEK','TIV'],c:'#C9773A'},{n:['PIN','GU','IN'],c:'#2E7D5B'}];
+function flipPart(f,p){
+  const W='stroke="#1a1a1a" stroke-width="2.4" stroke-linejoin="round" stroke-linecap="round"',sk='#F2D3B8',L='#1a1a1a';
+  const face=(y)=>`<circle cx="70" cy="${y}" r="3" fill="${L}"/><circle cx="90" cy="${y}" r="3" fill="${L}"/>`;
+  const P=[
+   [ // Köpfe 0..5 (viewBox 160x110, Hals unten bei x 70..90)
+    `<rect x="70" y="86" width="20" height="24" fill="${sk}" ${W}/><circle cx="80" cy="62" r="30" fill="${sk}" ${W}/>${face(60)}<path d="M54 72 Q80 104 106 72 Q100 92 80 94 Q60 92 54 72 Z" fill="#E9E4D8" ${W}/><path d="M72 76 Q80 80 88 76" ${W}/><path d="M48 38 Q50 12 80 12 Q110 12 112 38 Z" fill="#fff" ${W}/><rect x="46" y="34" width="68" height="10" fill="#1F3A5F" ${W}/><path d="M50 44 Q80 54 110 44" fill="${L}" ${W}/><path d="M80 20 V32 M75 28 Q80 34 85 28" stroke="#F6C62E" stroke-width="2"/>`,
+    `<rect x="68" y="86" width="24" height="24" fill="#E9E4D8" ${W}/><circle cx="80" cy="56" r="40" fill="#fff" ${W}/><rect x="52" y="38" width="56" height="38" rx="18" fill="#11141C" ${W}/><path d="M60 46 Q66 42 72 44" stroke="#5B8FD6" stroke-width="3"/><rect x="58" y="94" width="44" height="10" rx="4" fill="#B23A48" ${W}/><circle cx="116" cy="50" r="5" fill="#B23A48" ${W}/>`,
+    `<rect x="70" y="86" width="20" height="24" fill="${sk}" ${W}/><circle cx="80" cy="62" r="28" fill="${sk}" ${W}/>`+[[50,48],[56,30],[70,22],[90,22],[104,30],[110,48],[46,64],[114,64]].map(([x,y])=>`<circle cx="${x}" cy="${y}" r="12" fill="#d8d8d8" ${W}/>`).join('')+`${face(62)}<path d="M70 76 Q80 70 90 76" ${W}/><path d="M64 54 L76 58 M96 54 L84 58" ${W}/>`,
+    `<rect x="70" y="86" width="20" height="24" fill="${sk}" ${W}/><circle cx="80" cy="16" r="14" fill="#6b3d22" ${W}/><circle cx="80" cy="62" r="28" fill="${sk}" ${W}/><path d="M52 58 Q52 30 80 30 Q108 30 108 58 Q100 40 80 40 Q60 40 52 58 Z" fill="#6b3d22" ${W}/>${face(62)}<path d="M72 74 Q80 80 88 74" ${W}/><circle cx="64" cy="70" r="4" fill="#e88" opacity=".5"/><circle cx="96" cy="70" r="4" fill="#e88" opacity=".5"/><path d="M80 30 L86 22 L92 30" fill="#E58FB0" ${W}/>`,
+    `<rect x="70" y="86" width="20" height="24" fill="${sk}" ${W}/><circle cx="80" cy="62" r="28" fill="${sk}" ${W}/>${face(62)}<path d="M70 78 H90" ${W}/><path d="M48 48 Q50 18 80 18 Q110 18 112 48 Z" fill="#C9773A" ${W}/><path d="M60 22 L56 10 M100 22 L104 10" stroke="#8a4f22" stroke-width="5"/><path d="M48 48 Q80 40 112 48 L118 54 H42 Z" fill="#8a4f22" ${W}/><path d="M62 30 H98 M58 40 H102 M80 20 V46" stroke="#8a4f22" stroke-width="1.5"/><path d="M96 66 Q104 66 104 74" ${W}/><circle cx="90" cy="62" r="9" ${W}/>`,
+    `<rect x="68" y="86" width="24" height="24" fill="#11141C" ${W}/><ellipse cx="80" cy="56" rx="36" ry="38" fill="#11141C" ${W}/><ellipse cx="80" cy="64" rx="24" ry="24" fill="#fff" ${W}/>${face(56)}<path d="M72 66 L80 78 L88 66 Z" fill="#F0B43A" ${W}/>`],
+   [ // Rümpfe (viewBox 160x130, oben Hals x 70..90, unten Hüfte x 48..112)
+    `<path d="M34 24 Q34 8 54 6 H106 Q126 8 126 24 L112 130 H48 Z" fill="#1F3A5F" ${W}/><path d="M24 22 Q34 10 44 20 L40 100 H26 Z M136 22 Q126 10 116 20 L120 100 H134 Z" fill="#1F3A5F" ${W}/><circle cx="33" cy="106" r="8" fill="${sk}" ${W}/><circle cx="127" cy="106" r="8" fill="${sk}" ${W}/><path d="M70 6 L80 26 L90 6" fill="#fff" ${W}/>`+[40,64,88].map(y=>`<circle cx="68" cy="${y}" r="3.4" fill="#F6C62E" ${W}/><circle cx="92" cy="${y}" r="3.4" fill="#F6C62E" ${W}/>`).join('')+`<path d="M34 14 H54 M106 14 H126" stroke="#F6C62E" stroke-width="5"/>`,
+    `<path d="M30 24 Q30 4 54 4 H106 Q130 4 130 24 L116 130 H44 Z" fill="#fff" ${W}/><path d="M20 26 Q30 8 42 20 L38 104 H20 Z M140 26 Q130 8 118 20 L122 104 H140 Z" fill="#fff" ${W}/><circle cx="29" cy="108" r="10" fill="#E9E4D8" ${W}/><circle cx="131" cy="108" r="10" fill="#E9E4D8" ${W}/><rect x="58" y="34" width="44" height="32" rx="5" fill="#E9E4D8" ${W}/><circle cx="70" cy="50" r="5" fill="#B23A48"/><circle cx="84" cy="50" r="5" fill="#5B8FD6"/><rect x="92" y="44" width="5" height="14" fill="#F6C62E"/><path d="M44 96 H116" stroke="#5B8FD6" stroke-width="5"/>`,
+    `<path d="M36 20 Q36 6 56 6 H104 Q124 6 124 20 L112 130 H48 Z" fill="#11141C" ${W}/><path d="M70 6 L80 60 L90 6 Z" fill="#fff" ${W}/><path d="M80 14 L70 8 V20 Z M80 14 L90 8 V20 Z" fill="#B23A48" ${W}/><path d="M124 22 Q138 6 150 -2" stroke="#11141C" stroke-width="18"/><circle cx="150" cy="0" r="8" fill="${sk}" ${W}/><path d="M152 0 L158 -30" stroke="#fff" stroke-width="3"/><path d="M28 22 Q36 10 44 20 L40 104 H26 Z" fill="#11141C" ${W}/><circle cx="33" cy="108" r="8" fill="${sk}" ${W}/><path d="M48 130 L40 120 M112 130 L120 120" ${W}/>`,
+    `<path d="M50 14 Q52 6 70 6 Q80 14 90 6 Q108 6 110 14 L104 100 H56 Z" fill="#E58FB0" ${W}/><path d="M56 16 Q30 10 14 -10 M104 16 Q130 10 146 -10" stroke="#1a1a1a" stroke-width="17"/><path d="M56 16 Q30 10 14 -10 M104 16 Q130 10 146 -10" stroke="${sk}" stroke-width="12"/><circle cx="14" cy="-12" r="8" fill="${sk}" ${W}/><circle cx="146" cy="-12" r="8" fill="${sk}" ${W}/><path d="M56 100 H104 L112 130 H48 Z" fill="#E58FB0" ${W}/><path d="M60 40 Q80 50 100 40" stroke="#fff" stroke-width="2"/>`,
+    `<path d="M30 30 Q30 6 56 6 H104 Q130 6 130 30 L118 130 H42 Z" fill="#C9773A" ${W}/><path d="M24 30 Q80 60 136 30 L132 62 Q80 84 28 62 Z" fill="#a85f2a" ${W}/><path d="M42 80 H118 M44 100 H116 M60 66 V128 M100 66 V128" stroke="#8a4f22" stroke-width="1.4"/><path d="M22 34 L18 104 H32 L36 40 M138 34 L142 104 H128 L124 40" fill="#C9773A" ${W}/><circle cx="25" cy="108" r="8" fill="${sk}" ${W}/><circle cx="135" cy="108" r="8" fill="${sk}" ${W}/><circle cx="150" cy="96" r="12" fill="#cfe6f2" ${W}/><path d="M141 104 L132 112" stroke="#7a4b2a" stroke-width="5"/>`,
+    `<ellipse cx="80" cy="70" rx="50" ry="64" fill="#11141C" ${W}/><ellipse cx="80" cy="78" rx="34" ry="52" fill="#fff" ${W}/><path d="M32 30 Q8 60 16 104 Q34 80 38 52 Z M128 30 Q152 60 144 104 Q126 80 122 52 Z" fill="#11141C" ${W}/>`],
+   [ // Beine (viewBox 160x130, oben Hüfte x 48..112)
+    `<path d="M48 0 H112 L110 112 H84 L80 34 L76 112 H50 Z" fill="#fff" ${W}/><path d="M44 112 H80 V124 H40 Q40 112 44 112 Z M80 112 H116 Q120 112 120 124 H80 Z" fill="#11141C" ${W}/><rect x="48" y="0" width="64" height="10" fill="#11141C" ${W}/><rect x="74" y="0" width="12" height="10" fill="#F6C62E" ${W}/>`,
+    `<path d="M44 0 H116 L118 100 H84 L80 40 L76 100 H42 Z" fill="#fff" ${W}/><path d="M38 96 H80 V126 H36 Z M80 96 H122 L124 126 H80 Z" fill="#7a7f8a" ${W}/><path d="M46 60 H76 M84 60 H114" stroke="#5B8FD6" stroke-width="5"/>`,
+    `<path d="M48 0 H112 L108 112 H84 L80 30 L76 112 H52 Z" fill="#11141C" ${W}/><path d="M40 0 L30 60 L48 54 Z M120 0 L130 60 L112 54 Z" fill="#11141C" ${W}/><path d="M46 112 H80 V122 H40 Q40 112 46 112 Z M80 112 H114 Q120 112 120 122 H80 Z" fill="#11141C" ${W}/><path d="M64 10 V108 M96 10 V108" stroke="#444" stroke-width="1.5"/>`,
+    `<path d="M48 0 H112 L150 30 Q80 46 10 30 Z" fill="#F7C6D9" ${W}/><path d="M20 30 Q80 52 140 30" stroke="#E58FB0" stroke-width="3"/><rect x="62" y="34" width="14" height="80" rx="6" fill="#F7C6D9" ${W}/><rect x="84" y="34" width="14" height="80" rx="6" fill="#F7C6D9" ${W}/><path d="M60 112 H78 L72 128 H62 Z M82 112 H100 L98 128 H88 Z" fill="#E58FB0" ${W}/><path d="M60 104 L78 112 M82 112 L100 104" stroke="#E58FB0" stroke-width="2"/>`,
+    `<path d="M48 0 H112 L110 112 H84 L80 32 L76 112 H50 Z" fill="#7a4b2a" ${W}/><path d="M42 0 H118 L122 30 H38 Z" fill="#C9773A" ${W}/><path d="M60 40 V108 M100 40 V108" stroke="#5a3519" stroke-width="1.4"/><path d="M44 112 H80 V124 H38 Q38 112 44 112 Z M80 112 H116 Q122 112 122 124 H80 Z" fill="#3b2414" ${W}/>`,
+    `<path d="M30 0 H130 Q134 60 80 76 Q26 60 30 0 Z" fill="#11141C" ${W}/><path d="M46 0 H114 Q116 50 80 64 Q44 50 46 0 Z" fill="#fff" ${W}/><path d="M60 72 V96 M100 72 V96" stroke="#F0B43A" stroke-width="7"/><path d="M40 96 H80 L70 110 L60 100 L50 110 Z M80 96 H120 L110 110 L100 100 L90 110 Z" fill="#F0B43A" ${W}/>`]];
+  return P[p][f];
+}
+function gameFlip(card){
+  const store=(P.games=P.games||{});const st=store.flip||(store.flip={seen:[],orig:[],task:0});
+  const VB=['0 -30 160 140','0 -34 160 164','0 0 160 130'];
+  let idx=[0,1,2],target=null;
+  card.append(h('div',{class:'tag'},'<b>Klappfiguren</b> · 6 × 6 × 6 = 216 Kombinationen'),h('h2',{},'Köpfe, Bäuche, Beine'),
+    h('p',{class:'q'},'Wie im alten Klappbuch: Kopf, Oberkörper und Beine lassen sich getrennt umblättern. Tippe auf einen Streifen oder nutze die Pfeile. Aus den Silben entsteht der Name deiner Mischfigur.'));
+  const wrap=h('div',{class:'flipwrap'});const book=h('div',{class:'flipbook'});const info=h('div',{class:'flipinfo'});wrap.append(book,info);card.append(wrap);
+  const strips=[0,1,2].map(p=>{const row=h('div',{class:'fstrip'});const l=h('button',{type:'button',class:'farr','aria-label':'zurück'},'◀');const r=h('button',{type:'button',class:'farr','aria-label':'weiter'},'▶');
+    const pg=h('button',{type:'button',class:'fpage p'+p,'aria-label':['Kopf','Oberkörper','Beine'][p]+' umblättern'});
+    l.onclick=()=>turn(p,-1);r.onclick=()=>turn(p,1);pg.onclick=()=>turn(p,1);row.append(l,pg,r);book.append(row);return pg});
+  const nameEl=h('div',{class:'fname'});const stat=h('p',{class:'lbl'});const taskEl=h('div',{class:'ftask'});
+  const bar=h('div',{class:'acts'});const mix=h('button',{class:'ghostbtn',type:'button'},'🎲 Mischen');const tb=h('button',{class:'primary',type:'button'},'Neuer Auftrag');bar.append(mix,tb);
+  info.append(nameEl,stat,taskEl,bar);
+  function render(p,anim){const pg=strips[p];const html=`<svg viewBox="${VB[p]}" xmlns="http://www.w3.org/2000/svg" fill="none">${flipPart(idx[p],p)}</svg>`;
+    if(!anim){pg.innerHTML=html;pg.style.background=FLIP_FIG[idx[p]].c+'22';return}
+    pg.classList.remove('flip');void pg.offsetWidth;pg.classList.add('flip');setTimeout(()=>{pg.innerHTML=html;pg.style.background=FLIP_FIG[idx[p]].c+'22'},170)}
+  function turn(p,d,silent){idx[p]=(idx[p]+d+6)%6;render(p,true);if(!silent)check()}
+  function check(){
+    const key=idx.join('');if(!st.seen.includes(key))st.seen.push(key);
+    const same=idx[0]===idx[1]&&idx[1]===idx[2];if(same&&!st.orig.includes(idx[0]))st.orig.push(idx[0]);
+    nameEl.innerHTML=idx.map((f,p)=>`<span style="color:${FLIP_FIG[f].c}">${FLIP_FIG[f].n[p]}</span>`).join('<i>·</i>');
+    stat.innerHTML=`${st.seen.length} / 216 Mischfiguren entdeckt · Originale: ${st.orig.length} / 6 · Aufträge gelöst: ${st.task}`;
+    card.querySelectorAll('.solved').forEach(x=>x.remove());
+    if(target&&target.join('')===key){st.task++;target=null;taskEl.innerHTML='';stat.innerHTML=`${st.seen.length} / 216 Mischfiguren entdeckt · Originale: ${st.orig.length} / 6 · Aufträge gelöst: ${st.task}`;gameWin(card,`Auftrag erfüllt: ${idx.map((f,p)=>FLIP_FIG[f].n[p]).join('')} steht vor dir. Insgesamt ${st.task} Aufträge gelöst.`)}
+    else if(same)card.append(h('div',{class:'solved'},`<div class="check">✓</div><div><b>Original!</b><p>${FLIP_FIG[idx[0]].n.join('')} ist wieder komplett.</p></div>`));
+    save();
+  }
+  function newTask(){let t;do{t=[0,1,2].map(()=>Math.floor(Math.random()*6))}while(t.join('')===idx.join('')||(t[0]===t[1]&&t[1]===t[2]));target=t;
+    taskEl.innerHTML=`<span class="lbl">Auftrag</span><b>Baue: ${t.map((f,p)=>FLIP_FIG[f].n[p]).join('·')}</b><small>Die Silben verraten, welcher Teil von welcher Figur stammt.</small>`}
+  mix.onclick=()=>{[0,1,2].forEach(p=>{idx[p]=Math.floor(Math.random()*6);render(p,true)});check()};
+  tb.onclick=()=>{newTask();check()};
+  [0,1,2].forEach(p=>render(p,false));check();
+}
+
 /* Kreuzworträtsel (allgemein, beliebige Größe) */
 const CW_SMALL=[
   {d:'a',r:0,c:0,w:'FARHAMPTON',q:'Auf diesem Bahnsteig spricht Ted endlich die Mutter an.'},
