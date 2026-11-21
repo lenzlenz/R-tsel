@@ -233,6 +233,9 @@ button.spec{border:0;text-align:left;cursor:pointer;font-family:inherit}
 .cwn{position:absolute;top:1px;left:3px;font:600 .55rem var(--mono);color:var(--muted);pointer-events:none}
 .cwc.ok{background:#e6f4ea}.cwc.bad{background:#fbe3df}
 .cwclues{flex:1;min-width:240px;max-width:420px}
+.cwscroll{max-width:100%;overflow-x:auto;padding-bottom:6px}
+.cw.big{width:auto}
+.cw.big .cwn{font-size:.5rem}
 .cwclues h4{font-family:var(--serif);font-weight:400;font-size:1.5rem;margin:0 0 6px}
 .cwclues p{margin:0 0 8px;cursor:pointer;line-height:1.4}
 .map25{grid-template-columns:repeat(auto-fill,minmax(32px,42px));justify-content:start}
@@ -2266,7 +2269,7 @@ function showHub(){
     c.disabled=!open;if(!open)c.title='Schließe zuerst das vorherige Level ab.';c.onclick=()=>openSet(W);$('#worlds').append(c)});
   CATS.forEach((C,k)=>{const el=specCard(C,k,true);el.onclick=()=>openSet(C);$('#free').append(el)});
   SPECIALS.forEach((C,k)=>{const el=specCard(C,k,true,'S'+(k+1));el.onclick=()=>openSet(C);$('#spec').append(el)});
-  {const el=h('button',{class:'spec',type:'button',style:`background:${GAME_CARD.c};color:${GAME_CARD.fg}`},`<small>Spiele · ${GAME_CARD.name}</small><span><b>${GAME_CARD.gl}</b><span class="pm"><span>Gitter · Memory · Kreuzworträtsel</span></span></span>`);el.onclick=()=>showGames();$('#spec').append(el)}
+  {const el=h('button',{class:'spec',type:'button',style:`background:${GAME_CARD.c};color:${GAME_CARD.fg}`},`<small>Spiele · ${GAME_CARD.name}</small><span><b>${GAME_CARD.gl}</b><span class="pm"><span>Gitter · Memory · 2 Kreuzworträtsel</span></span></span>`);el.onclick=()=>showGames();$('#spec').append(el)}
   const fin=$('#fin');if(fin)fin.onclick=showFinal;
   const rs=$('#rs');let armed=false;rs.onclick=()=>{if(!armed){armed=true;rs.textContent='Wirklich alles löschen? Nochmal klicken.';return}P.res={};save();showHub()};
 }
@@ -2362,9 +2365,9 @@ function showGames(tab){
   tab=tab||'gitter';app.innerHTML='';
   const head=h('div',{class:'lvhead'});const back=h('button',{class:'back',type:'button'},'← Übersicht');back.onclick=showHub;
   head.append(back,h('div',{class:'lvtitle'},'<span class="chip">Spezial · HIMYM-Spielecke</span>'));app.append(head);
-  const tabs=h('div',{class:'tabs'});[['gitter','Buchstabengitter'],['memory','Memory'],['kreuz','Kreuzworträtsel']].forEach(([k,l])=>{const b=h('button',{class:'tab'+(k===tab?' on':''),type:'button'},l);b.onclick=()=>showGames(k);tabs.append(b)});app.append(tabs);
+  const tabs=h('div',{class:'tabs'});[['gitter','Buchstabengitter'],['memory','Memory'],['kreuz','Kreuzworträtsel'],['xxl','Kreuzworträtsel XXL']].forEach(([k,l])=>{const b=h('button',{class:'tab'+(k===tab?' on':''),type:'button'},l);b.onclick=()=>showGames(k);tabs.append(b)});app.append(tabs);
   const card=h('section',{class:'card'});app.append(card);
-  ({gitter:gameGrid,memory:gameMemory,kreuz:gameCross})[tab](card);
+  ({gitter:gameGrid,memory:gameMemory,kreuz:c=>gameCross(c),xxl:gameCrossXXL})[tab](card);
 }
 function gameWin(card,txt){const p=h('div',{class:'solved'},`<div class="check">✓</div><div><b>Geschafft!</b><p>${txt}</p></div>`);card.append(p);p.scrollIntoView({behavior:'smooth',block:'nearest'})}
 
@@ -2425,40 +2428,56 @@ function gameMemory(card){
   reset();
 }
 
-/* Kreuzworträtsel */
-function gameCross(card){
-  const CW=[
-    {n:1,d:'a',r:0,c:0,w:'FARHAMPTON',q:'Auf diesem Bahnsteig spricht Ted endlich die Mutter an.'},
-    {n:2,d:'d',r:0,c:1,w:'ANANAS',q:'Diese Frucht findet Ted nach einer durchzechten Nacht in seinem Bett.'},
-    {n:3,d:'d',r:0,c:5,w:'MARSHALL',q:'Teds bester Freund aus Minnesota.'},
-    {n:4,d:'a',r:2,c:0,w:'CARL',q:'Der Barkeeper bei MacLaren’s.'},
-    {n:5,d:'a',r:2,c:5,w:'ROBIN',q:'Kanadische Nachrichtenmoderatorin der Clique.'},
-    {n:6,d:'a',r:5,c:3,w:'SWARLEY',q:'Barneys Spitzname, seit eine Barista seinen Namen falsch geschrieben hat.'},
-    {n:6,d:'d',r:5,c:3,w:'SANDY',q:'Vorname von Robins eitlem Co-Moderator (… Rivers).'},
-    {n:7,d:'a',r:7,c:5,w:'LILY',q:'Kindergärtnerin und Marshalls Frau.'}];
-  const N=10;const sol=Array.from({length:N},()=>Array(N).fill(null));const nums={};
-  CW.forEach(e=>{for(let i=0;i<e.w.length;i++){const r=e.r+(e.d==='d'?i:0),c=e.c+(e.d==='a'?i:0);sol[r][c]=e.w[i]}nums[e.r+','+e.c]=e.n});
-  card.append(h('div',{class:'tag'},'<b>Kreuzworträtsel</b> · 8 Begriffe'),h('h2',{},'HIMYM-Kreuzworträtsel'),h('p',{class:'q'},'Umlaute gibt es hier keine. Tippe in ein Feld und schreib los.'));
-  const wrap=h('div',{class:'cwwrap'});const gEl=h('div',{class:'cw'});const clues=h('div',{class:'cwclues'});wrap.append(gEl,clues);card.append(wrap);
-  const ins={};let dir='a';
+const CW_XXL=[{"w": "SHAKERHEIGHTS", "r": 10, "c": 4, "d": "a", "q": "Teds Heimatort in Ohio"}, {"w": "SLAPSGIVING", "r": 5, "c": 13, "d": "d", "q": "Feiertag mit Ohrfeige"}, {"w": "DOWISETREPLA", "r": 5, "c": 11, "d": "d", "q": "Lilys Abkürzung für eine wenig glamouröse Wohngegend"}, {"w": "MARSHGAMMON", "r": 4, "c": 6, "d": "d", "q": "Spiel, das Marshall aus einem Brettspielklassiker entwickelt hat"}, {"w": "WHITTAKER", "r": 5, "c": 1, "d": "a", "q": "Familienname von Barneys leiblichem Vater"}, {"w": "WAITFORIT", "r": 5, "c": 1, "d": "d", "q": "Zweiter Vorname des kleinen Marvin"}, {"w": "MATTERHORN", "r": 8, "c": 15, "d": "d", "q": "… Von …: Nachname dieser erfundenen Identität"}, {"w": "SCHERBATSKY", "r": 10, "c": 4, "d": "d", "q": "Robins Familienname"}, {"w": "PLAYBOOK", "r": 20, "c": 1, "d": "a", "q": "Barneys Sammlung von Aufreißmaschen"}, {"w": "GRAFANELLO", "r": 16, "c": 0, "d": "a", "q": "Familienname von Stellas Tony"}, {"w": "VANSMOOT", "r": 17, "c": 13, "d": "a", "q": "Familienname von „The Captain“"}, {"w": "STINSON", "r": 5, "c": 13, "d": "a", "q": "Familienname des Anzugträgers"}, {"w": "UKULELE", "r": 1, "c": 8, "d": "d", "q": "Instrument, auf dem die Mutter „La Vie en Rose“ spielt"}, {"w": "GLITTER", "r": 14, "c": 20, "d": "d", "q": "Jessica …, Robins Gesangspartnerin aus Teenie-Tagen"}, {"w": "MCCONNELL", "r": 1, "c": 19, "d": "d", "q": "Familienname der Mutter"}, {"w": "REVERTIGO", "r": 0, "c": 4, "d": "d", "q": "Rückfall in alte Muster beim Wiedersehen mit alten Freunden"}, {"w": "NAZANIN", "r": 0, "c": 15, "d": "d", "q": "Vorname der Darstellerin von Nora"}, {"w": "SCOOTER", "r": 18, "c": 4, "d": "a", "q": "Lilys Highschool-Ex, der nicht loslassen kann"}, {"w": "LORETTA", "r": 8, "c": 9, "d": "d", "q": "Sie ließ ihren Sohn glauben, Bob Barker sei sein Vater"}, {"w": "SOLIDS", "r": 0, "c": 17, "d": "d", "q": "The …: Band, die den Titelsong spielt"}, {"w": "PATRICE", "r": 19, "c": 14, "d": "a", "q": "Robins liebste Zielscheibe im Sender"}, {"w": "LOUIS", "r": 16, "c": 18, "d": "d", "q": "Sein Antrag an die Mutter scheitert"}, {"w": "PUNCHY", "r": 14, "c": 11, "d": "a", "q": "Teds viel zu lauter Schulfreund aus Ohio"}, {"w": "PUZZLES", "r": 3, "c": 7, "d": "a", "q": "Name einer Bar, der selbst ein Rätsel ist"}, {"w": "JEROME", "r": 0, "c": 2, "d": "a", "q": "Vorname von Barneys leiblichem Vater"}, {"w": "KAREN", "r": 14, "c": 2, "d": "a", "q": "Teds anstrengende College-Freundin"}, {"w": "DARREN", "r": 3, "c": 0, "d": "a", "q": "Er reißt die Band der Mutter an sich"}, {"w": "KLAUS", "r": 14, "c": 2, "d": "d", "q": "Er wartet auf seinen „Lebenslangerschicksalsschatz“"}, {"w": "EVELYN", "r": 12, "c": 15, "d": "a", "q": "Teds zweiter Vorname"}, {"w": "SAGET", "r": 0, "c": 12, "d": "d", "q": "Familienname der Erzählerstimme"}, {"w": "JAMES", "r": 7, "c": 16, "d": "a", "q": "Barneys Halbbruder"}, {"w": "KARMA", "r": 1, "c": 11, "d": "a", "q": "Bühnenname dieser Verlobten"}, {"w": "ELLIE", "r": 10, "c": 18, "d": "d", "q": "Barneys Tochter"}, {"w": "SANDY", "r": 0, "c": 0, "d": "d", "q": "Robins eitler Co-Moderator mit Vornamen"}, {"w": "GOAT", "r": 16, "c": 0, "d": "d", "q": "Mitbewohner an Teds 30. Geburtstag (englisch)"}, {"w": "LUCY", "r": 2, "c": 17, "d": "a", "q": "Stellas Tochter"}, {"w": "MAX", "r": 0, "c": 6, "d": "d", "q": "Früh verstorbene Liebe der Mutter"}];
+/* Kreuzworträtsel (allgemein, beliebige Größe) */
+const CW_SMALL=[
+  {d:'a',r:0,c:0,w:'FARHAMPTON',q:'Auf diesem Bahnsteig spricht Ted endlich die Mutter an.'},
+  {d:'d',r:0,c:1,w:'ANANAS',q:'Diese Frucht findet Ted nach einer durchzechten Nacht in seinem Bett.'},
+  {d:'d',r:0,c:5,w:'MARSHALL',q:'Teds bester Freund aus Minnesota.'},
+  {d:'a',r:2,c:0,w:'CARL',q:'Der Barkeeper bei MacLaren’s.'},
+  {d:'a',r:2,c:5,w:'ROBIN',q:'Kanadische Nachrichtenmoderatorin der Clique.'},
+  {d:'a',r:5,c:3,w:'SWARLEY',q:'Barneys Spitzname, seit eine Barista seinen Namen falsch geschrieben hat.'},
+  {d:'d',r:5,c:3,w:'SANDY',q:'Vorname von Robins eitlem Co-Moderator (… Rivers).'},
+  {d:'a',r:7,c:5,w:'LILY',q:'Kindergärtnerin und Marshalls Frau.'}];
+function gameCross(card,cfg){
+  cfg=cfg||{key:'cw1',N:10,list:CW_SMALL,title:'HIMYM-Kreuzworträtsel',sub:'Kreuzworträtsel · 8 Begriffe',intro:'Umlaute gibt es hier keine. Tippe in ein Feld und schreib los.'};
+  const N=cfg.N,CW=cfg.list.map(e=>Object.assign({},e));
+  const sol=Array.from({length:N},()=>Array(N).fill(null));
+  CW.forEach(e=>{for(let i=0;i<e.w.length;i++){const r=e.r+(e.d==='d'?i:0),c=e.c+(e.d==='a'?i:0);sol[r][c]=e.w[i]}});
+  const starts=[...new Set(CW.map(e=>e.r*100+e.c))].sort((a,b)=>a-b);const nums={};starts.forEach((s,i)=>nums[Math.floor(s/100)+','+(s%100)]=i+1);
+  CW.forEach(e=>e.n=nums[e.r+','+e.c]);
+  const store=(P.games=P.games||{});const saved=store[cfg.key]||{};
+  card.append(h('div',{class:'tag'},`<b>${cfg.sub}</b>`),h('h2',{},cfg.title),h('p',{class:'q'},cfg.intro));
+  const wrap=h('div',{class:'cwwrap'});const scroll=h('div',{class:'cwscroll'});const gEl=h('div',{class:'cw'+(N>12?' big':''),style:`grid-template-columns:repeat(${N},${N>12?'30px':'1fr'})`});scroll.append(gEl);const clues=h('div',{class:'cwclues'});wrap.append(scroll,clues);card.append(wrap);
+  const ins={};let dir='a',last=null;
+  const persist=()=>{const o={};for(const k in ins)if(ins[k].value)o[k]=ins[k].value;store[cfg.key]=o;save()};
   for(let r=0;r<N;r++)for(let c=0;c<N;c++){
     if(!sol[r][c]){gEl.append(h('div',{class:'cwx'}));continue}
     const cell=h('div',{class:'cwc'});if(nums[r+','+c])cell.append(h('span',{class:'cwn'},String(nums[r+','+c])));
-    const inp=h('input',{maxlength:'1',autocomplete:'off',autocapitalize:'characters',spellcheck:'false','aria-label':`Feld ${r+1}/${c+1}`});ins[r+','+c]=inp;cell.append(inp);gEl.append(cell);
-    inp.addEventListener('focus',()=>inp.select());
-    inp.addEventListener('input',()=>{inp.value=inp.value.toUpperCase().replace(/[^A-Z]/g,'').slice(-1);cell.classList.remove('bad','ok');
-      if(inp.value){const nx=dir==='a'?ins[r+','+(c+1)]:ins[(r+1)+','+c];const alt=dir==='a'?ins[(r+1)+','+c]:ins[r+','+(c+1)];(nx||alt)&&(nx||alt).focus();if(!nx&&alt)dir=dir==='a'?'d':'a'}});
-    inp.addEventListener('keydown',e=>{if(e.key==='Backspace'&&!inp.value){const pv=dir==='a'?ins[r+','+(c-1)]:ins[(r-1)+','+c];if(pv){pv.focus();pv.value=''}}});
+    const inp=h('input',{maxlength:'1',autocomplete:'off',autocapitalize:'characters',spellcheck:'false','aria-label':`Feld ${r+1}/${c+1}`});inp.value=saved[r+','+c]||'';ins[r+','+c]=inp;cell.append(inp);gEl.append(cell);
+    inp.addEventListener('focus',()=>{inp.select();last=r+','+c});
+    inp.addEventListener('input',()=>{inp.value=inp.value.toUpperCase().replace(/Ä/g,'A').replace(/Ö/g,'O').replace(/Ü/g,'U').replace(/[^A-Z]/g,'').slice(-1);cell.classList.remove('bad','ok');persist();
+      if(inp.value){const nx=dir==='a'?ins[r+','+(c+1)]:ins[(r+1)+','+c];const alt=dir==='a'?ins[(r+1)+','+c]:ins[r+','+(c+1)];if(nx)nx.focus();else if(alt){dir=dir==='a'?'d':'a';alt.focus()}}});
+    inp.addEventListener('keydown',e=>{if(e.key==='Backspace'&&!inp.value){const pv=dir==='a'?ins[r+','+(c-1)]:ins[(r-1)+','+c];if(pv){pv.focus();pv.value='';persist()}}
+      const mv={ArrowRight:[0,1],ArrowLeft:[0,-1],ArrowDown:[1,0],ArrowUp:[-1,0]}[e.key];if(mv){e.preventDefault();dir=mv[0]?'d':'a';let rr=r+mv[0],cc=c+mv[1];while(rr>=0&&cc>=0&&rr<N&&cc<N&&!ins[rr+','+cc]){rr+=mv[0];cc+=mv[1]}if(ins[rr+','+cc])ins[rr+','+cc].focus()}});
   }
-  const mk=(d,t)=>`<h4>${t}</h4>`+CW.filter(e=>e.d===d).map(e=>`<p data-k="${e.d}${e.n}"><b>${e.n}</b> ${e.q} <span class="lbl">(${e.w.length})</span></p>`).join('');
+  const mk=(d,t)=>`<h4>${t}</h4>`+CW.filter(e=>e.d===d).sort((a,b)=>a.n-b.n).map(e=>`<p data-k="${e.d}${e.n}"><b>${e.n}</b> ${e.q} <span class="lbl">(${e.w.length})</span></p>`).join('');
   clues.innerHTML=mk('a','Waagerecht')+mk('d','Senkrecht');
-  clues.querySelectorAll('p').forEach(p=>p.onclick=()=>{const e=CW.find(x=>x.d+x.n===p.dataset.k);dir=e.d;ins[e.r+','+e.c].focus()});
-  const bar=h('div',{class:'acts'});const ck=h('button',{class:'primary',type:'button'},'Prüfen');const rs=h('button',{class:'ghostbtn',type:'button'},'Leeren');bar.append(ck,rs);card.append(bar);
+  clues.querySelectorAll('p').forEach(p=>p.onclick=()=>{const e=CW.find(x=>x.d+x.n===p.dataset.k);dir=e.d;ins[e.r+','+e.c].focus();ins[e.r+','+e.c].scrollIntoView({block:'nearest',inline:'center'})});
+  const bar=h('div',{class:'acts'});const ck=h('button',{class:'primary',type:'button'},'Prüfen');const hint=h('button',{class:'ghostbtn',type:'button'},'Buchstabe aufdecken');const rs=h('button',{class:'hint',type:'button'},'Alles leeren');bar.append(ck,hint,rs);card.append(bar);
   const msg=h('div',{class:'msg'});card.append(msg);
-  ck.onclick=()=>{let all=true,empty=0;for(const k in ins){const [r,c]=k.split(',').map(Number);const v=ins[k].value,cell=ins[k].parentNode;cell.classList.remove('bad','ok');if(!v){empty++;all=false;continue}if(v===sol[r][c])cell.classList.add('ok');else{cell.classList.add('bad');all=false}}
-    msg.className='msg';if(all){msg.textContent='';gameWin(card,'Kreuzworträtsel komplett gelöst. Suit up!')}else msg.textContent=empty?`Noch ${empty} leere Felder. Rote Felder sind falsch.`:'Die roten Felder stimmen noch nicht.'};
-  rs.onclick=()=>{for(const k in ins){ins[k].value='';ins[k].parentNode.classList.remove('bad','ok')}msg.textContent='';card.querySelectorAll('.solved').forEach(x=>x.remove())};
+  const total=Object.keys(ins).length;
+  ck.onclick=()=>{let all=true,empty=0,wrong=0;for(const k in ins){const [r,c]=k.split(',').map(Number);const v=ins[k].value,cell=ins[k].parentNode;cell.classList.remove('bad','ok');if(!v){empty++;all=false;continue}if(v===sol[r][c])cell.classList.add('ok');else{cell.classList.add('bad');wrong++;all=false}}
+    msg.className='msg';card.querySelectorAll('.solved').forEach(x=>x.remove());
+    if(all){msg.textContent='';gameWin(card,`Alle ${CW.length} Begriffe gelöst${store[cfg.key+'_hints']?` (mit ${store[cfg.key+'_hints']} aufgedeckten Buchstaben)`:''}. Legendär!`)}
+    else msg.textContent=`${total-empty-wrong} von ${total} Feldern richtig${wrong?`, ${wrong} falsch (rot)`:''}${empty?`, ${empty} noch leer`:''}.`};
+  hint.onclick=()=>{let k=last;if(!k||ins[k].value===sol[+k.split(',')[0]][+k.split(',')[1]]){k=Object.keys(ins).find(x=>{const [r,c]=x.split(',').map(Number);return ins[x].value!==sol[r][c]})}
+    if(!k){msg.className='msg info';msg.textContent='Alles ist schon richtig.';return}
+    const [r,c]=k.split(',').map(Number);ins[k].value=sol[r][c];ins[k].parentNode.classList.remove('bad');ins[k].parentNode.classList.add('ok');store[cfg.key+'_hints']=(store[cfg.key+'_hints']||0)+1;persist();ins[k].focus()};
+  let armed=false;rs.onclick=()=>{if(!armed){armed=true;rs.textContent='Wirklich alles leeren?';return}armed=false;rs.textContent='Alles leeren';for(const k in ins){ins[k].value='';ins[k].parentNode.classList.remove('bad','ok')}store[cfg.key+'_hints']=0;persist();msg.textContent='';card.querySelectorAll('.solved').forEach(x=>x.remove())};
 }
+function gameCrossXXL(card){gameCross(card,{key:'cw2',N:21,list:CW_XXL,title:'Das große HIMYM-Kreuzworträtsel',sub:'Kreuzworträtsel XXL · '+CW_XXL.length+' Begriffe',
+  intro:'Für echte Kenner: Gefragt sind Nachnamen, Nebenfiguren und Insider. Umlaute schreibst du ohne Punkte (Ä = A). Pfeiltasten wechseln die Richtung, ein Tipp auf einen Hinweis springt zum ersten Feld.'})}
 
 /* ---------- Start (inkl. Rückkehr nach „Neu laden“-Rätsel) ---------- */
 (function boot(){let rl=null;try{rl=JSON.parse(sessionStorage.getItem('ue_reload'));sessionStorage.removeItem('ue_reload')}catch(e){}
