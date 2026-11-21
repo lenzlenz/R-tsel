@@ -207,6 +207,34 @@ button.spec{border:0;text-align:left;cursor:pointer;font-family:inherit}
 .quizimg{padding:12px}
 .opt.right,.opt.right:disabled{opacity:1;border-color:var(--c);background:color-mix(in srgb,var(--c) 16%,#fff);font-weight:600}
 .opt.gone{text-decoration:line-through}
+
+.tabs{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:18px}
+.tab{border:1.5px solid var(--line);background:#fff;border-radius:999px;padding:9px 18px;font-weight:600;cursor:pointer;color:var(--ink)}
+.tab.on{background:var(--c);border-color:var(--c);color:var(--cfg)}
+.wswrap{display:flex;gap:26px;flex-wrap:wrap;align-items:flex-start;margin-top:16px}
+.ws{display:grid;grid-template-columns:repeat(12,1fr);gap:3px;width:min(100%,500px)}
+.ws button{aspect-ratio:1;border:0;border-radius:6px;background:var(--soft);font:600 clamp(.7rem,2.6vw,1rem) var(--mono);cursor:pointer;color:var(--ink);padding:0}
+.ws button.sel{background:var(--ink);color:#fff}.ws button.hit{background:var(--c);color:var(--cfg)}
+.wslist{display:flex;flex-wrap:wrap;gap:6px;max-width:300px;align-content:flex-start}
+.wslist span{font:600 .8rem var(--mono);padding:5px 10px;border-radius:999px;background:var(--soft)}
+.wslist span.got{text-decoration:line-through;opacity:.45}
+.mem{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;max-width:560px}
+.mcard{aspect-ratio:1;border:0;border-radius:14px;cursor:pointer;position:relative;background:#1F3A5F;padding:0;overflow:hidden;transition:transform .25s}
+.mcard .back{position:absolute;inset:0;display:grid;place-items:center;font-size:2.4rem;color:#F6C62E}
+.mcard .front{position:absolute;inset:0;display:none;background:#fff;align-items:center;justify-content:center}
+.mcard .front svg{width:96%;height:auto}
+.mcard.up .front{display:flex}.mcard.up{transform:rotateY(0)}.mcard.done{box-shadow:0 0 0 3px #F6C62E inset}
+.cwwrap{display:flex;gap:26px;flex-wrap:wrap;margin-top:16px;align-items:flex-start}
+.cw{display:grid;grid-template-columns:repeat(10,1fr);gap:2px;width:min(100%,440px)}
+.cwx{aspect-ratio:1}
+.cwc{aspect-ratio:1;position:relative;background:#fff;border:1.5px solid var(--ink);border-radius:3px}
+.cwc input{position:absolute;inset:0;width:100%;height:100%;border:0;border-radius:0;padding:0;text-align:center;font:600 16px var(--mono);text-transform:uppercase;background:transparent}
+.cwc input:focus{background:color-mix(in srgb,var(--c) 18%,#fff);box-shadow:none;outline:none}
+.cwn{position:absolute;top:1px;left:3px;font:600 .55rem var(--mono);color:var(--muted);pointer-events:none}
+.cwc.ok{background:#e6f4ea}.cwc.bad{background:#fbe3df}
+.cwclues{flex:1;min-width:240px;max-width:420px}
+.cwclues h4{font-family:var(--serif);font-weight:400;font-size:1.5rem;margin:0 0 6px}
+.cwclues p{margin:0 0 8px;cursor:pointer;line-height:1.4}
 .map25{grid-template-columns:repeat(auto-fill,minmax(32px,42px));justify-content:start}
 .lvtitle .pts{font-family:var(--mono);font-size:.85rem;color:var(--muted)}
 .stage{position:relative;height:190px;border-radius:18px;background:#fff6e0;margin-top:16px;overflow:hidden;display:grid;place-items:center;font-size:1.4rem}
@@ -1885,6 +1913,254 @@ const HIMYM_PRO_DATA=[
 ];
 const HIMYM_PRO=HIMYM_PRO_DATA.map(d=>Q(d[0],d[1],d[2],d[3],{tag:'HIMYM Profi',img:d[4]?HG[d[4]]:null}));
 
+/* ---------- Grafiken: Cham, Regensburg, Motorsäge ---------- */
+const G2=(function(){
+  const svg=i=>`<svg viewBox="0 0 320 200" width="320" height="200" fill="none" stroke="#1a1a1a" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" xmlns="http://www.w3.org/2000/svg">${i}</svg>`;
+  const txt=(x,y,t,s,c,a)=>`<text x="${x}" y="${y}" font-family="IBM Plex Mono,Menlo,monospace" font-size="${s||16}" font-weight="600" fill="${c||'#1a1a1a'}" stroke="none" text-anchor="${a||'middle'}">${t}</text>`;
+  const ground=y=>`<path d="M8 ${y||186} H312" stroke="#bdb9ae"/>`;
+  const water='#9ccbe8',stone='#d8cbb0',stone2='#bfae8a',paper='#f4f2ec',roof='#b5482e';
+  const num=(x,y,n)=>`<circle cx="${x}" cy="${y}" r="11" fill="#fff" stroke="#E5432D" stroke-width="2.5"/>`+txt(x,y+5,n,13,'#E5432D');
+  const g={};
+  /* Cham */
+  g.biertor=svg(ground()+`<rect x="70" y="60" width="56" height="126" fill="#c8472f"/><rect x="194" y="60" width="56" height="126" fill="#c8472f"/><rect x="120" y="80" width="80" height="106" fill="#d55a3f"/>`+
+    `<path d="M60 64 L98 22 L136 64 Z M184 64 L222 22 L260 64 Z" fill="${roof}"/><path d="M118 84 L160 50 L202 84 Z" fill="${roof}"/>`+
+    `<path d="M140 186 V140 Q160 112 180 140 V186" fill="#3a2a20"/><rect x="88" y="90" width="18" height="24" rx="9" fill="${paper}"/><rect x="212" y="90" width="18" height="24" rx="9" fill="${paper}"/><rect x="150" y="96" width="20" height="16" fill="${paper}"/>`);
+  g.drache=svg(ground()+`<path d="M60 130 Q70 86 140 84 Q220 82 240 118 Q250 140 230 150 L90 150 Q62 150 60 130 Z" fill="#3f8f4f"/>`+
+    `<path d="M236 116 Q262 82 276 70 L298 74 L290 92 Q278 90 268 104" fill="#3f8f4f"/><circle cx="284" cy="78" r="3" fill="#F6C62E" stroke="none"/>`+
+    `<path d="M298 82 Q314 86 318 76 M298 86 Q316 96 318 92" stroke="#F08A24" stroke-width="4"/>`+
+    `<path d="M120 86 L132 30 L160 70 L176 26 L190 84" fill="#2f6b3c"/><path d="M60 128 Q30 118 16 140 Q30 136 40 142" fill="#3f8f4f"/>`+
+    [86,126,178,214].map(x=>`<path d="M${x} 148 V182 H${x+16}" stroke-width="9"/>`).join('')+
+    [100,130,160,190,215].map(x=>`<path d="M${x} 86 l8 -12 l8 12" fill="#2f6b3c" stroke-width="1.5"/>`).join(''));
+  g.reiter=svg(ground()+`<path d="M90 120 Q92 92 130 92 L210 92 Q236 92 240 70 L248 50 Q260 44 270 54 L280 76 Q270 82 260 78 L252 100 Q240 124 214 128 L120 130 Q98 130 90 120 Z" fill="#7a4a2a"/>`+
+    `<path d="M104 126 L96 182 M128 130 L124 182 M200 128 L210 182 M222 124 L238 182" stroke-width="7" stroke="#5a341c"/><path d="M92 112 Q66 110 60 140" stroke="#5a341c" stroke-width="6"/>`+
+    `<path d="M168 92 Q164 64 172 46 L188 46 Q194 66 190 92" fill="#2a2a2a"/><circle cx="180" cy="34" r="11" fill="#f4c6a8"/><path d="M166 26 H194 L188 16 H172 Z" fill="#2a2a2a"/>`+
+    `<path d="M150 96 Q180 108 210 96" stroke="#E5432D" stroke-width="5"/><path d="M196 52 V8" stroke-width="3"/><path d="M196 10 L226 16 L196 24" fill="#F6C62E"/>`);
+  g.osser=svg(`<path d="M10 186 L110 60 L140 92 L170 40 L310 186 Z" fill="#8aa0b0"/><path d="M110 60 L96 78 L120 80 Z M170 40 L156 60 L184 60 Z" fill="#fff"/><path d="M10 186 L60 150 L120 170 L200 140 L310 186 Z" fill="#3f8f4f"/>`);
+  g.kennzeichen=svg(`<rect x="30" y="66" width="260" height="68" rx="8" fill="#fff" stroke-width="4"/><rect x="34" y="70" width="34" height="60" rx="4" fill="#2d4f9e" stroke="none"/>`+txt(51,120,'D',16,'#fff')+
+    Array.from({length:12},(_,k)=>{const a=k*Math.PI/6;return `<circle cx="${(51+Math.cos(a)*10).toFixed(1)}" cy="${(90+Math.sin(a)*10).toFixed(1)}" r="1.6" fill="#F6C62E" stroke="none"/>`}).join('')+txt(180,114,'WÜM · AB 12',28));
+  g.konzerthaus=svg(`<path d="M10 150 Q160 130 310 150 V196 H10 Z" fill="#cfd6c4"/><path d="M80 158 L118 64 L262 92 L240 178 Z" fill="#9a9a94"/><path d="M118 64 L80 158 L60 150 L98 58 Z" fill="#7a7a74"/>`+
+    Array.from({length:6},(_,r)=>Array.from({length:7},(_,c)=>`<path d="M${122+c*20-r*6} ${70+r*17+c*4} l18 4" stroke="#6a6a64" stroke-width="1.2"/>`).join('')).join('')+`<path d="M10 150 Q160 130 310 150" stroke="#5a6a4a"/>`);
+  g.regenbogen=svg(`<path d="M20 30 Q60 180 160 172 Q260 164 300 30" stroke="${water}" stroke-width="24"/><path d="M20 30 Q60 180 160 172 Q260 164 300 30" stroke="#5aa0cc" stroke-width="2"/>`+
+    `<rect x="110" y="80" width="100" height="56" rx="10" fill="#e9dcc4"/>`+[0,1,2,3].map(i=>`<rect x="${120+i*22}" y="92" width="14" height="14" fill="${roof}" stroke-width="1.5"/>`).join('')+txt(160,128,'Altstadt',13));
+  g.glocken=svg(ground()+`<path d="M90 186 V90 L160 40 L230 90 V186 Z" fill="${paper}"/><path d="M80 94 L160 30 L240 94" stroke-width="6" stroke="${roof}"/><circle cx="160" cy="96" r="20" fill="#e2c56a"/><path d="M154 116 h12" stroke-width="4"/>`+
+    `<path d="M140 186 V150 H180 V186" fill="#5a4030"/><path d="M250 60 v-26 l16 -4 v26 M250 60 a6 5 0 1 1 -1 0 M266 56 a6 5 0 1 1 -1 0 M50 80 v-24 l14 -4 v24 M50 80 a6 5 0 1 1 -1 0 M64 76 a6 5 0 1 1 -1 0" stroke-width="2.5"/>`);
+  g.pfahl=svg(`<path d="M10 150 Q80 120 160 140 T310 130 V196 H10 Z" fill="#7bb36a"/><path d="M30 140 L60 112 L80 128 L104 96 L126 122 L150 100 L176 124 L200 104 L224 126 L250 108 L280 132" fill="#f4f2ec" stroke="#9a9a94" stroke-width="3"/>`+txt(160,186,'← 140 km →',14));
+  /* Regensburg */
+  g.steinbruecke=svg(`<rect x="0" y="140" width="320" height="60" fill="${water}" stroke="none"/><path d="M0 108 H320 V132 H0 Z" fill="${stone}"/>`+
+    Array.from({length:8},(_,k)=>{const x=10+k*40;return `<path d="M${x} 168 V138 Q${x+20} 112 ${x+40} 138 V168" fill="${water}" stroke="#1a1a1a"/><path d="M${x-4} 168 L${x} 150 L${x+4} 168" fill="${stone2}"/>`}).join('')+
+    `<path d="M0 108 H320"/><rect x="260" y="40" width="44" height="70" fill="${stone}"/><path d="M256 42 L282 14 L308 42 Z" fill="${roof}"/><path d="M272 110 V84 Q282 72 292 84 V110" fill="#3a2a20"/>`);
+  g.dom=svg(ground()+`<path d="M70 186 V90 H250 V186 Z" fill="${stone}"/><path d="M90 90 V40 L104 10 L118 40 V90 M202 90 V40 L216 10 L230 40 V90" fill="${stone2}"/>`+
+    `<path d="M160 186 V120 Q160 96 176 96 Q192 96 192 120 V186 Z" fill="${paper}" transform="translate(-16 0)"/><circle cx="160" cy="70" r="16" fill="#cfe6f2"/><path d="M160 54 V86 M144 70 H176" stroke-width="1.5"/>`+
+    [100,212].map(x=>`<rect x="${x-4}" y="58" width="8" height="20" rx="4" fill="#cfe6f2" stroke-width="1.5"/>`).join(''));
+  g.walhalla=svg(`<path d="M10 196 L80 120 L240 120 L310 196 Z" fill="#7bb36a"/><path d="M130 196 L130 150 H190 L190 196 Z" fill="${paper}"/>`+Array.from({length:6},(_,k)=>`<path d="M${130} ${150+k*8} H190" stroke-width="1.2"/>`).join('')+
+    `<path d="M80 120 V112 H240 V120 Z" fill="${paper}"/><path d="M90 112 V60 M110 112 V60 M130 112 V60 M150 112 V60 M170 112 V60 M190 112 V60 M210 112 V60 M230 112 V60" stroke-width="5"/><path d="M80 60 H240 L160 26 Z" fill="${paper}"/><path d="M80 60 H240"/>`);
+  g.wurst=svg(`<ellipse cx="160" cy="130" rx="130" ry="50" fill="#fff"/><ellipse cx="160" cy="130" rx="110" ry="38" stroke="#ddd"/>`+
+    `<path d="M70 130 Q110 100 150 124 Q120 150 70 130 Z" fill="#d9c46a"/>`+[0,1,2,3,4,5].map(i=>`<rect x="${150+(i%3)*30}" y="${104+Math.floor(i/3)*26}" width="34" height="14" rx="7" fill="#a35a2a" transform="rotate(${(i%2?8:-6)} ${167+(i%3)*30} ${111+Math.floor(i/3)*26})"/>`).join('')+
+    `<circle cx="248" cy="96" r="16" fill="#e0b62a"/><path d="M84 120 q6 -6 12 0 M100 128 q6 -6 12 0" stroke="#a89a3a" stroke-width="1.5"/>`);
+  g.porta=svg(ground()+`<path d="M40 186 V60 H280 V186 H200 V112 Q160 70 120 112 V186 Z" fill="${stone}"/>`+
+    Array.from({length:6},(_,r)=>`<path d="M40 ${76+r*20} H120 M200 ${76+r*20} H280" stroke-width="1.2" stroke="#8a7a5a"/>`).join('')+`<path d="M40 60 H280"/><path d="M60 40 H260 V60 H60 Z" fill="${stone2}"/>`);
+  g.turm=svg(ground()+`<rect x="40" y="120" width="70" height="66" fill="#efe2c4"/><rect x="200" y="110" width="80" height="76" fill="#efe2c4"/><path d="M36 122 L75 92 L114 122 Z M196 112 L240 80 L284 112 Z" fill="${roof}"/>`+
+    `<rect x="132" y="20" width="46" height="166" fill="#e6cf8f"/><path d="M128 22 H182" stroke-width="5"/>`+[40,70,100,130].map(y=>`<rect x="148" y="${y}" width="14" height="18" rx="7" fill="#cfe6f2" stroke-width="1.5"/>`).join(''));
+  g.fluesse=svg(`<path d="M10 150 Q100 70 160 64 Q230 60 310 140" stroke="${water}" stroke-width="18"/>`+txt(40,178,'?',20)+
+    `<path d="M150 64 Q140 30 110 10" stroke="${water}" stroke-width="9"/><path d="M180 62 Q200 30 250 12" stroke="${water}" stroke-width="9"/>`+`<circle cx="166" cy="70" r="9" fill="${roof}"/>`+txt(98,30,'A',16)+txt(252,40,'B',16));
+  g.spatz=svg(`<path d="M80 120 Q90 70 150 70 Q190 70 200 100 L240 96 L206 116 Q200 150 150 154 Q100 156 80 120 Z" fill="#b08a5a"/><path d="M200 96 L222 88 L204 106" fill="#e0a83a"/><circle cx="186" cy="92" r="4" fill="#1a1a1a"/>`+
+    `<path d="M100 110 Q130 100 150 124 Q120 134 100 110 Z" fill="#8a6a40"/><path d="M60 140 L84 124 M64 150 L88 130" stroke-width="3"/>`+
+    `<path d="M250 80 v-30 l18 -4 v30 M250 80 a7 6 0 1 1 -1 0 M268 76 a7 6 0 1 1 -1 0 M284 50 v-24 M284 50 a7 6 0 1 1 -1 0" stroke-width="2.5"/>`);
+  g.kepler=svg(`<ellipse cx="160" cy="100" rx="130" ry="70" stroke-dasharray="6 6"/><circle cx="110" cy="100" r="20" fill="#F6C62E"/><circle cx="270" cy="70" r="10" fill="#3AA6DD"/><path d="M110 100 L270 70 M110 100 L200 166" stroke-width="1.5"/>`);
+  /* Motorsäge */
+  g.saege=svg(`<path d="M40 70 H160 Q176 70 176 86 V140 H40 Z" fill="#F08A24"/><path d="M50 70 Q60 30 110 30 H150 Q160 30 160 44 V70" stroke-width="8"/><path d="M14 92 Q14 70 40 74 L40 132 Q14 136 14 112 Z" fill="#555"/>`+
+    `<path d="M176 92 H284 A18 18 0 0 1 284 128 H176 Z" fill="#cfcac0"/><path d="M176 88 H284 A22 22 0 0 1 284 132 H176" stroke-dasharray="3 4"/><path d="M164 34 L174 60" stroke-width="7" stroke="#2a2a2a"/>`+
+    `<path d="M60 140 Q70 150 90 146 L110 140" stroke-width="5"/>`+num(172,40,'1')+num(92,150,'2')+num(180,142,'3')+num(22,62,'4'));
+  g.kette=svg(`<path d="M20 120 H300" stroke-dasharray="2 0"/><rect x="20" y="112" width="280" height="22" rx="6" fill="#cfcac0"/>`+
+    `<path d="M60 112 V92 L100 84 L110 112 Z" fill="#9aa"/><path d="M60 92 L100 84" stroke="#E5432D" stroke-width="3"/><path d="M40 112 V100 L52 100 L56 112 Z" fill="#9aa"/>`+
+    `<path d="M180 112 V92 L220 84 L230 112 Z" fill="#9aa"/><path d="M160 112 V100 L172 100 L176 112 Z" fill="#9aa"/>`+txt(80,70,'A')+txt(44,88,'B')+`<path d="M80 74 V86 M46 92 V98" stroke-width="1.5"/>`);
+  g.spannung=svg(`<path d="M30 160 L60 120 L90 160 Z M230 160 L260 120 L290 160 Z" fill="${stone2}"/><path d="M30 104 Q160 150 290 104 L290 132 Q160 178 30 132 Z" fill="#d9b98a" stroke="#8a6a3a"/>`+
+    `<path d="M160 118 V92" stroke="#E5432D" stroke-width="3"/><path d="M152 100 L160 90 L168 100" stroke="#E5432D" stroke-width="3"/>`+txt(160,82,'oben?',14)+`<path d="M160 160 V184" stroke="#3AA6DD" stroke-width="3"/>`+txt(160,198,'unten?',14));
+  g.psa=svg(`<path d="M40 80 Q40 30 90 30 Q140 30 140 80 Z" fill="#F08A24"/><path d="M36 80 H144" stroke-width="5"/><path d="M50 80 V100 H130 V80" stroke-dasharray="4 3"/><ellipse cx="42" cy="68" rx="9" ry="16" fill="#E5432D"/><ellipse cx="138" cy="68" rx="9" ry="16" fill="#E5432D"/>`+
+    `<path d="M170 30 H230 L236 110 H212 L200 60 L188 110 H164 Z" fill="#2d4f9e"/><path d="M168 70 H232" stroke="#F08A24" stroke-width="5"/>`+
+    `<path d="M250 120 H286 V176 H310 V190 H250 Z" fill="#2a2a2a"/><path d="M250 132 H286" stroke="#F08A24" stroke-width="4"/>`+
+    `<rect x="60" y="130" width="70" height="56" rx="10" fill="#fff" stroke-dasharray="5 4"/>`+txt(95,166,'?',26));
+  g.laerm=svg(`<path d="M40 80 H80 L130 40 V160 L80 120 H40 Z" fill="#F08A24"/><path d="M150 70 Q170 100 150 130 M170 54 Q200 100 170 146 M190 38 Q232 100 190 162" stroke-width="4"/>`+txt(262,110,'dB(A)',22));
+  g.tanken=svg(ground()+`<rect x="30" y="100" width="70" height="86" rx="8" fill="#E5432D"/><rect x="30" y="100" width="34" height="86" rx="8" fill="#2E9E62"/><path d="M48 100 V86 M82 100 V86" stroke-width="5"/>`+
+    `<path d="M220 150 H290 V176 H220 Z" fill="#F08A24"/><path d="M290 156 H310 A8 8 0 0 1 310 170 H290" fill="#cfcac0"/><path d="M110 168 H210 M118 160 L110 168 L118 176 M202 160 L210 168 L202 176" stroke-width="3"/>`+txt(160,156,'? m',18));
+  return g;
+})();
+
+/* ---------- SPEZIAL: Landkreis Cham ---------- */
+const CHAM_DATA=[
+['Wie spricht man „Cham“ richtig aus?','„Kahm“, mit hartem K und langem A',['„Tscham“ wie im Englischen','„Schamm“','„Chamm“ mit kurzem A'],'Mit hartem K und langem A: <b>„Kahm“</b>.'],
+['Von welchem Fluss hat Cham seinen Namen?','Von der Chamb',['Vom Regen','Von der Donau','Von der Naab'],'Der Name kommt von der <b>Chamb</b>, die in Böhmen entspringt.'],
+['Was bedeutet das keltische Wort „kambos“, auf das der Name zurückgeht?','Krumm oder gewunden',['Fluss','Burg','Wald'],'„kambos“ heißt <b>krumm</b> oder <b>gewunden</b>.'],
+['Wo entspringt die Chamb?','In Böhmen',['Im Fichtelgebirge','Am Großen Arber','In der Fränkischen Schweiz'],'Die Chamb kommt aus <b>Böhmen</b>.'],
+['In der Nähe welches Chamer Stadtteils mündet die Chamb in den Regen?','Altenstadt',['Katzbach','Janahof','Windischbergerdorf'],'Bei <b>Altenstadt</b>.'],
+['Welcher Fluss umschließt die Chamer Altstadt in einem weiten Bogen?','Der Regen',['Die Chamb','Die Donau','Die Schwarzach'],'Der <b>Regen</b> macht um die Altstadt einen Bogen.','regenbogen'],
+['Welchen touristischen Beinamen trägt Cham deshalb?','„Stadt am Regenbogen“',['„Perle des Bayerwalds“','„Tor zur Oberpfalz“','„Stadt der Brücken“'],'Cham ist die <b>„Stadt am Regenbogen“</b>.','regenbogen'],
+['Zu welchem Regierungsbezirk gehört der Landkreis Cham?','Oberpfalz',['Niederbayern','Oberfranken','Oberbayern'],'Cham ist der östlichste Landkreis der <b>Oberpfalz</b>.'],
+['Welchen Platz belegt der Landkreis Cham bei der Fläche unter den Landkreisen der Oberpfalz?','Platz 1, er ist der größte',['Platz 3','Platz 5','Der kleinste'],'Mit gut 1.500 km² ist er der <b>größte</b> Landkreis der Oberpfalz.'],
+['Wie groß ist der Landkreis Cham ungefähr?','Rund 1.500 km²',['Rund 500 km²','Rund 3.000 km²','Rund 150 km²'],'Etwa <b>1.512 km²</b>. Das ist Platz 5 unter den bayerischen Landkreisen.'],
+['Wie viele Menschen leben ungefähr im Landkreis Cham?','Rund 130.000',['Rund 30.000','Rund 300.000','Rund 1 Million'],'Rund <b>130.000</b> Einwohner.'],
+['Wie viele Städte und Gemeinden gehören zum Landkreis Cham?','39',['12','24','71'],'<b>39</b> Städte und Gemeinden.'],
+['Welche Kfz-Kennzeichen gibt es im Landkreis Cham?','CHA, KÖZ, ROD und WÜM',['Nur CHA','CHA und REG','CHA, SAD und R'],'<b>CHA, KÖZ, ROD und WÜM</b>.'],
+['Wofür steht das Kennzeichen WÜM?','Waldmünchen',['Würzburg-Mitte','Wörth an der Donau','Waldmünster'],'<b>WÜM</b> steht für den Altkreis Waldmünchen.','kennzeichen'],
+['Wofür steht das Kennzeichen KÖZ?','Kötzting',['Köfering','Kötschach','Kreis Oberzell'],'<b>KÖZ</b> steht für den Altkreis Kötzting.'],
+['Wofür steht das Kennzeichen ROD?','Roding',['Rötz','Rodach','Rosenheim-Ost'],'<b>ROD</b> steht für den Altkreis Roding.'],
+['Wie lang ist die Grenze des Landkreises zu Tschechien ungefähr?','Rund 70 km',['Rund 7 km','Rund 200 km','Er grenzt nicht an Tschechien'],'Rund <b>70 km</b> Grenze zu Tschechien.'],
+['Welches Lied spielt das Glockenspiel am Chamer Rathaus jeden Mittag um 12:05 Uhr?','Die Marseillaise',['Die Bayernhymne','Das Deutschlandlied','Den Radetzky-Marsch'],'Die <b>Marseillaise</b>, die französische Nationalhymne.','glocken'],
+['Warum erklingt in Cham die französische Nationalhymne?','Sie ist dem Chamer Grafen Nikolaus Luckner gewidmet',['Cham hat eine französische Partnerstadt','Napoleon übernachtete in Cham','Der Komponist stammt aus Cham'],'Rouget de Lisle widmete das Lied dem Marschall <b>Nikolaus Graf Luckner</b> aus Cham.'],
+['Welchen höchsten militärischen Rang erreichte Nikolaus Luckner?','Marschall von Frankreich',['General der bayerischen Armee','Admiral der britischen Flotte','Kaiserlicher Feldmarschall Österreichs'],'Luckner wurde <b>Marschall von Frankreich</b>.'],
+['Wie endete Luckner 1794?','Unter der Guillotine',['Als reicher Mann in Cham','Im Duell','In der Schlacht'],'Wegen angeblichen Verrats starb er <b>unter der Guillotine</b>. Ein Jahr später wurde er rehabilitiert.'],
+['Welche Melodie spielt das Rathaus-Glockenspiel am frühen Abend?','Die Bayernhymne',['Die Marseillaise','„Stille Nacht“','„Muss i denn“'],'Am Abend erklingt die <b>Bayernhymne</b>.'],
+['Wie heißt dieses Wahrzeichen von Cham?','Biertor',['Straubinger Turm','Burgtor','Regentor'],'Das leuchtend rote <b>Biertor</b> mit seinen zwei Rundtürmen.','biertor'],
+['Aus welchem Jahrhundert stammt das Biertor?','14. Jahrhundert',['10. Jahrhundert','17. Jahrhundert','19. Jahrhundert'],'Aus dem <b>14. Jahrhundert</b>.','biertor'],
+['Woher hat das Biertor seinen Namen?','Von einer Brauerei, die dort bis ins 20. Jahrhundert ansässig war',['Weil dort Bierzoll kassiert wurde','Weil es aus Bierflaschen gebaut ist','Nach einem Bürgermeister namens Bier'],'Von der <b>Brauerei</b> am Tor.','biertor'],
+['Welcher zweite Turm der alten Chamer Stadtbefestigung steht ebenfalls am Regen?','Der Straubinger Turm',['Der Further Turm','Der Regensburger Turm','Der Luckner-Turm'],'Der viereckige <b>Straubinger Turm</b>.'],
+['Was ist im Chamer Cordonhaus untergebracht?','Die Tourist-Info und die Städtische Galerie',['Das Rathaus','Ein Gefängnis','Die Feuerwehr'],'<b>Tourist-Info</b> und <b>Städtische Galerie</b>.'],
+['Welcher berühmte Antikriegsfilm wurde in Cham gedreht?','„Die Brücke“',['„Das Boot“','„Die Blechtrommel“','„Stalingrad“'],'Bernhard Wickis <b>„Die Brücke“</b> (1959). Eine Tafel auf der Regenbrücke erinnert daran.'],
+['Was ist der Further Drachenstich?','Deutschlands ältestes Volksschauspiel',['Ein Mittelaltermarkt','Ein Bierfest','Ein Ritterturnier mit Pferden'],'Der <b>Drachenstich</b> in Furth im Wald gilt als ältestes Volksschauspiel Deutschlands.','drache'],
+['In welcher Stadt findet der Drachenstich statt?','Furth im Wald',['Bad Kötzting','Waldmünchen','Roding'],'In <b>Furth im Wald</b>.','drache'],
+['Wie viele Jahre Tradition hat der Drachenstich ungefähr?','Über 500 Jahre',['Etwa 50 Jahre','Etwa 150 Jahre','Etwa 2.000 Jahre'],'Mehr als <b>500 Jahre</b>.'],
+['Was ist der Further Drache „Tradinno“?','Der größte vierbeinige Schreitroboter der Welt',['Eine Holzfigur','Ein Heißluftballon','Ein Kostüm mit zwölf Männern'],'<b>Tradinno</b> steht seit 2012 im Guinness-Buch als größter vierbeiniger Schreitroboter.','drache'],
+['Woraus setzt sich der Name „Tradinno“ zusammen?','Tradition und Innovation',['Tradition und Inno-Drache','Trachten und Dinos','Traditioneller Drache Nordost'],'<b>Trad</b>ition + <b>Inno</b>vation.'],
+['Welche Firma aus dem Landkreis Cham baute Tradinno?','Zollner Elektronik aus Zandt',['Siemens aus München','BMW aus Regensburg','Krones aus Neutraubling'],'<b>Zollner Elektronik</b> aus Zandt.'],
+['Wie heißt der Held, der beim Drachenstich den Drachen besiegt?','Ritter Udo',['Ritter Georg','Ritter Kunibert','Ritter Luckner'],'<b>Ritter Udo</b> rettet die Ritterin.'],
+['Seit wann steht der Further Drachenstich im bundesweiten Verzeichnis des immateriellen Kulturerbes?','Seit 2018',['Seit 1990','Seit 2001','Er steht nicht darin'],'Seit <b>2018</b>.'],
+['Seit welchem Jahr gibt es den Kötztinger Pfingstritt?','1412',['1712','1512','1912'],'Er geht auf ein Gelöbnis aus dem Jahr <b>1412</b> zurück.','reiter'],
+['An welchem Tag findet der Kötztinger Pfingstritt statt?','Pfingstmontag',['Pfingstsonntag','Ostermontag','Fronleichnam'],'Jedes Jahr am <b>Pfingstmontag</b>.','reiter'],
+['Wohin führt der Kötztinger Pfingstritt?','Nach Steinbühl',['Nach Cham','Auf den Arber','Nach Furth im Wald'],'Zur Nikolauskirche in <b>Steinbühl</b>.'],
+['Worauf geht der Pfingstritt der Legende nach zurück?','Junge Burschen schützten einen Priester auf dem Weg zu einem Sterbenden',['Ein Sieg gegen die Hussiten','Eine überstandene Pestepidemie','Ein Pferderennen eines Grafen'],'Burschen begleiteten einen <b>Priester</b> sicher zu einem Sterbenden in Steinbühl.'],
+['Wie viele Reiter nehmen ungefähr am Kötztinger Pfingstritt teil?','Rund 900',['Rund 50','Rund 200','Rund 10.000'],'Rund <b>900</b> Reiter mit geschmückten Pferden.'],
+['Was folgt traditionell auf den Pfingstritt?','Die symbolische Pfingsthochzeit',['Ein Drachenkampf','Ein Fischerstechen','Ein Almabtrieb'],'Die <b>Pfingsthochzeit</b>.'],
+['Welches Festspiel findet in Waldmünchen statt?','„Trenck der Pandur“',['„Der Drachenstich“','„Die Weber“','„Agnes Bernauer“'],'Das Freilichtspiel <b>„Trenck der Pandur“</b>.'],
+['Wem diente der Pandurenobrist Trenck?','Kaiserin Maria Theresia',['Napoleon','König Ludwig II.','Friedrich dem Großen'],'Er war Obrist der Kaiserin <b>Maria Theresia</b>.'],
+['Was geschah laut Überlieferung 1742 in Waldmünchen?','Trenck verschonte die Stadt gegen Lösegeld',['Trenck brannte die Stadt nieder','Trenck wurde dort gefangen genommen','Trenck heiratete dort'],'Er verschonte die Stadt gegen eine <b>Lösegeldzahlung</b>.'],
+['Welcher Schnaps ist typisch für den Bayerischen Wald und hat in Bad Kötzting sogar ein Museum?','Bärwurz',['Obstler','Enzian','Williams'],'Der <b>Bärwurz</b>.'],
+['Welcher Berg im Landkreis Cham wird „Matterhorn des Bayerischen Waldes“ genannt?','Der Osser',['Der Hohe Bogen','Der Kaitersberg','Der Große Arber'],'Der <b>Osser</b> mit seinem markanten Doppelgipfel.','osser'],
+['Was ist der „Pfahl“?','Ein rund 140 km langer Quarzgang durch die Region',['Ein Grenzpfahl zu Tschechien','Ein alter Römerweg','Ein Aussichtsturm'],'Der <b>Pfahl</b> ist ein langer Quarzrücken quer durch den Bayerischen Wald.','pfahl'],
+['Welcher Architekt entwarf das ungewöhnliche Konzerthaus in Blaibach?','Peter Haimerl',['Zaha Hadid','Frank Gehry','Renzo Piano'],'<b>Peter Haimerl</b>. Das schräg im Boden steckende Granitgebäude ist weltweit bekannt.','konzerthaus'],
+['In welchem Naturpark liegt Cham?','Naturpark Oberer Bayerischer Wald',['Nationalpark Bayerischer Wald','Naturpark Steinwald','Naturpark Altmühltal'],'Im <b>Naturpark Oberer Bayerischer Wald</b>.'],
+['Welcher Freizeitpark liegt bei Cham?','Churpfalzpark Loifling',['Skyline Park','Bayern-Park','Legoland'],'Der <b>Churpfalzpark</b> in Loifling.'],
+['In welcher Stadt finden die Schwarzenburg-Festspiele statt?','Rötz',['Roding','Cham','Lam'],'In <b>Rötz</b>.']
+];
+const CHAM=CHAM_DATA.map(d=>Q(d[0],d[1],d[2],d[3],{tag:'Landkreis Cham',img:d[4]?G2[d[4]]:null}));
+
+/* ---------- SPEZIAL: Regensburg ---------- */
+const RGB_DATA=[
+['Die wievieltgrößte Stadt Bayerns ist Regensburg?','Die viertgrößte',['Die zweitgrößte','Die drittgrößte','Die zehntgrößte'],'Nach München, Nürnberg und Augsburg kommt <b>Regensburg</b>.'],
+['Welche geografische Besonderheit hat Regensburg an der Donau?','Es liegt am nördlichsten Punkt der Donau',['Es liegt an der Donauquelle','Es liegt am östlichsten Punkt Deutschlands','Dort mündet die Donau ins Meer'],'Am <b>nördlichsten Punkt</b> der Donau.'],
+['Welche drei Flüsse treffen in Regensburg zusammen?','Donau, Regen und Naab',['Donau, Isar und Inn','Donau, Main und Altmühl','Donau, Regen und Lech'],'<b>Donau, Regen und Naab</b>.'],
+['Welcher Fluss ist B, der direkt bei der Altstadt in die Donau mündet?','Regen',['Naab','Isar','Altmühl'],'B ist der <b>Regen</b>. Die Naab (A) mündet weiter westlich.','fluesse'],
+['Wann wurde die Steinerne Brücke gebaut?','1135 bis 1146',['Um 800','1335 bis 1346','1835 bis 1846'],'Zwischen <b>1135 und 1146</b>.','steinbruecke'],
+['Wie lang ist die Steinerne Brücke ungefähr?','Rund 309 Meter',['Rund 30 Meter','Rund 900 Meter','Rund 3 Kilometer'],'Rund <b>309 Meter</b>.','steinbruecke'],
+['Wie viele Bögen hat die Steinerne Brücke?','16',['6','10','24'],'Die Brücke hat <b>16</b> Bögen.','steinbruecke'],
+['Welche Rolle spielte die Steinerne Brücke jahrhundertelang?','Sie war die einzige feste Donauquerung zwischen Wien und Ulm',['Sie war die erste Eisenbahnbrücke Bayerns','Sie war eine Zollgrenze zu Böhmen','Sie war nur für den Kaiser zugelassen'],'Die einzige <b>feste Donauquerung</b> zwischen Wien und Ulm.'],
+['Mit wem wettete der Brückenbaumeister der Legende nach?','Mit dem Dombaumeister',['Mit dem Kaiser','Mit dem Bischof','Mit dem Bürgermeister'],'Mit dem <b>Dombaumeister</b>, wer zuerst fertig wird.'],
+['Wen schickte der Brückenbaumeister der Legende nach zuerst über die Brücke, um den Teufel zu überlisten?','Einen Hund, eine Henne und einen Hahn',['Drei Mönche','Den Dombaumeister','Eine Kuh'],'<b>Hund, Henne und Hahn</b>. Der Teufel hatte sich die ersten drei Seelen ausbedungen.'],
+['Wie heißt die kleine Figur auf der Steinernen Brücke, die zum Dom schaut?','Bruckmandl',['Domspatz','Brückenteufel','Donauweibchen'],'Das <b>Bruckmandl</b>.'],
+['Welcher Schifffahrtsweg umgeht heute die Steinerne Brücke?','Der Main-Donau-Kanal',['Der Rhein-Herne-Kanal','Der Nord-Ostsee-Kanal','Der Ludwigskanal'],'Der <b>Main-Donau-Kanal</b>.'],
+['Wann begann der Bau des gotischen Doms St. Peter?','1273',['873','1573','1873'],'<b>1273</b>.','dom'],
+['Wem ist der Regensburger Dom geweiht?','Dem heiligen Petrus',['Dem heiligen Emmeram','Dem heiligen Wolfgang','Der Jungfrau Maria'],'Dem <b>heiligen Petrus</b>: Dom St. Peter.','dom'],
+['Wie heißt der berühmte Knabenchor des Regensburger Doms?','Regensburger Domspatzen',['Regensburger Sängerknaben','Wiener Sängerknaben','Thomanerchor'],'Die <b>Regensburger Domspatzen</b>.','spatz'],
+['In welchem Jahr wurden die Domspatzen gegründet?','975',['1575','1875','1975'],'Schon <b>975</b>. Damit gehören sie zu den ältesten Knabenchören der Welt.','spatz'],
+['Wessen Bruder leitete jahrzehntelang die Domspatzen?','Der Bruder von Papst Benedikt XVI.',['Der Bruder von Mozart','Der Bruder von Kepler','Der Bruder von König Ludwig I.'],'<b>Georg Ratzinger</b>, Bruder von Joseph Ratzinger.'],
+['An welcher Hochschule lehrte Joseph Ratzinger, bevor er Papst wurde, unter anderem?','An der Universität Regensburg',['An der TU München','In Heidelberg','In Wien'],'Er war Professor an der <b>Universität Regensburg</b>.'],
+['Seit wann ist die Regensburger Altstadt mit Stadtamhof UNESCO-Welterbe?','Seit 2006',['Seit 1986','Seit 1996','Seit 2016'],'Seit <b>2006</b>.'],
+['Welches zweite UNESCO-Welterbe kam 2021 dazu?','Der Donaulimes',['Die Walhalla','Der Dom','Die Wurstkuchl'],'Der <b>Donaulimes</b>, die römische Grenze an der Donau.'],
+['Wie viele Baudenkmäler umfasst das Regensburger Welterbe ungefähr?','Rund 1.000',['Rund 100','Rund 10.000','Rund 50'],'Rund <b>1.000</b> Baudenkmäler.'],
+['Wie hieß das römische Legionslager in Regensburg?','Castra Regina',['Castra Vetera','Augusta Vindelicum','Colonia Agrippina'],'<b>Castra Regina</b>, gegründet 179 n. Chr.'],
+['In welchem Jahr wurde Castra Regina gegründet?','179 n. Chr.',['9 n. Chr.','476 n. Chr.','800 n. Chr.'],'<b>179 n. Chr.</b> unter Kaiser Mark Aurel.'],
+['Wie heißt dieses römische Tor in Regensburg?','Porta Praetoria',['Porta Nigra','Brandenburger Tor','Porta Westfalica'],'Die <b>Porta Praetoria</b>, Rest des Legionslagers.','porta'],
+['Welcher lateinische Name wurde für Regensburg im Mittelalter verwendet?','Ratisbona',['Ratisbonum Magna','Regina Castra Nova','Danubia'],'<b>Ratisbona</b>, daher das englische „Ratisbon“.'],
+['Wer verlieh Regensburg 1245 die Reichsfreiheit?','Kaiser Friedrich II.',['Karl der Große','Kaiser Barbarossa','Ludwig der Bayer'],'<b>Kaiser Friedrich II.</b>'],
+['Was tagte von 1663 bis 1806 in Regensburg?','Der Immerwährende Reichstag',['Das Konzil von Trient','Der Wiener Kongress','Der Bayerische Landtag'],'Der <b>Immerwährende Reichstag</b> im Alten Rathaus.'],
+['In welchem Saal tagte der Immerwährende Reichstag?','Im Reichssaal des Alten Rathauses',['Im Dom','In der Walhalla','Im Schloss St. Emmeram'],'Im <b>Reichssaal</b> des Alten Rathauses.'],
+['Welcher Astronom starb 1630 in Regensburg?','Johannes Kepler',['Nikolaus Kopernikus','Galileo Galilei','Tycho Brahe'],'<b>Johannes Kepler</b>, der die Planetenbahnen als Ellipsen beschrieb.','kepler'],
+['Welcher berühmte Feldherr wurde 1547 in Regensburg geboren?','Don Juan de Austria',['Wallenstein','Prinz Eugen','Tilly'],'<b>Don Juan de Austria</b>, Sieger von Lepanto.'],
+['Wie heißt dieser Ruhmestempel bei Donaustauf?','Walhalla',['Befreiungshalle','Ruhmeshalle','Pantheon'],'Die <b>Walhalla</b>.','walhalla'],
+['Welcher König ließ die Walhalla errichten?','Ludwig I.',['Ludwig II.','Maximilian II.','Otto I.'],'König <b>Ludwig I.</b> von Bayern.','walhalla'],
+['Wer war der Architekt der Walhalla?','Leo von Klenze',['Karl Friedrich Schinkel','Balthasar Neumann','Friedrich von Gärtner'],'<b>Leo von Klenze</b>.','walhalla'],
+['Wann wurde die Walhalla eröffnet?','1842',['1742','1892','1942'],'<b>1842</b>.','walhalla'],
+['Was gibt es in der Historischen Wurstkuchl an der Steinernen Brücke?','Bratwürste mit Sauerkraut und süßem Senf',['Weißwürste mit Brezn','Currywurst','Leberkäse'],'Kleine <b>Bratwürste</b> vom Holzkohlegrill mit Kraut und Senf.','wurst'],
+['Was ist die Historische Wurstkuchl?','Eine der ältesten Bratwurstküchen der Welt',['Ein Wurstmuseum','Eine Metzgerschule','Ein Bierkeller'],'Sie gilt als eine der <b>ältesten Garküchen</b> der Welt.','wurst'],
+['Wie heißt der höchste der mittelalterlichen Geschlechtertürme in Regensburg?','Goldener Turm',['Brückturm','Römerturm','Baumburger Turm'],'Der <b>Goldene Turm</b>.','turm'],
+['Woran erinnern die Regensburger Geschlechtertürme?','An italienische Städte wie San Gimignano',['An Burgen am Rhein','An Moscheen','An Kirchtürme in England'],'Die Patrizier bauten nach <b>italienischem Vorbild</b>.','turm'],
+['Welche Fürstenfamilie residiert im Schloss St. Emmeram?','Thurn und Taxis',['Wittelsbacher','Hohenzollern','Fugger'],'Die Familie <b>Thurn und Taxis</b>.'],
+['Womit wurde die Familie Thurn und Taxis reich?','Mit der Post',['Mit Bier','Mit Bergbau','Mit Salz'],'Mit dem <b>Postwesen</b> im Heiligen Römischen Reich.'],
+['Welche Herrscherfamilie machte Regensburg zur ersten „bayerischen Hauptstadt“?','Die Agilolfinger',['Die Wittelsbacher','Die Staufer','Die Habsburger'],'Unter den <b>Agilolfingern</b>.'],
+['Wann trat der Regensburger Rat zum evangelischen Glauben über?','1542',['1517','1648','1806'],'<b>1542</b>.'],
+['Wie heißt der Fußballverein der Stadt?','SSV Jahn Regensburg',['TSV 1860 Regensburg','FC Regensburg 05','Regensburger Kickers'],'Der <b>SSV Jahn</b>.'],
+['Wie heißt das Regensburger Eishockeyteam?','Eisbären Regensburg',['Domspatzen Regensburg','Donau Devils','Regen Rangers'],'Die <b>Eisbären Regensburg</b>.'],
+['Wie heißt das traditionelle Volksfest in Regensburg?','Dult',['Wiesn','Kirta','Gäubodenfest'],'Die Frühjahrs- und Herbst-<b>Dult</b>.'],
+['Wann wurde die Universität Regensburg gegründet?','1962',['1462','1862','1992'],'<b>1962</b>.'],
+['Welcher Autohersteller hat ein großes Werk in Regensburg?','BMW',['Audi','Mercedes-Benz','Volkswagen'],'<b>BMW</b>.'],
+['Welcher Weltmarktführer für Abfüllanlagen sitzt in Neutraubling bei Regensburg?','Krones',['Kaeser','Zollner','Kuka'],'<b>Krones</b>.'],
+['Welcher Stadtteil liegt gegenüber der Altstadt auf der anderen Donauseite und gehört zum Welterbe?','Stadtamhof',['Kumpfmühl','Prüfening','Burgweinting'],'<b>Stadtamhof</b>.'],
+['Welche Kirche in Regensburg ist für ihr rätselhaftes romanisches Portal bekannt?','Die Schottenkirche St. Jakob',['Die Alte Kapelle','Die Neupfarrkirche','St. Emmeram'],'Das <b>Schottenportal</b> von St. Jakob.']
+];
+const REGENSBURG=RGB_DATA.map(d=>Q(d[0],d[1],d[2],d[3],{tag:'Regensburg',img:d[4]?G2[d[4]]:null}));
+
+/* ---------- SPEZIAL: Motorsägen-Führerschein ---------- */
+const MS_DATA=[
+['Welche Schrift beschreibt die Inhalte der Motorsägenausbildung in Deutschland?','DGUV Information 214-059',['DIN EN 381','StVO § 23','Bundeswaldgesetz § 14'],'Die <b>DGUV Information 214-059</b>.'],
+['Wie heißt Modul A der Motorsägenausbildung?','Grundlagen der Motorsägenarbeit',['Baumfällung und Aufarbeitung','Arbeiten im Arbeitskorb','Seilklettertechnik'],'Modul A: <b>Grundlagen der Motorsägenarbeit</b>.'],
+['Wie heißt Modul B?','Baumfällung und Aufarbeitung',['Grundlagen der Motorsägenarbeit','Brennholz spalten','Kettenschärfen'],'Modul B: <b>Baumfällung und Aufarbeitung</b>.'],
+['Wofür sind die Module C und D gedacht?','Für Motorsägenarbeit im Arbeitskorb von Hubarbeitsbühnen oder Drehleitern',['Für Holzschnitzerei','Für Akkusägen','Für Arbeiten im Steinbruch'],'Für die Arbeit im <b>Arbeitskorb</b>.'],
+['Wer hat die Ausbildungsinhalte miteinander abgestimmt?','DGUV und SVLFG',['ADAC und TÜV','Bundesforst und Bundeswehr','IHK und Handwerkskammer'],'Die <b>DGUV</b> und die <b>SVLFG</b>, damit die Lehrgänge gegenseitig anerkannt werden.'],
+['Wer braucht zum Beispiel einen Motorsägenlehrgang, um im Staatswald Brennholz zu machen?','Brennholz-Selbstwerber',['Spaziergänger','Jäger auf dem Hochsitz','Pilzsammler'],'<b>Selbstwerber</b> müssen meist einen Lehrgang nachweisen.'],
+// Schutzausrüstung
+['Was fehlt in dieser Schutzausrüstung?','Schutzhandschuhe',['Eine Krawatte','Ein Schal','Sandalen'],'Helm mit Gehör- und Gesichtsschutz, Schnittschutzhose und Schnittschutzstiefel sind da. Es fehlen die <b>Handschuhe</b>.','psa'],
+['Was gehört zum Helm für Motorsägenarbeit?','Gehörschutz und Gesichtsschutz (Visier)',['Eine Stirnlampe','Ein Funkgerät','Nichts weiter'],'<b>Kapselgehörschutz</b> und <b>Gesichtsschutz</b>.'],
+['Wie funktioniert eine Schnittschutzhose?','Lange Fasern ziehen sich ins Kettenrad und blockieren die Kette',['Sie besteht aus Kettenhemd','Sie ist magnetisch','Sie ist besonders rutschig'],'Die <b>Fasern</b> blockieren die Kette in Sekundenbruchteilen.'],
+['Welche Kettengeschwindigkeit hält eine Schnittschutzhose der Klasse 1 aus?','20 m/s',['5 m/s','50 m/s','100 m/s'],'Klasse 1 ist für <b>20 m/s</b> ausgelegt.'],
+['Welche Schuhe trägt man bei der Motorsägenarbeit?','Sicherheitsschuhe oder -stiefel mit Schnittschutz',['Turnschuhe','Gummistiefel ohne Schutz','Wanderschuhe'],'<b>Schnittschutzstiefel</b>.'],
+['Warum trägt man bei Fällarbeiten Kleidung in Signalfarbe?','Damit man im Wald gut gesehen wird',['Weil es Vorschrift für Förster ist','Um Wild anzulocken','Gegen Zecken'],'Für die <b>Sichtbarkeit</b>.'],
+['Ab welchem Lärmpegel muss Gehörschutz getragen werden?','85 dB(A)',['50 dB(A)','70 dB(A)','120 dB(A)'],'Ab <b>85 dB(A)</b> ist Gehörschutz Pflicht. Eine Motorsäge ist deutlich lauter.','laerm'],
+['Wie laut ist eine Motorsäge ungefähr?','Rund 100 bis 110 dB(A)',['Rund 40 dB(A)','Rund 70 dB(A)','Rund 150 dB(A)'],'Etwa <b>100 bis 110 dB(A)</b>.','laerm'],
+['Was gehört NICHT an den Körper bei der Motorsägenarbeit?','Lose Kleidung, Schals oder Ketten',['Schnittschutzhose','Helm','Handschuhe'],'<b>Lose Teile</b> können von der Kette erfasst werden.'],
+// Sicherheitseinrichtungen
+['Was ist Teil 1 an dieser Motorsäge?','Vorderer Handschutz mit Kettenbremse',['Gashebelsperre','Kettenfangbolzen','Schalldämpfer'],'Der <b>vordere Handschutz</b> löst die Kettenbremse aus.','saege'],
+['Was ist Teil 2?','Gashebelsperre',['Kettenbremse','Kettenspanner','Choke'],'Die <b>Gashebelsperre</b>: Gas geht nur bei umfasstem Griff.','saege'],
+['Was ist Teil 3?','Kettenfangbolzen',['Ölpumpe','Kettenrad','Krallenanschlag'],'Der <b>Kettenfangbolzen</b> fängt eine abspringende oder reißende Kette.','saege'],
+['Was ist Teil 4?','Hinterer Handschutz',['Luftfilter','Zündkerze','Tankdeckel'],'Der <b>hintere Handschutz</b> schützt die rechte Hand bei einem Kettenriss.','saege'],
+['Wie wird die Kettenbremse ausgelöst?','Durch Vordrücken des Handschutzes oder durch Trägheit beim Rückschlag',['Nur per Knopf am Griff','Nur durch Loslassen des Gashebels','Gar nicht, sie ist immer aktiv'],'Manuell über den <b>Handschutz</b> oder automatisch durch <b>Trägheit</b>.'],
+['Wann sollte man die Kettenbremse prüfen?','Vor jedem Arbeitsbeginn',['Einmal im Jahr','Nur nach einem Unfall','Nie, das macht die Werkstatt'],'<b>Vor jedem Einsatz</b>.'],
+['Was darf die Kette im Leerlauf nicht tun?','Sich bewegen',['Geölt werden','Gespannt sein','Warm werden'],'Im Leerlauf muss die Kette <b>stillstehen</b>. Sonst Vergaser einstellen lassen.'],
+['Wozu dient das Antivibrationssystem?','Es schützt Hände und Arme vor Vibrationsschäden',['Es macht die Säge leiser','Es spart Kraftstoff','Es schärft die Kette'],'Gegen <b>Durchblutungsstörungen</b> durch Vibrationen („Weißfingerkrankheit“).'],
+// Starten & Tanken
+['Wie muss die Kettenbremse beim Starten stehen?','Eingelegt',['Gelöst','Egal','Ausgebaut'],'Beim Starten ist die Kettenbremse <b>eingelegt</b>.'],
+['Welche Startmethode ist verboten?','Der Fallstart (Säge mit einer Hand fallen lassen und am Seil ziehen)',['Der Bodenstart','Der Beinklemmstart','Der Start mit eingelegter Kettenbremse'],'Der <b>Fallstart</b> ist lebensgefährlich.'],
+['Welche zwei Startmethoden sind sicher?','Bodenstart und Beinklemmstart',['Fallstart und Bodenstart','Start auf dem Knie','Start in der Luft'],'<b>Bodenstart</b> und <b>Beinklemmstart</b>.'],
+['Wie weit sollte man sich vom Tankplatz entfernen, bevor man die Säge startet?','Mindestens 3 Meter',['30 Zentimeter','1 Meter','100 Meter'],'Mindestens <b>3 m</b> Abstand vom Tankplatz.','tanken'],
+['Was ist beim Tanken der Motorsäge richtig?','Motor aus, nicht rauchen, Überfüllschutz benutzen',['Bei laufendem Motor tanken, das spart Zeit','Im Auto tanken','Mit offenem Feuer leuchten'],'Motor <b>aus</b>, kein Feuer, Kombikanister mit <b>Überfüllschutz</b>.'],
+['Welcher Kraftstoff ist für Motorsägen empfehlenswert?','Sonderkraftstoff (Alkylatbenzin)',['Diesel','Heizöl','Spiritus'],'<b>Alkylatbenzin</b> ist deutlich gesundheitsschonender.'],
+['Welches Kettenöl verwendet man im Wald?','Biologisch abbaubares Kettenöl',['Altöl','Motoröl','Speiseöl aus der Küche'],'Kettenöl landet komplett im Wald, deshalb <b>biologisch abbaubar</b>.'],
+// Kette & Wartung
+['Wie heißt Teil A an der Kette?','Schneidezahn',['Treibglied','Verbindungsglied','Tiefenbegrenzer'],'Der <b>Schneidezahn</b> trennt das Holz.','kette'],
+['Wie heißt Teil B, die kleine Nase vor dem Zahn?','Tiefenbegrenzer',['Schneidezahn','Kettenfangbolzen','Nietbolzen'],'Der <b>Tiefenbegrenzer</b> bestimmt, wie tief der Zahn ins Holz greift.','kette'],
+['Was passiert, wenn der Tiefenbegrenzer zu niedrig gefeilt ist?','Die Säge rupft und die Rückschlaggefahr steigt',['Die Kette wird schärfer und sicherer','Nichts','Die Säge wird leiser'],'Zu tief: Die Kette <b>rupft</b>, der Rückschlag wird heftiger.'],
+['Wonach richtet sich der Durchmesser der Rundfeile?','Nach der Kettenteilung',['Nach der Schienenlänge','Nach der Holzart','Nach dem Motorvolumen'],'Die Feile muss zur <b>Kettenteilung</b> passen.'],
+['Wann ist die Kette richtig gespannt?','Sie liegt unten an der Schiene an und lässt sich von Hand durchziehen',['Sie hängt deutlich durch','Sie lässt sich nicht mehr bewegen','Sie klappert'],'Anliegend, aber von Hand <b>durchziehbar</b>.'],
+['Warum sollte eine heiß gespannte Kette nach der Arbeit gelockert werden?','Sie zieht sich beim Abkühlen zusammen und kann Schiene und Kurbelwelle belasten',['Damit sie nicht gestohlen wird','Damit sie rostet','Das ist nicht nötig'],'Beim Abkühlen <b>schrumpft</b> die Kette.'],
+['Warum wendet man die Führungsschiene regelmäßig?','Damit sie gleichmäßig abnutzt',['Damit sie schärfer wird','Weil sonst die Garantie erlischt','Um die Kette zu ölen'],'Für <b>gleichmäßige</b> Abnutzung.'],
+['Woran erkennt man eine stumpfe Kette?','Sie macht Mehl statt Späne',['Sie wird blau','Sie wird schneller','Sie riecht nach Kaffee'],'Stumpfe Ketten erzeugen <b>feines Mehl</b> statt grober Späne.'],
+// Schnitttechnik
+['Welcher Bereich der Schiene ist für den Rückschlag verantwortlich?','Das obere Viertel der Schienenspitze',['Die Unterseite in der Mitte','Das Kettenrad','Der Krallenanschlag'],'Berührt die <b>obere Schienenspitze</b> Holz, schlägt die Säge nach oben zum Bediener.','schiene'],
+['Was passiert beim Sägen mit der Oberseite der Schiene?','Die Säge wird zum Bediener zurückgestoßen (Rückstoß)',['Die Säge wird ins Holz gezogen','Nichts Besonderes','Die Kette springt ab'],'Mit der Oberseite gibt es <b>Rückstoß</b> zum Körper hin.'],
+['Was passiert beim Sägen mit der Unterseite der Schiene?','Die Säge wird zum Holz hingezogen',['Die Säge springt nach oben','Die Säge stößt zurück zum Körper','Die Kettenbremse löst aus'],'Mit der Unterseite <b>zieht</b> die Säge zum Holz.'],
+['Mit welchem Teil der Schiene sticht man beim Stechschnitt ein?','Mit dem unteren Bereich der Schienenspitze',['Mit dem oberen Viertel der Spitze','Mit der Mitte der Oberseite','Mit dem Kettenrad'],'Immer mit dem <b>unteren</b> Bereich der Spitze, nie mit dem oberen.'],
+['Bis zu welcher Höhe darf man mit der Motorsäge höchstens sägen?','Bis Schulterhöhe',['Bis Kopfhöhe','Über Kopf ist am besten','Beliebig hoch'],'Nie <b>über Schulterhöhe</b>.'],
+['Ein Stamm liegt an beiden Enden auf und hängt durch. Wo schneidet man zuerst ein?','Oben auf der Druckseite',['Unten auf der Zugseite','In der Mitte von der Seite','Egal'],'Zuerst die <b>Druckseite</b> (oben), dann von unten durchtrennen. Sonst klemmt die Schiene.','spannung'],
+['Was ist bei Holz unter Spannung die Zugseite?','Die Seite, die beim Schnitt auseinandergeht',['Die Seite, die zusammengedrückt wird','Die Seite mit der Rinde','Die Seite zum Bediener'],'Auf der <b>Zugseite</b> reißt das Holz auf.'],
+['Wie entastet man richtig?','Möglichst so, dass der Stamm zwischen Körper und Säge ist, und die Säge abstützen',['Freihändig über dem Kopf','Mit der Schienenspitze voraus','Im Stehen auf dem Stamm'],'<b>Stamm zwischen Körper und Säge</b>, Säge abstützen.'],
+// Fällung
+['Ist Alleinarbeit bei Fällarbeiten erlaubt?','Nein, es muss jemand in Ruf- oder Sichtweite sein',['Ja, immer','Nur am Wochenende','Nur mit Handy'],'Bei Fällarbeiten ist <b>Alleinarbeit verboten</b>.'],
+['Woraus sollten Fällkeile bestehen?','Aus Kunststoff oder Aluminium',['Aus Stahl','Aus Glas','Aus Beton'],'<b>Kunststoff</b> oder <b>Alu</b>, damit die Kette beim Kontakt nicht beschädigt wird.'],
+['Wie groß ist der Gefahrenbereich beim Fällen?','Mindestens die doppelte Baumlänge im Umkreis',['Eine halbe Baumlänge','Fünf Meter','Es gibt keinen'],'Mindestens die <b>doppelte Baumlänge</b>.','gefahr'],
+['Was sollte man vor dem Fällen am Baum prüfen („ansprechen“)?','Neigung, Kronenform, Totholz und mögliche Schäden',['Nur die Rindenfarbe','Den Namen des Baums','Ob er Früchte trägt'],'Neigung, Krone, <b>Totholz</b>, Fäule und Hindernisse.'],
+['Welcher Teil ist B in dieser Fällskizze?','Bruchleiste',['Fallkerb','Fällschnitt','Rückweiche'],'Die <b>Bruchleiste</b> führt den Baum wie ein Scharnier.','faellkerb'],
+['Was sollte für den Notfall bei Waldarbeiten bekannt sein?','Der nächste Rettungstreffpunkt',['Die nächste Tankstelle','Das Wetter von morgen','Die Försterwohnung'],'Der <b>Rettungstreffpunkt</b>, an dem der Rettungsdienst hinfindet.']
+];
+const MOTORSAEGE=MS_DATA.map(d=>Q(d[0],d[1],d[2],d[3],{tag:'Motorsägen-Führerschein',img:d[4]?(G2[d[4]]||G[d[4]]):null}));
+
 /* ---------- Story-Level & freie Bereiche ---------- */
 const WORLDS=[
   {name:'Aufwärmen',gl:'?',c:'#E5432D',fg:'#fff',ds:'Knöpfe, die fliehen, und Fragen, die man genau lesen muss.',lv:W1},
@@ -1905,7 +2181,10 @@ const SPECIALS=[
   {name:'How I Met Your Mother',gl:'☂',font:'var(--serif)',c:'#1F3A5F',fg:'#F6C62E',lv:HIMYM},
   {name:'HIMYM Profi',gl:'☂<span style="font-family:var(--mono);font-size:.32em;letter-spacing:.08em;margin-left:.15em">PRO</span>',font:'var(--serif)',c:'#11141C',fg:'#F6C62E',lv:HIMYM_PRO},
   {name:'Wald & Forst',gl:'<svg viewBox="0 0 40 40" width="1em" height="1em" fill="currentColor"><path d="M20 3 L31 18 H26 L34 29 H23 V37 H17 V29 H6 L14 18 H9 Z"/></svg>',font:'var(--serif)',c:'#2E6B3F',fg:'#fff',lv:WALD},
-  {name:'Landwirtschaft',gl:'<svg viewBox="0 0 40 40" width="1em" height="1em" fill="currentColor"><path d="M6 12 H17 V22 H30 Q34 22 34 26 V28 H6 Z"/><circle cx="11" cy="30" r="7"/><circle cx="29" cy="32" r="4.5"/><path d="M27 22 V15 H29 V22 Z"/></svg>',font:'var(--sans)',c:'#B5651D',fg:'#fff',lv:LAND}
+  {name:'Landwirtschaft',gl:'<svg viewBox="0 0 40 40" width="1em" height="1em" fill="currentColor"><path d="M6 12 H17 V22 H30 Q34 22 34 26 V28 H6 Z"/><circle cx="11" cy="30" r="7"/><circle cx="29" cy="32" r="4.5"/><path d="M27 22 V15 H29 V22 Z"/></svg>',font:'var(--sans)',c:'#B5651D',fg:'#fff',lv:LAND},
+  {name:'Landkreis Cham',gl:'<svg viewBox="0 0 40 40" width="1em" height="1em" fill="currentColor"><path d="M6 36 V14 L11 6 L16 14 V36 Z M24 36 V14 L29 6 L34 14 V36 Z M14 36 V20 H26 V36 H23 V29 Q20 25 17 29 V36 Z"/></svg>',font:'var(--sans)',c:'#C8472F',fg:'#fff',lv:CHAM},
+  {name:'Regensburg',gl:'<svg viewBox="0 0 40 40" width="1em" height="1em" fill="currentColor"><path d="M2 22 H38 V26 H34 Q31 20 28 26 H25 Q22 20 19 26 H16 Q13 20 10 26 H7 Q4 20 2 26 Z"/><path d="M30 22 V10 L33 4 L36 10 V22 Z"/></svg>',font:'var(--sans)',c:'#2D4F9E',fg:'#fff',lv:REGENSBURG},
+  {name:'Motorsägen-Führerschein',gl:'<svg viewBox="0 0 40 40" width="1em" height="1em" fill="currentColor"><rect x="3" y="15" width="15" height="13" rx="2"/><path d="M18 18 H34 A3.5 3.5 0 0 1 34 25 H18 Z" opacity=".75"/><path d="M6 15 Q7 8 12 8 H16 V15" fill="none" stroke="currentColor" stroke-width="2.5"/></svg>',font:'var(--sans)',c:'#F08A24',fg:'#fff',lv:MOTORSAEGE}
 ];
 WORLDS.forEach((W,w)=>{W.key=String(w);W.kind='story';W.idx=w});
 SPECIALS.forEach((C,c)=>{C.key='S'+c;C.kind='special';C.idx=c;C.lv.forEach((L,i)=>{if(!L.t)L.t='Frage '+(i+1)})});
@@ -1952,6 +2231,8 @@ function showStart(){
   <div class="board" id="board"></div>`;
   const nm=$('#nm');if(DB.last)nm.value=DB.last;if(!TOUCH)setTimeout(()=>nm.focus(),60);
   CATS.forEach((C,k)=>{const el=specCard(C,k,false);el.onclick=()=>{const n=nm.value.trim();if(!n){$('#nmsg').textContent='Trag zuerst deinen Namen ein, dann geht es direkt los.';nm.focus();return}login(n,()=>openSet(C))};$('#specs').append(el)});
+  {const el=h('button',{class:'spec',type:'button',style:`background:${GAME_CARD.c};color:${GAME_CARD.fg}`},`<small>Spiele · ${GAME_CARD.name}</small><span><b>${GAME_CARD.gl}</b><span class="pm"><span>3 Spiele</span></span></span>`);
+    el.onclick=()=>{const n=$('#nm').value.trim();if(!n){$('#nmsg').textContent='Trag zuerst deinen Namen ein, dann geht es direkt los.';$('#nm').focus();return}login(n,()=>showGames())};setTimeout(()=>$('#specials').append(el),0)}
   SPECIALS.forEach((C,k)=>{const el=specCard(C,k,false,'S'+(k+1));el.onclick=()=>{const n=nm.value.trim();if(!n){$('#nmsg').textContent='Trag zuerst deinen Namen ein, dann geht es direkt los.';nm.focus();return}login(n,()=>openSet(C))};$('#specials').append(el)});
   $('#nf').onsubmit=e=>{e.preventDefault();const n=nm.value.trim();if(!n){$('#nmsg').textContent='Ohne Namen geht es nicht. Er wird noch wichtig.';return}login(n)};
   const list=Object.values(DB.players).sort((a,b)=>score(b)-score(a));
@@ -1985,6 +2266,7 @@ function showHub(){
     c.disabled=!open;if(!open)c.title='Schließe zuerst das vorherige Level ab.';c.onclick=()=>openSet(W);$('#worlds').append(c)});
   CATS.forEach((C,k)=>{const el=specCard(C,k,true);el.onclick=()=>openSet(C);$('#free').append(el)});
   SPECIALS.forEach((C,k)=>{const el=specCard(C,k,true,'S'+(k+1));el.onclick=()=>openSet(C);$('#spec').append(el)});
+  {const el=h('button',{class:'spec',type:'button',style:`background:${GAME_CARD.c};color:${GAME_CARD.fg}`},`<small>Spiele · ${GAME_CARD.name}</small><span><b>${GAME_CARD.gl}</b><span class="pm"><span>Gitter · Memory · Kreuzworträtsel</span></span></span>`);el.onclick=()=>showGames();$('#spec').append(el)}
   const fin=$('#fin');if(fin)fin.onclick=showFinal;
   const rs=$('#rs');let armed=false;rs.onclick=()=>{if(!armed){armed=true;rs.textContent='Wirklich alles löschen? Nochmal klicken.';return}P.res={};save();showHub()};
 }
@@ -2071,6 +2353,111 @@ function showFinal(){
   WORLDS.forEach(W=>specs.append(h('div',{class:'spec',style:`background:${W.c};color:${W.fg};aspect-ratio:1`},`<small>${W.name}</small><b style="font-family:var(--mono);font-size:1.8rem">${setScore(W)}</b>`)));
   app.append(specs);
   const a=h('div',{class:'acts',style:'justify-content:center'});const b1=h('button',{class:'primary',type:'button'},'Freier Modus');b1.onclick=showHub;const b2=h('button',{class:'ghostbtn',type:'button'},'Bestenliste');b2.onclick=showStart;a.append(b2,b1);app.append(a);
+}
+
+/* ---------- HIMYM-Spielecke: Buchstabengitter, Memory, Kreuzworträtsel ---------- */
+const GAME_CARD={name:'HIMYM-Spielecke',gl:'<svg viewBox="0 0 40 40" width="1em" height="1em" fill="currentColor"><rect x="4" y="4" width="14" height="14" rx="3"/><rect x="22" y="4" width="14" height="14" rx="3" opacity=".55"/><rect x="4" y="22" width="14" height="14" rx="3" opacity=".55"/><rect x="22" y="22" width="14" height="14" rx="3"/></svg>',font:'var(--sans)',c:'#F6C62E',fg:'#11141C',kind:'games'};
+function showGames(tab){
+  runCleanup();setTheme({c:'#1F3A5F',fg:'#F6C62E'});topbar();window.scrollTo(0,0);
+  tab=tab||'gitter';app.innerHTML='';
+  const head=h('div',{class:'lvhead'});const back=h('button',{class:'back',type:'button'},'← Übersicht');back.onclick=showHub;
+  head.append(back,h('div',{class:'lvtitle'},'<span class="chip">Spezial · HIMYM-Spielecke</span>'));app.append(head);
+  const tabs=h('div',{class:'tabs'});[['gitter','Buchstabengitter'],['memory','Memory'],['kreuz','Kreuzworträtsel']].forEach(([k,l])=>{const b=h('button',{class:'tab'+(k===tab?' on':''),type:'button'},l);b.onclick=()=>showGames(k);tabs.append(b)});app.append(tabs);
+  const card=h('section',{class:'card'});app.append(card);
+  ({gitter:gameGrid,memory:gameMemory,kreuz:gameCross})[tab](card);
+}
+function gameWin(card,txt){const p=h('div',{class:'solved'},`<div class="check">✓</div><div><b>Geschafft!</b><p>${txt}</p></div>`);card.append(p);p.scrollIntoView({behavior:'smooth',block:'nearest'})}
+
+/* Buchstabengitter */
+function gameGrid(card){
+  const WORDS=['SWARLEY','LEGENDARY','PUZZLES','MACLARENS','PINEAPPLE','SLAPBET','LAWYERED','SUITUP','ROBIN','BARNEY','MARSHALL','LILY','TED','GOAT'];
+  const N=12,dirs=[[0,1],[1,0],[1,1],[-1,1]];let grid,placed,found,first;
+  card.append(h('div',{class:'tag'},'<b>Buchstabengitter</b> · 14 Begriffe'),h('h2',{},'Wort-Suche'),
+    h('p',{class:'q'},'Finde die versteckten Begriffe. Tippe auf den ersten und dann auf den letzten Buchstaben eines Wortes. Wörter laufen nach rechts, nach unten oder schräg.'));
+  const wrap=h('div',{class:'wswrap'});const gEl=h('div',{class:'ws'});const list=h('div',{class:'wslist'});wrap.append(gEl,list);card.append(wrap);
+  const bar=h('div',{class:'acts'});const nb=h('button',{class:'ghostbtn',type:'button'},'↻ Neues Gitter');nb.onclick=build;bar.append(nb);card.append(bar);
+  function build(){
+    card.querySelectorAll('.solved').forEach(x=>x.remove());
+    for(let attempt=0;attempt<80;attempt++){grid=Array.from({length:N},()=>Array(N).fill(''));placed=[];let ok=true;
+      for(const w of WORDS.slice().sort((a,b)=>b.length-a.length)){let done=false;
+        for(let t=0;t<400&&!done;t++){const [dr,dc]=pick(dirs),r0=Math.floor(Math.random()*N),c0=Math.floor(Math.random()*N),r1=r0+dr*(w.length-1),c1=c0+dc*(w.length-1);
+          if(r1<0||r1>=N||c1<0||c1>=N)continue;let fits=true;for(let i=0;i<w.length;i++){const ch=grid[r0+dr*i][c0+dc*i];if(ch&&ch!==w[i]){fits=false;break}}
+          if(!fits)continue;for(let i=0;i<w.length;i++)grid[r0+dr*i][c0+dc*i]=w[i];placed.push({w,r0,c0,dr,dc});done=true}
+        if(!done){ok=false;break}}
+      if(ok)break}
+    const A='ABCDEFGHIKLMNOPRSTUWY';for(let r=0;r<N;r++)for(let c=0;c<N;c++)if(!grid[r][c])grid[r][c]=A[Math.floor(Math.random()*A.length)];
+    found=new Set();first=null;draw();
+  }
+  function cellsOf(p){return Array.from({length:p.w.length},(_,i)=>(p.r0+p.dr*i)+','+(p.c0+p.dc*i))}
+  function draw(){
+    const hit=new Set();placed.filter(p=>found.has(p.w)).forEach(p=>cellsOf(p).forEach(x=>hit.add(x)));
+    gEl.innerHTML='';for(let r=0;r<N;r++)for(let c=0;c<N;c++){const b=h('button',{type:'button',class:(hit.has(r+','+c)?'hit ':'')+(first&&first[0]===r&&first[1]===c?'sel':'')},grid[r][c]);b.onclick=()=>tap(r,c);gEl.append(b)}
+    list.innerHTML=WORDS.map(w=>`<span class="${found.has(w)?'got':''}">${w}</span>`).join('')+`<p class="lbl" style="margin-top:10px">${found.size} / ${WORDS.length} gefunden</p>`;
+  }
+  function tap(r,c){
+    if(!first){first=[r,c];draw();return}
+    const [r0,c0]=first;first=null;const dr=Math.sign(r-r0),dc=Math.sign(c-c0),len=Math.max(Math.abs(r-r0),Math.abs(c-c0))+1;
+    if(!(r===r0||c===c0||Math.abs(r-r0)===Math.abs(c-c0))||len<2){draw();return}
+    let s='';for(let i=0;i<len;i++)s+=grid[r0+dr*i][c0+dc*i];
+    const rev=s.split('').reverse().join('');
+    const p=placed.find(p=>!found.has(p.w)&&(p.w===s||p.w===rev)&&(cellsOf(p).includes(r0+','+c0)&&cellsOf(p).includes(r+','+c)));
+    if(p){found.add(p.w);draw();if(found.size===WORDS.length)gameWin(card,'Alle 14 Begriffe gefunden. Legen – wait for it – dary!')}else draw();
+  }
+  build();
+}
+
+/* Memory */
+function gameMemory(card){
+  const keys=['schirm','horn','ananas','ziege','krawatte','kuerbis','leuchtturm','kassette'];let cards,open,moves,matched,lock,t0,iv;
+  card.append(h('div',{class:'tag'},'<b>Memory</b> · 8 Paare'),h('h2',{},'Requisiten-Memory'),h('p',{class:'q'},'Finde alle Paare aus Regenschirm, Waldhorn, Ananas und Co.'));
+  const stat=h('div',{class:'lbl',style:'margin:10px 0'});const g=h('div',{class:'mem'});card.append(stat,g);
+  const bar=h('div',{class:'acts'});const nb=h('button',{class:'ghostbtn',type:'button'},'↻ Neu mischen');nb.onclick=reset;bar.append(nb);card.append(bar);
+  function reset(){clearInterval(iv);card.querySelectorAll('.solved').forEach(x=>x.remove());cards=shuffle(keys.concat(keys)).map(k=>({k,up:false,done:false}));open=[];moves=0;matched=0;lock=false;t0=0;draw();info()}
+  function info(){const s=t0?Math.floor((Date.now()-t0)/1000):0;stat.textContent=`Züge: ${moves} · Paare: ${matched}/8 · Zeit: ${s} s`}
+  function draw(){g.innerHTML='';cards.forEach((cd,i)=>{const b=h('button',{type:'button',class:'mcard'+(cd.up||cd.done?' up':'')+(cd.done?' done':'')},`<span class="back">☂</span><span class="front">${HG[cd.k]}</span>`);b.onclick=()=>flip(i);g.append(b)})}
+  function flip(i){const cd=cards[i];if(lock||cd.up||cd.done)return;if(!t0){t0=Date.now();iv=setInterval(info,500)}
+    cd.up=true;open.push(i);
+    if(open.length===2){moves++;const [a,b]=open.map(j=>cards[j]);
+      if(a.k===b.k){a.done=b.done=true;matched++;open=[];if(matched===8){clearInterval(iv);info();draw();gameWin(card,`Alle Paare in ${moves} Zügen gefunden.`);return}}
+      else{lock=true;setTimeout(()=>{a.up=b.up=false;open=[];lock=false;draw()},900)}}
+    info();draw()}
+  cleanup=()=>clearInterval(iv);
+  reset();
+}
+
+/* Kreuzworträtsel */
+function gameCross(card){
+  const CW=[
+    {n:1,d:'a',r:0,c:0,w:'FARHAMPTON',q:'Auf diesem Bahnsteig spricht Ted endlich die Mutter an.'},
+    {n:2,d:'d',r:0,c:1,w:'ANANAS',q:'Diese Frucht findet Ted nach einer durchzechten Nacht in seinem Bett.'},
+    {n:3,d:'d',r:0,c:5,w:'MARSHALL',q:'Teds bester Freund aus Minnesota.'},
+    {n:4,d:'a',r:2,c:0,w:'CARL',q:'Der Barkeeper bei MacLaren’s.'},
+    {n:5,d:'a',r:2,c:5,w:'ROBIN',q:'Kanadische Nachrichtenmoderatorin der Clique.'},
+    {n:6,d:'a',r:5,c:3,w:'SWARLEY',q:'Barneys Spitzname, seit eine Barista seinen Namen falsch geschrieben hat.'},
+    {n:6,d:'d',r:5,c:3,w:'SANDY',q:'Vorname von Robins eitlem Co-Moderator (… Rivers).'},
+    {n:7,d:'a',r:7,c:5,w:'LILY',q:'Kindergärtnerin und Marshalls Frau.'}];
+  const N=10;const sol=Array.from({length:N},()=>Array(N).fill(null));const nums={};
+  CW.forEach(e=>{for(let i=0;i<e.w.length;i++){const r=e.r+(e.d==='d'?i:0),c=e.c+(e.d==='a'?i:0);sol[r][c]=e.w[i]}nums[e.r+','+e.c]=e.n});
+  card.append(h('div',{class:'tag'},'<b>Kreuzworträtsel</b> · 8 Begriffe'),h('h2',{},'HIMYM-Kreuzworträtsel'),h('p',{class:'q'},'Umlaute gibt es hier keine. Tippe in ein Feld und schreib los.'));
+  const wrap=h('div',{class:'cwwrap'});const gEl=h('div',{class:'cw'});const clues=h('div',{class:'cwclues'});wrap.append(gEl,clues);card.append(wrap);
+  const ins={};let dir='a';
+  for(let r=0;r<N;r++)for(let c=0;c<N;c++){
+    if(!sol[r][c]){gEl.append(h('div',{class:'cwx'}));continue}
+    const cell=h('div',{class:'cwc'});if(nums[r+','+c])cell.append(h('span',{class:'cwn'},String(nums[r+','+c])));
+    const inp=h('input',{maxlength:'1',autocomplete:'off',autocapitalize:'characters',spellcheck:'false','aria-label':`Feld ${r+1}/${c+1}`});ins[r+','+c]=inp;cell.append(inp);gEl.append(cell);
+    inp.addEventListener('focus',()=>inp.select());
+    inp.addEventListener('input',()=>{inp.value=inp.value.toUpperCase().replace(/[^A-Z]/g,'').slice(-1);cell.classList.remove('bad','ok');
+      if(inp.value){const nx=dir==='a'?ins[r+','+(c+1)]:ins[(r+1)+','+c];const alt=dir==='a'?ins[(r+1)+','+c]:ins[r+','+(c+1)];(nx||alt)&&(nx||alt).focus();if(!nx&&alt)dir=dir==='a'?'d':'a'}});
+    inp.addEventListener('keydown',e=>{if(e.key==='Backspace'&&!inp.value){const pv=dir==='a'?ins[r+','+(c-1)]:ins[(r-1)+','+c];if(pv){pv.focus();pv.value=''}}});
+  }
+  const mk=(d,t)=>`<h4>${t}</h4>`+CW.filter(e=>e.d===d).map(e=>`<p data-k="${e.d}${e.n}"><b>${e.n}</b> ${e.q} <span class="lbl">(${e.w.length})</span></p>`).join('');
+  clues.innerHTML=mk('a','Waagerecht')+mk('d','Senkrecht');
+  clues.querySelectorAll('p').forEach(p=>p.onclick=()=>{const e=CW.find(x=>x.d+x.n===p.dataset.k);dir=e.d;ins[e.r+','+e.c].focus()});
+  const bar=h('div',{class:'acts'});const ck=h('button',{class:'primary',type:'button'},'Prüfen');const rs=h('button',{class:'ghostbtn',type:'button'},'Leeren');bar.append(ck,rs);card.append(bar);
+  const msg=h('div',{class:'msg'});card.append(msg);
+  ck.onclick=()=>{let all=true,empty=0;for(const k in ins){const [r,c]=k.split(',').map(Number);const v=ins[k].value,cell=ins[k].parentNode;cell.classList.remove('bad','ok');if(!v){empty++;all=false;continue}if(v===sol[r][c])cell.classList.add('ok');else{cell.classList.add('bad');all=false}}
+    msg.className='msg';if(all){msg.textContent='';gameWin(card,'Kreuzworträtsel komplett gelöst. Suit up!')}else msg.textContent=empty?`Noch ${empty} leere Felder. Rote Felder sind falsch.`:'Die roten Felder stimmen noch nicht.'};
+  rs.onclick=()=>{for(const k in ins){ins[k].value='';ins[k].parentNode.classList.remove('bad','ok')}msg.textContent='';card.querySelectorAll('.solved').forEach(x=>x.remove())};
 }
 
 /* ---------- Start (inkl. Rückkehr nach „Neu laden“-Rätsel) ---------- */
