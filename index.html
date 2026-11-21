@@ -245,6 +245,7 @@ button.spec{border:0;text-align:left;cursor:pointer;font-family:inherit}
   .lcd{font-size:2rem}.clock{font-size:2.4rem}.jugs{gap:24px}.red{width:150px;height:150px}.door{width:70px;height:120px}
   h1.hero{font-size:3.2rem}.lead{font-size:1.05rem}.card h2{font-size:2.1rem}.q{font-size:1.05rem}}
 input{font-size:16px}
+@media (max-width:600px){.mapq{grid-template-columns:repeat(auto-fill,minmax(19px,1fr));gap:3px}.mapq .dot{font-size:.45rem;border-width:1px}.mapq .dot.cur{box-shadow:0 0 0 1px #fff,0 0 0 2px var(--ink)}}
 </style>
 </head>
 <body>
@@ -1473,6 +1474,320 @@ const HIMYM_DATA=[
 ];
 const HIMYM=HIMYM_DATA.map(d=>Q(d[0],d[1],d[2],d[3],{tag:'HIMYM'}));
 
+/* ---------- Grafiken für die Spezial-Quizze (eigene Linienzeichnungen) ---------- */
+const G=(function(){
+  const svg=(inner,vb)=>`<svg viewBox="${vb||'0 0 320 200'}" width="320" height="200" fill="none" stroke="#1a1a1a" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" xmlns="http://www.w3.org/2000/svg">${inner}</svg>`;
+  const ground=(y)=>`<path d="M8 ${y||182} H312" stroke="#bdb9ae"/>`;
+  const wh=(x,y,r)=>`<circle cx="${x}" cy="${y}" r="${r}" fill="#2a2a2a"/><circle cx="${x}" cy="${y}" r="${(r*.48).toFixed(1)}" fill="var(--c)" stroke="#1a1a1a"/><circle cx="${x}" cy="${y}" r="${(r*.14).toFixed(1)}" fill="#1a1a1a"/>`;
+  const txt=(x,y,t,s)=>`<text x="${x}" y="${y}" font-family="IBM Plex Mono,Menlo,monospace" font-size="${s||16}" font-weight="600" fill="#1a1a1a" stroke="none">${t}</text>`;
+  const glass='#cfe6f2',paper='#f4f2ec',light='#e9e6dd',wood='#d9b98a',bark='#8a6a3a',straw='#e7c76a',stalk='#8a7a3a';
+  const g={};
+  /* ---- Landtechnik ---- */
+  g.traktor=svg(ground()+`<path d="M150 96 H276 Q290 96 290 110 V140 H150 Z" fill="var(--c)"/><path d="M262 96 V62 M257 62 H267"/>`+
+    `<path d="M58 132 V46 Q58 38 66 38 H142 Q150 38 150 46 V132 Z" fill="${paper}"/><path d="M70 50 H138 V96 H70 Z" fill="${glass}"/>`+wh(92,136,46)+wh(248,156,26)+
+    `<path d="M36 128 A58 58 0 0 1 150 128" stroke-width="7"/>`);
+  g.maehdrescher=svg(ground()+`<path d="M60 70 H240 V150 H60 Z" fill="var(--c)"/><path d="M188 70 V34 H244 V70" fill="${paper}"/><path d="M196 40 H238 V66 H196 Z" fill="${glass}"/>`+
+    `<path d="M240 118 L290 146 H304 V172 H262 L240 150 Z" fill="${light}"/><circle cx="282" cy="126" r="20" stroke-dasharray="5 5"/>`+
+    `<path d="M96 70 L56 28 L24 28" stroke-width="8"/><path d="M60 118 H34 V150 H60" fill="${light}"/>`+wh(206,150,32)+wh(92,162,18));
+  g.haecksler=svg(ground()+`<path d="M70 82 H230 V150 H70 Z" fill="var(--c)"/><path d="M180 82 V42 H232 V82" fill="${paper}"/><path d="M188 48 H226 V76 H188 Z" fill="${glass}"/>`+
+    `<path d="M140 82 Q140 18 228 16 L262 22" stroke-width="10"/><path d="M230 126 H300 V168 H230 Z" fill="${light}"/><path d="M240 138 H294 M240 152 H294" stroke-width="2"/>`+wh(196,150,32)+wh(96,162,18));
+  g.presse=svg(ground()+`<path d="M100 58 H240 Q254 58 254 72 V148 H100 Z" fill="var(--c)"/><circle cx="178" cy="103" r="38" fill="${paper}"/><path d="M178 65 A38 38 0 0 1 216 103 M178 80 A23 23 0 0 1 201 103"/>`+
+    `<path d="M100 132 L32 146 H14" stroke-width="5"/><path d="M110 148 L148 170 H206 L240 148" fill="${light}"/>`+wh(178,160,22));
+  g.pflug=svg(ground()+`<path d="M44 66 L282 118" stroke-width="8"/><path d="M26 54 L56 32 L82 62" stroke-width="5"/>`+
+    [0,1,2,3].map(k=>{const x=86+k*52,y=78+k*11.5;return `<path d="M${x} ${y} L${x+4} ${y+46}" stroke-width="4"/><path d="M${x-16} ${y+50} Q${x+4} ${y+24} ${x+30} ${y+46} L${x+6} ${y+60} Z" fill="var(--c)"/>`}).join('')+wh(292,150,18));
+  g.spritze=svg(ground()+`<rect x="112" y="54" width="96" height="74" rx="30" fill="var(--c)"/><path d="M12 130 H308" stroke-width="5"/>`+
+    Array.from({length:12},(_,k)=>{const x=22+k*25.5;return `<path d="M${x} 130 V138"/><path d="M${x} 140 L${x-10} 172 M${x} 140 L${x+10} 172 M${x} 140 V174" stroke="#6fb0d8" stroke-width="1.5"/>`}).join('')+wh(122,152,22)+wh(198,152,22));
+  g.streuer=svg(ground()+`<path d="M86 34 H234 L192 118 H128 Z" fill="var(--c)"/><path d="M128 118 V132 M192 118 V132"/>`+
+    `<ellipse cx="128" cy="136" rx="28" ry="7" fill="${light}"/><ellipse cx="192" cy="136" rx="28" ry="7" fill="${light}"/>`+
+    Array.from({length:14},(_,k)=>`<circle cx="${30+k*19}" cy="${152+((k*7)%18)}" r="2.6" fill="#1a1a1a" stroke="none"/>`).join(''));
+  g.schwader=svg(`<path d="M50 182 Q160 150 270 182" stroke="#c9b25e" stroke-width="12"/><circle cx="160" cy="92" r="18" fill="var(--c)"/>`+
+    Array.from({length:12},(_,k)=>{const a=k*Math.PI/6,c=Math.cos(a),s=Math.sin(a),x=160+c*78,y=92+s*78;return `<path d="M${(160+c*18).toFixed(1)} ${(92+s*18).toFixed(1)} L${x.toFixed(1)} ${y.toFixed(1)}"/><path d="M${x.toFixed(1)} ${y.toFixed(1)} l${(Math.cos(a+1.5)*14).toFixed(1)} ${(Math.sin(a+1.5)*14).toFixed(1)}" stroke-width="2"/>`}).join(''));
+  g.tele=svg(ground()+`<path d="M56 118 H272 V150 H56 Z" fill="var(--c)"/><path d="M78 118 V68 H124 V118" fill="${paper}"/><path d="M86 76 H116 V112 H86 Z" fill="${glass}"/>`+
+    `<path d="M148 128 L270 50" stroke-width="13"/><path d="M270 50 L286 40" stroke-width="8"/><path d="M284 28 V60 H308" stroke-width="4"/>`+wh(94,156,24)+wh(236,156,24));
+  g.raupe=svg(ground()+`<path d="M150 78 H276 Q290 78 290 92 V122 H150 Z" fill="var(--c)"/><path d="M70 122 V38 H150 V122" fill="${paper}"/><path d="M80 48 H140 V96 H80 Z" fill="${glass}"/>`+
+    `<rect x="36" y="126" width="256" height="54" rx="27" fill="#2a2a2a"/>`+[63,118,170,220,265].map((x,k)=>`<circle cx="${x}" cy="153" r="${k===0||k===4?21:12}" fill="var(--c)" stroke="#1a1a1a"/>`).join(''));
+  g.knick=svg(ground()+`<path d="M24 78 H138 V140 H24 Z" fill="var(--c)"/><path d="M172 70 H296 V140 H172 Z" fill="var(--c)"/><path d="M138 110 H172" stroke-width="9"/><circle cx="155" cy="110" r="9" fill="${paper}"/>`+
+    `<path d="M182 70 V28 H244 V70" fill="${paper}"/><path d="M190 34 H236 V64 H190 Z" fill="${glass}"/>`+wh(62,148,32)+wh(98,148,32)+wh(214,148,32)+wh(250,148,32));
+  const spline=n=>svg(`<circle cx="160" cy="100" r="62" fill="var(--c)"/>`+Array.from({length:n},(_,k)=>`<rect x="${-(n>10?4:9)}" y="-78" width="${n>10?8:18}" height="22" fill="var(--c)" stroke="#1a1a1a" transform="translate(160 100) rotate(${(k*360/n).toFixed(2)})"/>`).join('')+`<circle cx="160" cy="100" r="62" fill="var(--c)" stroke="none"/><circle cx="160" cy="100" r="14" fill="${paper}"/>`);
+  g.zw6=spline(6);g.zw21=spline(21);
+  g.dreipunkt=svg(`<path d="M40 30 V170" stroke-width="10"/>`+`<path d="M40 60 L230 70" stroke-width="7"/>`+`<path d="M40 140 L230 120" stroke-width="9"/><path d="M40 160 L230 140" stroke-width="9" stroke-dasharray="1 0"/>`+
+    `<path d="M230 60 V150" stroke-width="6"/><circle cx="230" cy="70" r="7" fill="var(--c)"/><circle cx="230" cy="120" r="7" fill="var(--c)"/><circle cx="230" cy="140" r="7" fill="var(--c)"/>`+txt(120,52,'A')+txt(120,112,'B'));
+  const ear=(awn)=>{let s=`<path d="M160 192 V98" stroke="${stalk}"/>`;for(let i=0;i<8;i++){const y=98-i*9;s+=`<ellipse cx="152" cy="${y}" rx="6" ry="9" fill="${straw}" stroke="${stalk}" stroke-width="1.5" transform="rotate(-25 152 ${y})"/><ellipse cx="168" cy="${y}" rx="6" ry="9" fill="${straw}" stroke="${stalk}" stroke-width="1.5" transform="rotate(25 168 ${y})"/>`;if(awn)s+=`<path d="M149 ${y-8} L126 ${y-66} M171 ${y-8} L194 ${y-66}" stroke="${stalk}" stroke-width="1.2"/>`}return svg(s)};
+  g.gerste=ear(true);g.weizen=ear(false);
+  g.hafer=svg(`<path d="M160 192 V26" stroke="${stalk}"/>`+[[36,-1],[58,1],[80,-1],[102,1],[124,-1],[146,1]].map(([y,d])=>`<path d="M160 ${y} q${d*30} 8 ${d*52} 30" stroke="${stalk}" stroke-width="1.5"/><path d="M${160+d*52} ${y+30} l${d*3} 14" stroke="${stalk}" stroke-width="1.5"/><ellipse cx="${160+d*54}" cy="${y+46}" rx="5" ry="10" fill="${straw}" stroke="${stalk}" stroke-width="1.5"/>`).join(''));
+  /* ---- Wald ---- */
+  g.harvester=svg(ground()+`<path d="M34 112 H252 V150 H34 Z" fill="var(--c)"/><path d="M168 112 V60 H244 V112" fill="${paper}"/><path d="M176 66 H236 V104 H176 Z" fill="${glass}"/>`+
+    `<path d="M140 112 L206 38 L276 70" stroke-width="9"/><path d="M272 58 H306 V112 H272 Z" fill="${light}"/><circle cx="289" cy="78" r="7" fill="#2a2a2a"/><path d="M290 112 V178" stroke="${bark}" stroke-width="14"/>`+
+    wh(64,158,22)+wh(112,158,22)+wh(196,158,22)+wh(242,158,22));
+  g.forwarder=svg(ground()+`<path d="M26 112 H292 V148 H26 Z" fill="var(--c)"/><path d="M222 112 V64 H288 V112" fill="${paper}"/><path d="M230 70 H282 V106 H230 Z" fill="${glass}"/>`+
+    `<path d="M36 112 V50 M184 112 V50" stroke-width="5"/>`+[0,1,2].map(r=>[0,1,2,3,4,5].map(c=>`<circle cx="${50+c*25}" cy="${98-r*18}" r="9" fill="${wood}" stroke="${bark}" stroke-width="2"/>`).join('')).join('')+
+    `<path d="M204 112 L194 36 L130 26" stroke-width="7"/>`+wh(58,158,22)+wh(108,158,22)+wh(200,158,22)+wh(250,158,22));
+  g.faellkerb=svg(`<path d="M10 186 H310" stroke="#bdb9ae"/><path d="M120 186 V16 H200 V108 L164 136 L200 138 V186 Z" fill="${wood}" stroke="${bark}"/>`+
+    `<path d="M120 141 H156" stroke="#fff" stroke-width="4"/><path d="M120 141 H156" stroke-width="1.2" stroke-dasharray="4 3"/><rect x="156" y="134" width="9" height="10" fill="var(--c)" stroke="none"/>`+
+    `<path d="M230 60 L290 60 M278 50 L290 60 L278 70" stroke-width="3"/>`+txt(236,48,'Fall',13)+
+    txt(212,126,'A')+`<path d="M160 160 V148"/>`+txt(154,178,'B')+txt(86,146,'C'));
+  g.ringe=svg(`<ellipse cx="160" cy="100" rx="90" ry="84" fill="${bark}" stroke="#5a4020"/><ellipse cx="160" cy="100" rx="82" ry="76" fill="#ecd3a2" stroke="none"/>`+
+    Array.from({length:11},(_,k)=>{const f=(k+1)/11;return `<ellipse cx="${160+(1-f)*4}" cy="${100+(1-f)*3}" rx="${(82*f).toFixed(1)}" ry="${(76*f).toFixed(1)}" stroke="#a5783e" stroke-width="${k===10?2.5:1.8}"/>`}).join('')+`<circle cx="164" cy="103" r="3" fill="#7a5a2a" stroke="none"/>`);
+  const branch=up=>svg(`<path d="M20 ${up?140:60} H300" stroke="#5a4a2a" stroke-width="7"/>`+Array.from({length:26},(_,k)=>`<path d="M${28+k*11} ${up?140:60} l-5 ${up?10:-10} M${28+k*11} ${up?140:60} l5 ${up?10:-10}" stroke="#2E7D4F" stroke-width="2"/>`).join('')+
+    [70,150,230].map(x=>up?`<rect x="${x-12}" y="62" width="24" height="76" rx="12" fill="${bark}" stroke="#5a4020"/>`+[0,1,2,3,4].map(i=>`<path d="M${x-12} ${74+i*13} H${x+12}" stroke="#5a4020" stroke-width="1.5"/>`).join(''):
+      `<path d="M${x} 62 V70"/><ellipse cx="${x}" cy="112" rx="15" ry="42" fill="${bark}" stroke="#5a4020"/>`+[0,1,2,3,4].map(i=>`<path d="M${x-12} ${88+i*12} Q${x} ${96+i*12} ${x+12} ${88+i*12}" stroke="#5a4020" stroke-width="1.5"/>`).join('')).join(''));
+  g.tannenzapfen=branch(true);g.fichtenzapfen=branch(false);
+  g.raummeter=svg(`<path d="M80 40 H220 V180 H80 Z" fill="${light}"/><path d="M80 40 L116 18 H256 L220 40 M256 18 V158 L220 180" fill="#ddd8cc"/>`+
+    [0,1,2,3,4].map(r=>[0,1,2,3,4].map(c=>`<circle cx="${94+c*28}" cy="${54+r*28}" r="${11+((r*3+c)%3)}" fill="${wood}" stroke="${bark}" stroke-width="2"/>`).join('')).join('')+
+    txt(132,198,'1 m',14)+txt(30,114,'1 m',14)+txt(244,108,'1 m',14));
+  g.kluppe=svg(`<circle cx="140" cy="128" r="48" fill="${wood}" stroke="${bark}"/><circle cx="140" cy="128" r="30" stroke="#a5783e" stroke-width="1.5"/><circle cx="140" cy="128" r="14" stroke="#a5783e" stroke-width="1.5"/>`+
+    `<path d="M40 60 H296" stroke-width="12"/>`+Array.from({length:24},(_,k)=>`<path d="M${52+k*10} 55 V${k%5?60:65}" stroke="#fff" stroke-width="1.5"/>`).join('')+
+    `<path d="M88 60 V176" stroke-width="10"/><path d="M192 54 V176" stroke-width="10"/><rect x="180" y="44" width="24" height="30" fill="var(--c)"/>`);
+  g.gefahr=svg(`<circle cx="160" cy="100" r="88" fill="#fbe9e5" stroke="var(--c)" stroke-dasharray="8 6"/><circle cx="160" cy="100" r="16" fill="#2E7D4F" stroke="#1d5a37"/><circle cx="160" cy="100" r="5" fill="${bark}" stroke="none"/>`+
+    `<path d="M160 100 L240 62" stroke-width="2"/>`+txt(206,70,'?',20));
+  g.frass=svg(`<rect x="66" y="10" width="188" height="180" rx="10" fill="#ecd3a2" stroke="${bark}"/><path d="M160 34 V166" stroke="#5a3a1a" stroke-width="7"/><circle cx="160" cy="100" r="9" fill="#5a3a1a" stroke="none"/>`+
+    Array.from({length:12},(_,k)=>{const y=40+k*11,l=40+(k*13)%34;return `<path d="M156 ${y} q-${l/2} ${k%2?5:-5} -${l} ${(k%3)-1}" stroke="#7a5a2a" stroke-width="1.6"/><path d="M164 ${y+5} q${l/2} ${k%2?-5:5} ${l+6} ${(k%3)-1}" stroke="#7a5a2a" stroke-width="1.6"/>`}).join(''));
+  g.gassen=svg(Array.from({length:150},(_,k)=>{const x=10+((k*37)%300),y=10+((k*53)%180);const inLane=[70,230].some(l=>Math.abs(x-l)<14);return inLane?'':`<circle cx="${x}" cy="${y}" r="6" fill="#2E7D4F" stroke="#1d5a37" stroke-width="1.5"/>`}).join('')+
+    `<path d="M70 4 V196 M230 4 V196" stroke="#c9b28a" stroke-width="20" opacity=".7"/><path d="M78 100 H222 M86 92 L78 100 L86 108 M214 92 L222 100 L214 108" stroke-width="3"/>`+`<rect x="136" y="84" width="48" height="30" rx="6" fill="#fff" stroke="none"/>`+txt(152,105,'?',20));
+  g.schiene=svg(`<path d="M24 74 H150 V146 H24 Z" fill="var(--c)"/><path d="M40 74 V56 H120 V74" stroke-width="6"/><path d="M150 92 H268 A18 18 0 0 1 268 128 H150 Z" fill="#cfcac0"/>`+
+    `<path d="M150 87 H268 A23 23 0 0 1 268 133 H150" stroke-dasharray="3 4"/><path d="M268 85 A25 25 0 0 1 293 110" stroke="#E5432D" stroke-width="9"/>`);
+  /* Blätter */
+  g.eiche=svg(`<path d="M160 192 V176" stroke-width="3"/><path d="M160 176 Q104 166 138 150 Q90 134 136 118 Q94 100 138 88 Q104 70 142 58 Q120 34 160 24 Q200 34 178 58 Q216 70 182 88 Q226 100 184 118 Q230 134 182 150 Q216 166 160 176 Z" fill="#7bbf6a" stroke="#2f6b2a"/><path d="M160 174 V30" stroke="#2f6b2a" stroke-width="1.8"/>`);
+  g.ahorn=svg(`<path d="M160 150 V194" stroke-width="3"/><path d="M160 150 L122 158 L120 140 L80 150 L92 118 L50 104 L74 92 L54 58 L96 70 L104 44 L128 72 L136 24 L160 10 L184 24 L192 72 L216 44 L224 70 L266 58 L246 92 L270 104 L228 118 L240 150 L200 140 L198 158 Z" fill="#e08a3a" stroke="#8a4a14"/>`+
+    `<path d="M160 148 L160 20 M160 140 L70 70 M160 140 L250 70 M160 144 L96 130 M160 144 L224 130" stroke="#8a4a14" stroke-width="1.6"/>`);
+  g.buche=svg(`<path d="M160 192 V178" stroke-width="3"/><path d="M160 178 Q86 132 108 72 Q128 28 160 16 Q192 28 212 72 Q234 132 160 178 Z" fill="#8fcf72" stroke="#2f6b2a"/><path d="M160 176 V22" stroke="#2f6b2a" stroke-width="1.8"/>`+
+    [0,1,2,3,4,5,6].map(i=>{const y=152-i*19;return `<path d="M160 ${y} L${122+i*2} ${y-22} M160 ${y} L${198-i*2} ${y-22}" stroke="#2f6b2a" stroke-width="1.4"/>`}).join(''));
+  g.linde=svg(`<path d="M160 58 V12" stroke-width="3"/><path d="M160 58 C130 18 60 36 70 98 C78 148 140 164 162 188 C176 162 244 148 250 98 C258 36 188 20 160 58 Z" fill="#9bd37c" stroke="#2f6b2a"/><path d="M160 60 L162 184 M160 80 L96 66 M160 80 L222 66 M161 110 L86 110 M161 110 L236 106" stroke="#2f6b2a" stroke-width="1.5"/>`);
+  g.kastanie=svg(`<path d="M160 124 V194" stroke-width="3"/>`+[[-76,66],[-38,82],[0,92],[38,82],[76,66]].map(([a,l])=>`<path d="M160 124 C${160-l*.42} ${124-l*.45} ${160-l*.36} ${124-l-8} 160 ${124-l-14} C${160+l*.36} ${124-l-8} ${160+l*.42} ${124-l*.45} 160 124 Z" fill="#7bbf6a" stroke="#2f6b2a" transform="rotate(${a} 160 124)"/><path d="M160 124 L160 ${124-l-8}" stroke="#2f6b2a" stroke-width="1.4" transform="rotate(${a} 160 124)"/>`).join(''));
+  g.mammut=null;
+  return g;
+})();
+
+/* ---------- SPEZIAL: Wald & Forst ---------- */
+const WALD_DATA=[
+// Wald in Deutschland (Bundeswaldinventur 2022)
+['Wie viel der Fläche Deutschlands ist laut Bundeswaldinventur 2022 bewaldet?','Rund ein Drittel (32 %)',['Rund ein Zehntel','Rund die Hälfte','Rund ein Fünftel'],'Etwa <b>11,5 Mio. Hektar</b>, also rund ein Drittel der Landesfläche.'],
+['Welche Baumart ist laut Bundeswaldinventur 2022 die häufigste in Deutschland?','Kiefer',['Fichte','Buche','Eiche'],'Die <b>Kiefer</b> (22 %) hat die Fichte (21 %) knapp überholt.'],
+['Welcher Laubbaum ist in Deutschland am häufigsten?','Buche',['Eiche','Birke','Ahorn'],'Die <b>Buche</b> kommt auf rund 17 %, die Eiche auf rund 12 %.'],
+['Welches Bundesland hat die größte Waldfläche?','Bayern',['Baden-Württemberg','Brandenburg','Niedersachsen'],'<b>Bayern</b> hat rund 2,6 Mio. Hektar Wald.'],
+['Wie viel Fläche hat die Fichte laut Bundeswaldinventur seit 2012 ungefähr verloren?','Rund 460.000 Hektar',['Rund 4.600 Hektar','Rund 46.000 Hektar','Rund 4,6 Mio. Hektar'],'Rund <b>460.000 Hektar</b>, vor allem durch Dürre, Stürme und Borkenkäfer.'],
+['Was ist die Hauptursache für den Rückgang der Fichte seit 2018?','Dürre und Borkenkäferbefall',['Waldbrände','Abholzung für Bauland','Wildverbiss'],'Trockene Sommer schwächten die Fichten, der <b>Borkenkäfer</b> erledigte den Rest.'],
+['Wem gehört der größte Teil des deutschen Waldes?','Privaten Waldbesitzern',['Dem Bund','Den Kirchen','Den Kommunen'],'Der <b>Privatwald</b> ist die größte Besitzart in Deutschland.'],
+['Darf man in Deutschland grundsätzlich jeden Wald zur Erholung betreten?','Ja, das Bundeswaldgesetz erlaubt es',['Nein, nur Staatswald','Nur mit Genehmigung des Försters','Nur an Wochenenden'],'Das <b>Betretungsrecht</b> steht im Bundeswaldgesetz, mit Ausnahmen etwa für Sperrflächen oder Holzerntebereiche.'],
+// Geschichte & Begriffe
+['Wer gilt als Begründer des Nachhaltigkeitsgedankens in der Forstwirtschaft?','Hans Carl von Carlowitz',['Alexander von Humboldt','Georg Ludwig Hartig','Heinrich Cotta'],'Der sächsische Oberberghauptmann <b>Hans Carl von Carlowitz</b>.'],
+['In welchem Jahr erschien Carlowitz’ Werk „Sylvicultura oeconomica“?','1713',['1613','1813','1913'],'<b>1713</b>. Es gilt als Geburtsstunde des Begriffs Nachhaltigkeit.'],
+['Was bedeutet Nachhaltigkeit im ursprünglichen forstlichen Sinn?','Nicht mehr Holz ernten, als nachwächst',['Nur Laubbäume pflanzen','Keine Maschinen einsetzen','Holz nur im Winter ernten'],'Nur so viel ernten, wie <b>nachwächst</b>.'],
+['Was ist ein Festmeter?','Ein Kubikmeter feste Holzmasse ohne Zwischenräume',['Ein Kubikmeter geschichtetes Holz','Ein Kubikmeter geschüttetes Holz','Eine Tonne Holz'],'1 Festmeter = 1 m³ <b>massives Holz</b>.'],
+['Wie nennt man dieses Maß für geschichtetes Holz?','Raummeter (Ster)',['Festmeter','Schüttraummeter','Kubiktonne'],'Ein <b>Raummeter</b> oder Ster ist 1 m³ geschichtetes Holz, Luft zwischen den Scheiten inklusive.','raummeter'],
+['Was ist ein Schüttraummeter?','Ein Kubikmeter lose geschüttetes Holz',['Ein Kubikmeter geschichtetes Holz','Ein Kubikmeter Stammholz','Ein Meter Brennholz in der Länge'],'Lose <b>geschüttetes</b> Holz, etwa Hackschnitzel oder Scheite im Hänger.'],
+['Ungefähr wie viele Raummeter geschichtetes Scheitholz ergibt ein Festmeter?','Etwa 1,4',['Genau 1','Etwa 0,5','Etwa 5'],'Als Faustzahl gilt 1 Fm ≈ <b>1,4 Rm</b> ≈ 2 Srm.'],
+['In welcher Höhe misst man den Brusthöhendurchmesser (BHD)?','1,30 m',['1,00 m','1,50 m','Direkt am Boden'],'Der BHD wird in <b>1,30 m</b> Höhe gemessen.'],
+['Wie heißt dieses Messgerät?','Kluppe',['Zange','Rindenmesser','Höhenmesser'],'Mit der <b>Kluppe</b> misst man den Stammdurchmesser.','kluppe'],
+['Was ist ein Erntefestmeter ohne Rinde (Efm o. R.)?','Das tatsächlich verwertbare Holz nach der Ernte, ohne Rinde',['Holz mit Rinde am stehenden Baum','Ein Festmeter Brennholz','Holz, das im Wald liegen bleibt'],'Der <b>Erntefestmeter o. R.</b> ist das verkaufsfähige Holz.'],
+['Was ist ein Vorratsfestmeter?','Das Holzvolumen stehender Bäume mit Rinde',['Holz im Lager','Holz, das vorrätig gespalten ist','Ein Festmeter Ersatzholz'],'Der <b>Vorratsfestmeter</b> beschreibt das stehende Holz mit Rinde.'],
+['Was ist ein Polter?','Ein Stapel Rundholz am Waldweg',['Ein Lärm beim Fällen','Ein Försterhaus','Ein Baumschädling'],'Am <b>Polter</b> wartet das Holz auf den Abtransport.'],
+['Was ist ein Hiebsatz?','Die geplante jährliche Holzeinschlagsmenge',['Ein Satz Fällkeile','Die Zahl der Axthiebe','Ein Waldarbeiter-Team'],'Der <b>Hiebsatz</b> legt fest, wie viel jährlich geerntet wird.'],
+['Für wie viele Jahre plant die Forsteinrichtung üblicherweise?','Zehn Jahre',['Ein Jahr','Fünfzig Jahre','Hundert Jahre'],'Die Forsteinrichtung plant meist für <b>zehn Jahre</b>.'],
+// Waldbau
+['Was ist ein Plenterwald?','Ein Wald, in dem Bäume aller Altersstufen gemischt stehen und einzeln genutzt werden',['Ein Wald ohne Nutzung','Ein frisch gepflanzter Wald','Ein Wald nur aus einer Baumart'],'Im <b>Plenterwald</b> stehen junge und alte Bäume dicht nebeneinander.'],
+['Was ist ein Kahlschlag?','Die Ernte aller Bäume auf einer Fläche auf einmal',['Das Entfernen der Rinde','Ein Sturmschaden','Das Fällen eines einzelnen Baums'],'Beim <b>Kahlschlag</b> wird eine Fläche komplett geräumt.'],
+['Was ist ein Femelschlag?','Gruppenweise Verjüngung in Lücken des Altbestands',['Ein Kahlschlag mit Ausnahmen','Fällen bei Vollmond','Ein Schlag mit der Axt'],'Beim <b>Femelschlag</b> wachsen junge Bäume in Lücken heran.'],
+['Was ist Naturverjüngung?','Junge Bäume wachsen aus Samen der Altbäume',['Junge Bäume werden gepflanzt','Alte Bäume werden verjüngt','Wald entsteht auf einer Wiese'],'Bei der <b>Naturverjüngung</b> sät sich der Wald selbst aus.'],
+['Welches Stadium folgt in der Waldentwicklung auf die Dickung?','Stangenholz',['Jungwuchs','Kultur','Altholz'],'Kultur/Jungwuchs → Dickung → <b>Stangenholz</b> → Baumholz.'],
+['Was ist eine Durchforstung?','Die Entnahme einzelner Bäume, um die besten zu fördern',['Das Pflanzen neuer Bäume','Das Anlegen von Wegen','Ein Kahlschlag'],'Die <b>Durchforstung</b> verschafft guten Bäumen Platz.'],
+['Was ist ein Z-Baum?','Ein Zukunftsbaum, der gezielt gefördert wird',['Ein zerbrochener Baum','Ein Zierbaum','Ein Baum mit Z-Wuchs'],'Der <b>Zukunftsbaum</b> soll einmal wertvolles Holz liefern.'],
+['Was ist ein Bedränger?','Ein Baum, der einem Z-Baum zu nahe kommt',['Ein Borkenkäfer','Ein Forstfahrzeug','Ein Wildtier'],'Den <b>Bedränger</b> nimmt man heraus, damit der Z-Baum Platz hat.'],
+['Was ist eine Läuterung?','Pflege in jungen Beständen, bei der unerwünschte Bäume entfernt werden',['Das Waschen von Holz','Das Reinigen der Kettensäge','Eine Prüfung für Förster'],'Die <b>Läuterung</b> findet im Dickungsstadium statt.'],
+['Was ist ein Biotopbaum?','Ein Baum, der bewusst als Lebensraum stehen bleibt',['Ein gepflanzter Exot','Ein Baum im Gewächshaus','Ein künstlicher Baum'],'<b>Biotopbäume</b> mit Höhlen und Totholz bleiben für Tiere stehen.'],
+['Warum lässt man Totholz im Wald liegen?','Es ist Lebensraum für Pilze, Insekten und Vögel',['Weil der Abtransport verboten ist','Als Brandschutz','Weil es keinen Wert hat'],'<b>Totholz</b> ist ein wichtiger Lebensraum.'],
+['Welche Baumarten nennt man Pionierbaumarten?','Birke, Weide und Pappel',['Buche, Tanne und Eibe','Eiche, Linde und Ahorn','Fichte, Douglasie und Tanne'],'<b>Pioniere</b> besiedeln als Erste freie Flächen.'],
+['Welche Baumart ist eine typische Schattbaumart?','Buche',['Kiefer','Birke','Lärche'],'Die <b>Buche</b> kommt mit wenig Licht aus.'],
+['Welche Baumart braucht besonders viel Licht?','Kiefer',['Buche','Tanne','Eibe'],'Die <b>Kiefer</b> ist eine Lichtbaumart.'],
+['Warum gelten Mischwälder als widerstandsfähiger?','Schäden treffen nicht alle Baumarten gleichzeitig',['Sie wachsen schneller','Sie brauchen kein Wasser','Sie sind leichter zu ernten'],'Das Risiko ist auf <b>mehrere Baumarten</b> verteilt.'],
+['Wozu dienen FSC und PEFC?','Sie zertifizieren nachhaltig bewirtschafteten Wald',['Sie messen Baumhöhen','Sie sind Motorsägenmarken','Sie bekämpfen Borkenkäfer'],'<b>FSC</b> und <b>PEFC</b> sind Siegel für nachhaltige Forstwirtschaft.'],
+['Was schützt junge Bäume vor Wildverbiss?','Zäune oder Wuchshüllen',['Kalk auf den Blättern','Lautes Radio','Rindenmulch'],'<b>Zäune</b> und <b>Wuchshüllen</b> halten Rehe ab.'],
+['Welches Wildtier verursacht den meisten Verbiss an jungen Bäumen?','Reh',['Wildschwein','Fuchs','Hase'],'Das <b>Reh</b> knabbert am liebsten Knospen junger Bäume.'],
+// Baumarten erkennen
+['Von welchem Baum stammt dieses Blatt?','Eiche',['Buche','Ahorn','Linde'],'Die gebuchteten Lappen verraten die <b>Eiche</b>.','eiche'],
+['Von welchem Baum stammt dieses Blatt?','Ahorn',['Eiche','Rosskastanie','Platane'],'Handförmig gelappt mit spitzen Zipfeln: <b>Ahorn</b>.','ahorn'],
+['Von welchem Baum stammt dieses Blatt?','Buche',['Linde','Eiche','Birke'],'Oval mit geraden, parallelen Seitennerven: <b>Buche</b>.','buche'],
+['Von welchem Baum stammt dieses herzförmige Blatt?','Linde',['Buche','Pappel','Ahorn'],'Das Herzblatt gehört zur <b>Linde</b>.','linde'],
+['Von welchem Baum stammt dieses gefingerte Blatt?','Rosskastanie',['Ahorn','Esche','Walnuss'],'Fünf bis sieben Teilblätter an einem Punkt: <b>Rosskastanie</b>.','kastanie'],
+['Welcher Baum trägt diese aufrecht stehenden Zapfen?','Tanne',['Fichte','Kiefer','Lärche'],'Nur die <b>Tanne</b> trägt ihre Zapfen aufrecht.','tannenzapfen'],
+['Welcher Baum trägt diese hängenden Zapfen?','Fichte',['Tanne','Eibe','Douglasie'],'Hängende Zapfen gehören zur <b>Fichte</b>.','fichtenzapfen'],
+['Warum findet man unter Tannen kaum ganze Zapfen?','Tannenzapfen zerfallen am Baum',['Eichhörnchen sammeln alle','Tannen tragen keine Zapfen','Sie fallen erst nach 50 Jahren'],'Die Tannenzapfen <b>zerfallen am Baum</b>, nur die Spindel bleibt stehen. Die „Tannenzapfen“ am Boden sind meist Fichtenzapfen.'],
+['Wie lautet die Merkregel zu Fichte und Tanne?','„Die Fichte sticht, die Tanne nicht.“',['„Die Tanne sticht, die Fichte nicht.“','„Die Fichte ist rot, die Tanne tot.“','„Fichte oben, Tanne unten.“'],'„<b>Die Fichte sticht, die Tanne nicht.</b>“'],
+['Woran erkennt man Tannennadeln von unten?','An zwei weißen Streifen',['An roten Punkten','An Härchen','An gezackten Rändern'],'Tannennadeln haben unten <b>zwei weiße Wachsstreifen</b>.'],
+['Welcher heimische Nadelbaum verliert im Winter seine Nadeln?','Lärche',['Kiefer','Eibe','Tanne'],'Die <b>Lärche</b> wirft im Herbst ihre Nadeln ab.'],
+['Welcher heimische Nadelbaum ist fast überall giftig?','Eibe',['Lärche','Fichte','Douglasie'],'Fast alle Teile der <b>Eibe</b> sind giftig, nur der rote Samenmantel nicht.'],
+['Woher stammt die Douglasie ursprünglich?','Aus Nordamerika',['Aus Skandinavien','Aus Sibirien','Aus den Alpen'],'Die <b>Douglasie</b> kommt aus dem Westen Nordamerikas.'],
+['Welcher Baum hat eine auffällig weiße Rinde?','Birke',['Buche','Erle','Linde'],'Die <b>Birke</b> mit ihrer weißen Borke.'],
+['Welcher Baum hat eine glatte, silbergraue Rinde, auch im Alter?','Buche',['Eiche','Kiefer','Esche'],'Die <b>Buche</b> bleibt glatt.'],
+['Wie heißen die Früchte der Buche?','Bucheckern',['Eicheln','Kastanien','Nüsse'],'<b>Bucheckern</b>.'],
+['Welche Baumart leidet seit den 1990ern massiv unter einem eingeschleppten Pilz?','Esche',['Kiefer','Buche','Eiche'],'Das <b>Eschentriebsterben</b> bedroht die Esche.'],
+['Welcher Baum ist der beliebteste Weihnachtsbaum in Deutschland?','Nordmanntanne',['Fichte','Blaufichte','Kiefer'],'Die <b>Nordmanntanne</b> nadelt kaum und ist am beliebtesten.'],
+// Holzkunde
+['Wie alt ist dieser Baum ungefähr?','11 Jahre',['5 Jahre','20 Jahre','30 Jahre'],'Jeder Jahresring steht für ein Jahr: <b>11 Ringe</b>.','ringe'],
+['Warum sind Jahresringe zweifarbig?','Helles Frühholz und dunkles Spätholz wechseln sich ab',['Wegen Mondphasen','Weil der Baum zweimal im Jahr wächst','Durch Regen und Sonne im Wechsel'],'Im Frühjahr wächst helles <b>Frühholz</b>, im Sommer dichtes <b>Spätholz</b>.'],
+['In welcher Schicht wächst ein Baum in die Dicke?','Im Kambium',['Im Kernholz','In der Borke','Im Mark'],'Das <b>Kambium</b> unter der Rinde bildet neues Holz.'],
+['Was ist Kernholz?','Das innere, nicht mehr wasserleitende Holz',['Holz aus den Samen','Holz der Wurzeln','Die äußere Rinde'],'Das <b>Kernholz</b> ist oft dunkler und dauerhafter.'],
+['Was ist Splintholz?','Das äußere, wasserleitende Holz',['Holz von Ästen','Gespaltenes Brennholz','Die innerste Schicht'],'Das <b>Splintholz</b> transportiert Wasser.'],
+['Wie lange sollte Buchenbrennholz ungefähr trocknen?','Etwa zwei Jahre',['Zwei Wochen','Zwei Monate','Zehn Jahre'],'Hartholz wie Buche braucht rund <b>zwei Jahre</b>.'],
+['Welches Holz hat pro Raummeter den höheren Heizwert?','Buche',['Fichte','Pappel','Weide'],'Die dichte <b>Buche</b> liefert pro Raummeter mehr Wärme.'],
+['Was sind Hackschnitzel?','Maschinell zerkleinertes Holz, etwa zum Heizen',['Späne vom Bleistiftspitzen','Holzkohle','Rindenmulch'],'<b>Hackschnitzel</b> heizen viele Gemeinden und Höfe.'],
+['Was ist Industrieholz?','Schwächeres Holz für Papier, Platten oder Zellstoff',['Holz für Möbel','Holz aus Fabrikabfällen','Holz für Masten'],'<b>Industrieholz</b> wird zerfasert oder zerspant.'],
+// Holzernte & Technik
+['Welche Forstmaschine ist das?','Harvester',['Forwarder','Skidder','Rückepferd'],'Der <b>Harvester</b> fällt, entastet und schneidet den Stamm in einem Arbeitsgang.','harvester'],
+['Welche Forstmaschine ist das?','Forwarder (Rückezug)',['Harvester','Seilkran','Holzspalter'],'Der <b>Forwarder</b> trägt das Holz auf der Ladefläche zum Weg.','forwarder'],
+['Was macht ein Skidder?','Er zieht Stämme schleifend zum Weg',['Er fällt Bäume','Er pflanzt Bäume','Er spaltet Holz'],'Der <b>Skidder</b> schleift das Holz.'],
+['Wann setzt man einen Seilkran ein?','In steilem Gelände',['Auf ebenen Flächen','Nur im Winter','Bei Sturm'],'Am <b>Steilhang</b> kommt das Holz per Seil aus dem Bestand.'],
+['Warum werden im Wald noch Rückepferde eingesetzt?','Sie schonen den Boden',['Sie sind schneller als Maschinen','Sie fressen das Reisig','Sie sind gesetzlich vorgeschrieben'],'<b>Rückepferde</b> verdichten den Boden kaum.'],
+['Welchen Abstand haben Rückegassen typischerweise?','20 bis 40 Meter',['2 bis 4 Meter','100 bis 200 Meter','1 Kilometer'],'Meist <b>20 bis 40 m</b>, damit der Kran den Raum dazwischen erreicht.','gassen'],
+['Warum dürfen Maschinen nur auf Rückegassen fahren?','Um den Waldboden nicht großflächig zu verdichten',['Weil es kürzer ist','Wegen der Vögel','Weil Wege privat sind'],'So bleibt der Großteil des <b>Bodens</b> unverdichtet.'],
+['Warum wird Holz traditionell oft im Winter geerntet?','Saftruhe, gefrorener Boden und keine Brutzeit',['Weil es im Sommer verboten ist','Weil Holz dann leichter ist','Wegen der Weihnachtsbäume'],'<b>Saftruhe</b>, tragfähiger Boden und Rücksicht auf brütende Vögel.'],
+['Wie heißt die dreijährige Ausbildung für Waldarbeiter?','Forstwirt/Forstwirtin',['Waldmeister','Holzfäller-Geselle','Baumpfleger'],'Die duale Ausbildung zum <b>Forstwirt</b> dauert drei Jahre.'],
+['Was ist ein Windwurf?','Ein Baum, der samt Wurzelteller umgeworfen wurde',['Ein Baum, der in der Mitte abbricht','Ein Sturm im Winter','Ein Wurf mit der Axt'],'Beim <b>Windwurf</b> kippt der Baum mit Wurzel um, beim Windbruch bricht er.'],
+['Warum ist die Aufarbeitung von Sturmholz besonders gefährlich?','Das Holz steht unter starker Spannung',['Weil es nass ist','Weil es giftig wird','Weil Tiere darin wohnen'],'Gespannte Stämme können beim Schnitt <b>schlagartig</b> aufspringen.'],
+['Welcher Orkan warf im Januar 2007 in Deutschland Millionen Festmeter Holz?','Kyrill',['Lothar','Wiebke','Xynthia'],'Orkan <b>Kyrill</b>, Januar 2007.'],
+['Welcher Orkan verwüstete im Dezember 1999 vor allem Wälder in Süddeutschland?','Lothar',['Kyrill','Friederike','Sabine'],'Orkan <b>Lothar</b>, 26. Dezember 1999.'],
+// Fällarbeiten & Sicherheit
+['Wie heißt Teil A in dieser Zeichnung?','Fallkerb',['Bruchleiste','Fällschnitt','Splint'],'Der <b>Fallkerb</b> zeigt in Fallrichtung.','faellkerb'],
+['Wie heißt der markierte Teil B?','Bruchleiste',['Fallkerb','Sicherheitsband','Kerbsohle'],'Die <b>Bruchleiste</b> wirkt wie ein Scharnier und steuert den Fall.','faellkerb'],
+['Wie heißt Schnitt C, der von der Rückseite kommt?','Fällschnitt',['Fallkerb','Sohlschnitt','Entlastungsschnitt'],'Der <b>Fällschnitt</b> kommt von hinten und lässt die Bruchleiste stehen.','faellkerb'],
+['Wie tief sollte der Fallkerb ungefähr sein?','Ein Fünftel bis ein Drittel des Stammdurchmessers',['Die Hälfte','Zwei Drittel','Nur wenige Zentimeter'],'Faustregel: <b>1/5 bis 1/3</b> des Durchmessers.'],
+['Wie groß sollte der Öffnungswinkel des Fallkerbs mindestens sein?','45 Grad',['10 Grad','20 Grad','90 Grad'],'Mindestens <b>45°</b>, damit der Kerb nicht zu früh schließt.'],
+['Welche Aufgabe hat die Bruchleiste?','Sie führt den Baum wie ein Scharnier in die Fallrichtung',['Sie bremst die Kettensäge','Sie hält den Baum fest','Sie markiert den Stamm'],'Die <b>Bruchleiste</b> ist das Scharnier beim Fallen.'],
+['Wozu dient ein Fällkeil?','Den Baum in Fallrichtung drücken und das Einklemmen der Säge verhindern',['Den Stamm spalten','Die Kette schärfen','Den Baum markieren'],'Der <b>Keil</b> hebt den Baum an und schützt die Schiene.'],
+['Wie groß ist der Gefahrenbereich beim Fällen (Radius um den Baum)?','Die doppelte Baumlänge',['Die halbe Baumlänge','Genau eine Baumlänge','10 Meter, egal wie hoch'],'Gefahrenbereich: mindestens die <b>doppelte Baumlänge</b>.','gefahr'],
+['Was ist die Rückweiche?','Ein vorher festgelegter Fluchtweg schräg nach hinten',['Ein Schnitt im Stamm','Ein Teil der Kettensäge','Eine Ausweichstelle für Lkw'],'Die <b>Rückweiche</b> führt schräg nach hinten vom Stamm weg.'],
+['Welche Technik nutzt man bei stark in Fallrichtung hängenden Bäumen (Vorhängern)?','Die Haltebandtechnik',['Den Kahlschlag','Das Ringeln','Den Femelschlag'],'Mit der <b>Haltebandtechnik</b> reißt der Stamm nicht unkontrolliert auf.'],
+['Was ist ein „Hänger“?','Ein gefällter Baum, der in einem anderen hängen bleibt',['Ein Anhänger für Holz','Ein Baum am Hang','Ein Vogelnest'],'Ein <b>Hänger</b> ist eine der gefährlichsten Situationen.'],
+['Was darf man bei einem Hänger auf keinen Fall tun?','Den haltenden Baum umsägen oder darunter arbeiten',['Eine Seilwinde verwenden','Den Bereich absperren','Hilfe holen'],'Nie den haltenden Baum fällen und nie <b>unter den Hänger</b> treten.'],
+['Welcher Bereich der Schiene verursacht den gefährlichen Rückschlag?','Das obere Viertel der Schienenspitze',['Die Unterseite in der Mitte','Der Kettenrad-Deckel','Der hintere Griff'],'Berührt die <b>obere Schienenspitze</b> Holz, schlägt die Säge nach oben zurück.','schiene'],
+['Welche Sicherheitseinrichtung stoppt die Kette bei einem Rückschlag?','Die Kettenbremse',['Der Choke','Die Kettenschmierung','Der Gashebel'],'Die <b>Kettenbremse</b> stoppt die Kette in Sekundenbruchteilen.'],
+['Was gehört NICHT zur Schutzausrüstung bei der Motorsägenarbeit?','Ein loser Schal',['Schnittschutzhose','Helm mit Gehör- und Gesichtsschutz','Schnittschutzschuhe'],'Ein <b>loser Schal</b> kann sich in der Kette verfangen.'],
+['Wie funktioniert eine Schnittschutzhose?','Lange Fasern ziehen sich in die Kette und blockieren sie',['Sie ist aus Stahl','Sie ist elektrisch geladen','Sie ist besonders glatt'],'Die <b>Fasern</b> wickeln sich um das Kettenrad und stoppen die Kette.'],
+['Welcher Kraftstoff ist für Motorsägen gesünder als normales Benzin?','Sonderkraftstoff (Alkylatbenzin)',['Diesel','Superbenzin E10','Spiritus'],'<b>Alkylatbenzin</b> enthält kaum schädliche Aromaten.'],
+['Welches Mischungsverhältnis Benzin zu Öl ist bei vielen Zweitakt-Motorsägen üblich?','1:50',['1:5','1:500','1:1'],'Meist <b>1:50</b>, also 20 ml Öl auf einen Liter Benzin. Die Herstellerangabe gilt.'],
+['Warum verwendet man im Wald Bio-Kettenöl?','Weil das Öl im Waldboden landet',['Weil es billiger ist','Weil die Kette schneller läuft','Weil es besser riecht'],'Kettenöl landet vollständig im <b>Boden</b>, deshalb biologisch abbaubar.'],
+['Was ruft man vor dem Fallen des Baums?','„Achtung, Baum fällt!“',['„Holz!“','„Timber!“','„Vorsicht, Wald!“'],'Der Warnruf lautet „<b>Achtung, Baum fällt!</b>“.'],
+// Schädlinge
+['Welcher Käfer hinterlässt dieses Fraßbild unter der Rinde?','Buchdrucker',['Maikäfer','Hirschkäfer','Marienkäfer'],'Senkrechte Muttergänge mit seitlichen Larvengängen: typisch <b>Buchdrucker</b>.','frass'],
+['Welchen Baum befällt der Buchdrucker bevorzugt?','Fichte',['Buche','Eiche','Birke'],'Der <b>Buchdrucker</b> ist der größte Feind der Fichte.'],
+['Woran erkennt man frischen Borkenkäferbefall?','Braunes Bohrmehl am Stammfuß',['Weiße Blüten','Grüne Zapfen','Moos an der Rinde'],'<b>Bohrmehl</b> am Stamm ist ein frühes Warnsignal.'],
+['Warum muss befallenes Fichtenholz schnell aus dem Wald?','Damit die Käfer nicht ausschwärmen',['Weil es sonst schimmelt','Weil es sonst gestohlen wird','Weil es sonst zu schwer wird'],'Sonst <b>schwärmt</b> die nächste Generation aus und befällt neue Bäume.'],
+['Welcher kleine Borkenkäfer befällt ebenfalls vor allem Fichten, aber eher die dünnen Partien?','Kupferstecher',['Buchdrucker','Eichenprozessionsspinner','Maikäfer'],'Der <b>Kupferstecher</b> sitzt eher in Krone und dünneren Ästen.']
+];
+const WALD=WALD_DATA.map(d=>Q(d[0],d[1],d[2],d[3],{tag:'Wald & Forst',img:d[4]?G[d[4]]:null}));
+
+/* ---------- SPEZIAL: Landwirtschaft & Landtechnik ---------- */
+const LAND_DATA=[
+// Maschinen erkennen
+['Welche Maschine ist das?','Standardtraktor',['Teleskoplader','Unimog','Raupentraktor'],'Ein klassischer <b>Standardtraktor</b>: große Hinterräder, kleine Vorderräder.','traktor'],
+['Welche Maschine ist das?','Mähdrescher',['Feldhäcksler','Rübenroder','Ballenpresse'],'Vorne das Schneidwerk mit Haspel, oben das Abtankrohr: ein <b>Mähdrescher</b>.','maehdrescher'],
+['Welche Maschine ist das?','Feldhäcksler',['Mähdrescher','Ladewagen','Kartoffelroder'],'Der hohe Auswurfkrümmer verrät den <b>Feldhäcksler</b>.','haecksler'],
+['Welche Maschine ist das?','Rundballenpresse',['Kreiselschwader','Ladewagen','Güllefass'],'In der runden Kammer entsteht der Ballen: <b>Rundballenpresse</b>.','presse'],
+['Welches Gerät ist das?','Pflug',['Grubber','Kreiselegge','Walze'],'Mehrere gewölbte Pflugkörper: ein <b>Pflug</b>.','pflug'],
+['Welches Gerät ist das?','Feldspritze',['Düngerstreuer','Beregnungsanlage','Sämaschine'],'Langes Gestänge mit Düsen: eine <b>Feldspritze</b>.','spritze'],
+['Welches Gerät ist das?','Zweischeiben-Düngerstreuer',['Sämaschine','Feldspritze','Kalkstreuer-Walze'],'Ein Trichter und zwei Streuscheiben: <b>Düngerstreuer</b>.','streuer'],
+['Welches Gerät ist das (von oben gesehen)?','Kreiselschwader',['Kreiselegge','Mähwerk','Windrad'],'Der Kreisel mit Zinkenarmen legt Gras zu einem Schwad zusammen: <b>Kreiselschwader</b>.','schwader'],
+['Welche Maschine ist das?','Teleskoplader',['Mobilkran','Radlader','Hoftrac'],'Der ausfahrbare Arm macht ihn zum <b>Teleskoplader</b>.','tele'],
+['Welche Bauart ist das?','Raupentraktor',['Planierraupe','Pistenbully','Bagger'],'Laufwerk mit Ketten statt Rädern: <b>Raupentraktor</b>.','raupe'],
+['Welche Bauart ist das?','Knickgelenkter Großtraktor',['Zwei Traktoren hintereinander','Unimog','Mähdrescher'],'Gelenkt wird über das Gelenk in der Mitte: <b>Knicklenker</b>.','knick'],
+['Welche Zapfwellen-Drehzahl gehört zu diesem Profil mit 6 Keilen?','540 U/min',['1.000 U/min','750 U/min','2.000 U/min'],'Das 1 3/8"-Profil mit <b>6 Keilen</b> steht für 540 U/min.','zw6'],
+['Welche Zapfwellen-Drehzahl gehört zu diesem Profil mit 21 Keilen?','1.000 U/min',['540 U/min','300 U/min','1.500 U/min'],'Das <b>21-Keil-Profil</b> steht für 1.000 U/min.','zw21'],
+['Wie heißt Teil A der Dreipunkt-Hydraulik?','Oberlenker',['Unterlenker','Hubstrebe','Zugpendel'],'Oben der <b>Oberlenker</b>, unten die beiden Unterlenker.','dreipunkt'],
+['Wie heißt Teil B der Dreipunkt-Hydraulik?','Unterlenker',['Oberlenker','Zugmaul','Hubstrebe'],'Die beiden <b>Unterlenker</b> tragen das Gewicht des Geräts.','dreipunkt'],
+['Welches Getreide ist das? Achte auf die langen Grannen.','Gerste',['Weizen','Hafer','Mais'],'Lange Grannen: <b>Gerste</b>.','gerste'],
+['Welches Getreide ist das? Die Körner hängen an einer Rispe.','Hafer',['Gerste','Roggen','Weizen'],'Eine lockere Rispe statt einer Ähre: <b>Hafer</b>.','hafer'],
+// Hersteller & Standorte
+['Welche Traktoren werden in Marktoberdorf im Allgäu gebaut?','Fendt',['Deutz-Fahr','Claas','John Deere'],'<b>Fendt</b> baut seine Traktoren in Marktoberdorf.'],
+['Zu welchem Konzern gehört Fendt?','AGCO',['CNH Industrial','Kubota','SDF'],'Fendt ist eine Marke von <b>AGCO</b>, wie Massey Ferguson und Valtra.'],
+['Welche Marken gehören zum Konzern AGCO?','Fendt, Massey Ferguson und Valtra',['Case IH, New Holland und Steyr','Deutz-Fahr, Same und Lamborghini','John Deere, Kramer und Claas'],'<b>Fendt, Massey Ferguson, Valtra</b>.'],
+['Welche Marken gehören zu CNH Industrial?','Case IH, New Holland und Steyr',['Fendt, Massey Ferguson und Valtra','Deutz-Fahr und Same','Claas und Kubota'],'<b>Case IH, New Holland und Steyr</b>.'],
+['Wo baut John Deere in Deutschland seine Traktoren?','Mannheim',['Zweibrücken','Marktoberdorf','Lauingen'],'Im Werk <b>Mannheim</b>, dem früheren Lanz-Werk.'],
+['Wo werden Deutz-Fahr-Traktoren in Deutschland gebaut?','Lauingen an der Donau',['Köln','Marktoberdorf','Harsewinkel'],'In <b>Lauingen</b>.'],
+['Wo hat Claas seinen Stammsitz?','Harsewinkel',['Hannover','Lauingen','Spelle'],'<b>Harsewinkel</b> in Westfalen, berühmt für Mähdrescher.'],
+['In welchem Land baut Claas seine Traktoren?','Frankreich (Le Mans)',['Deutschland (Harsewinkel)','Italien','USA'],'Claas-Traktoren kommen aus <b>Le Mans</b>.'],
+['Wo werden Steyr-Traktoren gebaut?','St. Valentin in Niederösterreich',['Steyr in Oberösterreich','Linz','Graz'],'In <b>St. Valentin</b>.'],
+['Aus welchem Ort in Tirol kommen Lindner-Traktoren?','Kundl',['Innsbruck','Kufstein','Wörgl'],'Lindner sitzt in <b>Kundl</b>.'],
+['Wo hat Krone seinen Stammsitz?','Spelle im Emsland',['Harsewinkel','Hasbergen','Alpen'],'<b>Spelle</b>.'],
+['Welcher Landtechnik-Hersteller sitzt in Alpen am Niederrhein?','Lemken',['Amazone','Horsch','Pöttinger'],'<b>Lemken</b>, bekannt für Pflüge.'],
+['Welcher Hersteller sitzt in Hasbergen bei Osnabrück?','Amazone',['Krone','Lemken','Kverneland'],'<b>Amazone</b>.'],
+['Wo hat Pöttinger seinen Stammsitz?','Grieskirchen in Oberösterreich',['St. Valentin','Kundl','Wels'],'In <b>Grieskirchen</b>.'],
+['Welcher Hersteller sitzt in Schwandorf in der Oberpfalz?','Horsch',['Fendt','Krone','Amazone'],'<b>Horsch</b>.'],
+['Wo wird der Unimog heute gebaut?','Wörth am Rhein',['Gaggenau','Stuttgart','Marktoberdorf'],'Seit 2002 in <b>Wörth am Rhein</b>, vorher in Gaggenau.'],
+['Wofür steht der Name Unimog?','Universal-Motor-Gerät',['Universal-Mobil-Gefährt','Union Motor Gesellschaft','Unimotor-Getriebe'],'<b>Uni</b>versal-<b>Mo</b>tor-<b>G</b>erät.'],
+['Welche Marke baute den legendären Lanz Bulldog?','Heinrich Lanz AG in Mannheim',['Fendt in Marktoberdorf','Deutz in Köln','Hanomag in Hannover'],'Die <b>Heinrich Lanz AG</b> in Mannheim.'],
+['Welchen Motor hatte der Lanz Bulldog?','Einen Glühkopfmotor',['Einen Wankelmotor','Einen V8-Benziner','Einen Elektromotor'],'Den einfachen <b>Glühkopfmotor</b>, der vorgeheizt werden musste.'],
+['Welcher Konzern übernahm 1956 die Mehrheit an Lanz?','John Deere',['Fendt','Deutz','Claas'],'<b>John Deere</b>. Deshalb baut John Deere bis heute in Mannheim.'],
+['Wie hieß der erste Fendt-Traktor von 1928?','Dieselross',['Favorit','Farmer','Vario'],'Das <b>Dieselross</b> mit 6 PS.'],
+['Wie viele PS hatte das erste Fendt-Dieselross von 1928?','6 PS',['16 PS','60 PS','1 PS'],'Bescheidene <b>6 PS</b>.'],
+['Was war 1996 die große Neuheit des Fendt 926 Vario?','Das erste stufenlose Getriebe in einem Großtraktor',['Die erste Klimaanlage','Der erste Allradantrieb','Die erste Kabine'],'Das stufenlose <b>Vario-Getriebe</b>.'],
+['Wie heißt das stufenlose Getriebe von Fendt?','Vario',['Powershift','AutoPowr','Stepless'],'<b>Vario</b>.'],
+['Welcher Traktor war bis Anfang 2026 der stärkste Standardtraktor in Serie?','Fendt 1052 Vario',['John Deere 6R 250','Claas Axion 960','Deutz-Fahr 9340'],'Der <b>Fendt 1052 Vario</b>, bis John Deere den 8R 540 vorstellte.'],
+['Welcher Standardtraktor wurde 2026 mit bis zu 634 PS zum stärksten seiner Klasse?','John Deere 8R/8RX 540',['Fendt 1052 Vario','Case IH Magnum 400','New Holland T8.435'],'Der <b>John Deere 8R/8RX 540</b> mit bis zu 634 PS.'],
+['Welcher Raupentraktor bringt es in der stärksten Ausführung auf bis zu 913 PS?','John Deere 9RX 830',['Fendt 1167 Vario MT','Claas Xerion 12.650','Case IH Steiger 620'],'Der <b>John Deere 9RX 830</b>: 830 PS Nennleistung, maximal 913 PS.'],
+['Bis zu wie viel PS leistet die vierte Generation des Fendt 1000 Vario?','550 PS',['250 PS','350 PS','800 PS'],'Bis zu <b>550 PS</b>.'],
+['Welcher Traktor hält den Geschwindigkeitsrekord mit 247,6 km/h?','JCB Fastrac Two',['Fendt 1050 Vario','Lamborghini R8','Claas Xerion'],'Der umgebaute <b>JCB Fastrac Two</b>.'],
+['Welches ist der stärkste Traktor, der je in St. Valentin gebaut wurde?','Steyr Cervus CVT',['Steyr Absolut','Steyr Terrus CVT','Steyr Plus'],'Der <b>Steyr Cervus CVT</b> mit 360 bis 435 PS.'],
+['Was ist ein MB-trac?','Ein Systemtraktor von Mercedes-Benz mit Kabine in der Mitte',['Ein Mähdrescher','Ein Lkw für Holz','Ein Mähroboter'],'Der <b>MB-trac</b> hatte gleich große Räder und die Kabine mittig.'],
+['Was zeichnet den Fendt Geräteträger (GT) aus?','Der Motor sitzt hinten, vorne ist Platz für Anbaugeräte',['Er hat keine Räder','Er fährt elektrisch','Er hat zwei Kabinen'],'Beim <b>Geräteträger</b> ist vorne eine freie Plattform.'],
+// Traktortechnik
+['Welche zwei Normdrehzahlen hat die Zapfwelle?','540 und 1.000 U/min',['100 und 200 U/min','1.500 und 3.000 U/min','60 und 120 U/min'],'<b>540</b> und <b>1.000</b> U/min.'],
+['Wer erfand die Dreipunkt-Hydraulik?','Harry Ferguson',['Henry Ford','Rudolf Diesel','Hermann Lanz'],'Der Ire <b>Harry Ferguson</b>.'],
+['Wofür steht ISOBUS?','Ein genormtes Kommunikationssystem zwischen Traktor und Anbaugerät',['Ein Bus für Landarbeiter','Eine Kraftstoffnorm','Ein Reifentyp'],'<b>ISOBUS</b> (ISO 11783) lässt Geräte verschiedener Hersteller mit dem Traktor sprechen.'],
+['Wie genau lenkt ein Traktor mit RTK-GPS ungefähr?','Auf etwa 2 Zentimeter',['Auf etwa 2 Meter','Auf etwa 20 Meter','Auf etwa 2 Kilometer'],'<b>RTK</b> erreicht etwa 2 cm Genauigkeit.'],
+['Wozu dient AdBlue bei modernen Traktoren?','Es reduziert Stickoxide im Abgas',['Es kühlt den Motor','Es schmiert das Getriebe','Es reinigt die Scheiben'],'Die Harnstofflösung <b>AdBlue</b> reduziert Stickoxide (SCR-Kat).'],
+['Was bewirkt ein Frontgewicht am Traktor?','Es verbessert Gewichtsverteilung und Lenkfähigkeit',['Es erhöht die Höchstgeschwindigkeit','Es schützt vor Steinschlag','Es spart Diesel beim Bremsen'],'Das <b>Frontgewicht</b> gleicht schwere Heckgeräte aus.'],
+['Warum senkt man den Reifendruck auf dem Acker?','Um den Boden zu schonen und mehr Zugkraft zu haben',['Damit der Traktor schneller fährt','Um Reifen zu sparen','Weil es das Gesetz verlangt'],'Weniger Druck heißt <b>größere Aufstandsfläche</b>.'],
+['Wofür ist die Differentialsperre da?','Damit beide Räder einer Achse gleich schnell drehen und nicht eins durchdreht',['Zum Bremsen','Zum Rückwärtsfahren','Für den Straßenverkehr'],'Die <b>Differentialsperre</b> hilft auf rutschigem Boden.'],
+['Was bedeutet „Load Sensing“ bei der Hydraulik?','Die Pumpe liefert nur so viel Öl, wie gerade gebraucht wird',['Die Ladung wird gewogen','Der Traktor erkennt das Gerät','Der Fahrer wird gewarnt'],'<b>Load Sensing</b> spart Energie.'],
+// Erntetechnik
+['Welches Bauteil trennt im klassischen Mähdrescher Stroh und Restkörner?','Die Strohschüttler',['Die Haspel','Das Häckselwerk','Der Korntank'],'Die <b>Strohschüttler</b> schütteln die letzten Körner aus dem Stroh.'],
+['Wofür wird ein Feldhäcksler vor allem eingesetzt?','Für Mais- und Grassilage',['Für Getreidedrusch','Für Kartoffeln','Für Holz'],'Der Häcksler zerkleinert Futter für die <b>Silage</b>.'],
+['Wodurch wird Silage haltbar?','Durch Milchsäuregärung unter Luftabschluss',['Durch Trocknung in der Sonne','Durch Einfrieren','Durch Salz'],'<b>Milchsäurebakterien</b> konservieren das Futter.'],
+['Was unterscheidet Heu von Silage?','Heu ist getrocknet, Silage ist vergoren',['Heu ist aus Mais, Silage aus Gras','Heu ist für Pferde verboten','Es gibt keinen Unterschied'],'<b>Heu</b> wird getrocknet, <b>Silage</b> vergoren.'],
+['Warum werden Rundballen oft in Folie gewickelt?','Damit unter Luftabschluss Silage entsteht',['Damit sie schöner aussehen','Gegen Mäuse','Damit sie nicht wegrollen'],'Die Folie sorgt für <b>Luftabschluss</b>.'],
+['Was macht ein Kreiselheuer (Wender)?','Er wendet und verteilt das gemähte Gras zum Trocknen',['Er mäht das Gras','Er presst Ballen','Er sät Gras'],'Der <b>Wender</b> sorgt für schnelles Trocknen.'],
+['Was macht ein Ladewagen?','Er nimmt Gras auf, schneidet es und transportiert es',['Er lädt Tiere','Er pflanzt Bäume','Er streut Kalk'],'Der <b>Ladewagen</b> sammelt Futter vom Schwad.'],
+// Bodenbearbeitung & Saat
+['Was macht ein Pflug mit dem Boden?','Er wendet ihn',['Er walzt ihn fest','Er bewässert ihn','Er düngt ihn'],'Der <b>Pflug</b> wendet die Krume und vergräbt Pflanzenreste.'],
+['Was kann ein Drehpflug, was ein Beetpflug nicht kann?','Er kann am Feldende umdrehen und in beide Richtungen pflügen',['Er kann säen','Er braucht keinen Traktor','Er pflügt doppelt so tief'],'Der <b>Drehpflug</b> wirft die Erde immer zur selben Seite.'],
+['Was unterscheidet einen Grubber von einem Pflug?','Der Grubber lockert, ohne zu wenden',['Der Grubber sät','Der Grubber ist nur für Wiesen','Es gibt keinen Unterschied'],'Der <b>Grubber</b> lockert und mischt, wendet aber nicht.'],
+['Wofür nutzt man eine Kreiselegge?','Zur Saatbettbereitung',['Zum Ernten','Zum Mähen','Zum Ballenpressen'],'Die <b>Kreiselegge</b> zerkleinert Schollen für ein feines Saatbett.'],
+['Womit sät man Mais oder Zuckerrüben?','Mit einer Einzelkornsämaschine',['Mit einem Düngerstreuer','Mit einer Drillmaschine für Getreide','Von Hand'],'Die <b>Einzelkornsämaschine</b> legt jedes Korn im gleichen Abstand ab.'],
+['Wie bringt man Gülle besonders emissionsarm aus?','Mit Schleppschlauch oder Schlitzgerät',['Mit einem Breitverteiler-Teller','Mit einer Gießkanne','Mit dem Ladewagen'],'Mit <b>Schleppschlauch</b> oder Schlitztechnik direkt am Boden.'],
+['Was sind Zwischenfrüchte?','Pflanzen, die zwischen zwei Hauptkulturen wachsen und den Boden schützen',['Obst zwischen den Mahlzeiten','Unkraut','Früchte aus dem Gewächshaus'],'<b>Zwischenfrüchte</b> schützen vor Erosion und binden Nährstoffe.'],
+['Was gibt die Ackerzahl an?','Die Güte des Bodens, auf einer Skala bis etwa 100',['Die Größe des Ackers','Die Zahl der Äcker eines Hofes','Die Nummer im Grundbuch'],'Je höher die <b>Ackerzahl</b>, desto ertragreicher der Boden.'],
+['Was ist Bodenverdichtung?','Zusammengedrückter Boden, in dem Wasser und Wurzeln schlecht durchkommen',['Besonders fruchtbarer Boden','Gefrorener Boden','Mit Kalk gedüngter Boden'],'Schwere Maschinen können den Boden <b>verdichten</b>.'],
+// Pflanzenbau
+['Was ist die Dreifelderwirtschaft?','Wechsel von Winterung, Sommerung und Brache',['Drei Höfe teilen sich ein Feld','Drei Ernten pro Jahr','Ackerbau nur auf drei Feldern'],'Im Mittelalter rotierten <b>Winterung, Sommerung und Brache</b>.'],
+['Warum baut man in einer Fruchtfolge Leguminosen wie Erbsen oder Klee an?','Sie binden Stickstoff aus der Luft',['Sie vertreiben Wildschweine','Sie brauchen kein Licht','Sie wachsen im Winter'],'Mit Hilfe von <b>Knöllchenbakterien</b> binden sie Luftstickstoff.'],
+['Welche Getreideart wird in Deutschland auf der größten Fläche angebaut?','Weizen',['Roggen','Hafer','Dinkel'],'<b>Weizen</b>, vor allem Winterweizen.'],
+['Welche Pflanze färbt im Frühjahr ganze Felder leuchtend gelb?','Raps',['Lein','Mais','Gerste'],'Der <b>Raps</b>.'],
+['Wofür wird Braugerste angebaut?','Für die Bierherstellung',['Für Brot','Für Tierfutter','Für Papier'],'Aus <b>Braugerste</b> wird Malz für Bier.'],
+['Woher stammt der Mais ursprünglich?','Aus Mittelamerika (Mexiko)',['Aus China','Aus Ägypten','Aus Bayern'],'Der Mais stammt aus <b>Mexiko</b>.'],
+['Woher stammt die Kartoffel ursprünglich?','Aus den Anden in Südamerika',['Aus Irland','Aus Indien','Aus Russland'],'Die Kartoffel kommt aus den <b>Anden</b>.'],
+['Was wird aus Zuckerrüben hergestellt?','Zucker',['Rote Beete','Sirup aus Ahorn','Stärke für Papier'],'Aus der <b>Zuckerrübe</b> wird Haushaltszucker.'],
+['Wie viel ist eine Dezitonne (dt)?','100 kg',['10 kg','1.000 kg','10.000 kg'],'1 dt = <b>100 kg</b>. Erträge werden in dt/ha angegeben.'],
+['Wie groß ist ein Hektar?','10.000 Quadratmeter',['1.000 Quadratmeter','100 Quadratmeter','1 Quadratkilometer'],'1 ha = <b>100 m × 100 m</b>.'],
+['Etwa wie groß ist ein bayerisches Tagwerk?','Etwa ein Drittel Hektar',['Genau ein Hektar','Etwa zehn Hektar','Etwa ein Quadratmeter'],'Rund <b>3.400 m²</b>, so viel konnte man früher an einem Tag pflügen.'],
+['Was verbietet der ökologische Landbau grundsätzlich?','Chemisch-synthetische Pflanzenschutzmittel und Mineraldünger',['Traktoren','Tierhaltung','Maschinen mit Diesel'],'Im <b>Ökolandbau</b> sind chemisch-synthetische Mittel tabu.'],
+['Was ist ein „Knick“ in Schleswig-Holstein?','Eine bepflanzte Wallhecke zwischen Feldern',['Eine Kurve im Feldweg','Ein kaputter Pflug','Ein Melkstand'],'Der <b>Knick</b> ist eine Wallhecke.'],
+['Wann wird in Deutschland traditionell Erntedank gefeiert?','Am ersten Sonntag im Oktober',['Am 1. Mai','An Pfingsten','Im Dezember'],'Meist am <b>ersten Sonntag im Oktober</b>.'],
+// Tierhaltung
+['Welche Milchkuhrasse ist in Deutschland am häufigsten?','Holstein-Friesian (Schwarzbunt)',['Fleckvieh','Braunvieh','Angus'],'Die <b>Holsteins</b> sind die häufigste Milchrasse.'],
+['Welche Rinderrasse ist in Bayern am häufigsten?','Fleckvieh',['Holstein','Angus','Highland Cattle'],'<b>Fleckvieh</b>, das Doppelnutzungsrind für Milch und Fleisch.'],
+['Wie heißt der größte Vormagen der Kuh?','Pansen',['Labmagen','Blättermagen','Netzmagen'],'Im <b>Pansen</b> zersetzen Mikroben das Futter.'],
+['Wie viele Mägen bzw. Magenabschnitte hat eine Kuh?','Vier',['Einen','Zwei','Sieben'],'Pansen, Netzmagen, Blättermagen und Labmagen: <b>vier</b>.'],
+['Wie lange ist eine Kuh ungefähr trächtig?','Etwa neun Monate',['Etwa drei Monate','Etwa sechs Monate','Etwa ein Jahr'],'Rund <b>280 Tage</b>, ähnlich wie beim Menschen.'],
+['Wie nennt man ein weibliches Rind vor dem ersten Kalb?','Färse',['Sau','Ochse','Stute'],'Eine <b>Färse</b>.'],
+['Was ist ein Ochse?','Ein kastriertes männliches Rind',['Ein junger Stier','Ein weibliches Rind','Ein Wasserbüffel'],'Der <b>Ochse</b> ist kastriert.'],
+['Wie nennt man ein männliches Schwein?','Eber',['Bock','Hengst','Bulle'],'Der <b>Eber</b>.'],
+['Wie viel Milch gibt eine Kuh in Deutschland durchschnittlich pro Jahr?','Rund 8.500 Liter',['Rund 850 Liter','Rund 2.500 Liter','Rund 25.000 Liter'],'Im Schnitt rund <b>8.500 Liter</b>, Hochleistungskühe deutlich mehr.'],
+['Wie viel Lebendgewicht entspricht einer Großvieheinheit (GVE)?','500 kg',['100 kg','1.000 kg','50 kg'],'1 GVE = <b>500 kg</b> Lebendgewicht.'],
+['Woraus entsteht in einer Biogasanlage meist das Gas?','Aus Gülle und Energiepflanzen wie Mais',['Aus Diesel','Aus Holz','Aus Plastik'],'Mikroben vergären <b>Gülle und Pflanzen</b> zu Methan.'],
+['Wann darf Gülle auf Ackerland laut Düngeverordnung grundsätzlich nicht ausgebracht werden?','In einer Sperrfrist über den Winter',['Nur an Sonntagen','Nur im Sommer','Nie, sie ist verboten'],'Im Winter gilt eine <b>Sperrfrist</b>, weil Pflanzen dann keine Nährstoffe aufnehmen.']
+];
+const LAND=LAND_DATA.map(d=>Q(d[0],d[1],d[2],d[3],{tag:'Landwirtschaft',img:d[4]?G[d[4]]:null}));
+
 /* ---------- Story-Level & freie Bereiche ---------- */
 const WORLDS=[
   {name:'Aufwärmen',gl:'?',c:'#E5432D',fg:'#fff',ds:'Knöpfe, die fliehen, und Fragen, die man genau lesen muss.',lv:W1},
@@ -1490,7 +1805,9 @@ const CATS=[
   {name:'Meisterklasse',gl:'∞',font:'var(--serif)',c:'#5E6E82',fg:'#fff',lv:FP}
 ];
 const SPECIALS=[
-  {name:'How I Met Your Mother',gl:'☂',font:'var(--serif)',c:'#1F3A5F',fg:'#F6C62E',lv:HIMYM}
+  {name:'How I Met Your Mother',gl:'☂',font:'var(--serif)',c:'#1F3A5F',fg:'#F6C62E',lv:HIMYM},
+  {name:'Wald & Forst',gl:'<svg viewBox="0 0 40 40" width="1em" height="1em" fill="currentColor"><path d="M20 3 L31 18 H26 L34 29 H23 V37 H17 V29 H6 L14 18 H9 Z"/></svg>',font:'var(--serif)',c:'#2E6B3F',fg:'#fff',lv:WALD},
+  {name:'Landwirtschaft',gl:'<svg viewBox="0 0 40 40" width="1em" height="1em" fill="currentColor"><path d="M6 12 H17 V22 H30 Q34 22 34 26 V28 H6 Z"/><circle cx="11" cy="30" r="7"/><circle cx="29" cy="32" r="4.5"/><path d="M27 22 V15 H29 V22 Z"/></svg>',font:'var(--sans)',c:'#B5651D',fg:'#fff',lv:LAND}
 ];
 WORLDS.forEach((W,w)=>{W.key=String(w);W.kind='story';W.idx=w});
 SPECIALS.forEach((C,c)=>{C.key='S'+c;C.kind='special';C.idx=c;C.lv.forEach((L,i)=>{if(!L.t)L.t='Frage '+(i+1)})});
