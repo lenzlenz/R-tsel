@@ -226,6 +226,22 @@ button.spec{border:0;text-align:left;cursor:pointer;font-family:inherit}
 .fname{font-family:var(--serif);font-size:clamp(2.2rem,5vw,3.6rem);line-height:1;margin-bottom:12px;word-break:break-word}.fname i{color:#bbb;font-style:normal;margin:0 2px}
 .ftask{margin:16px 0;background:#f6f3ea;border-radius:14px;padding:12px 16px;display:grid;gap:4px}.ftask:empty{display:none}.ftask b{font-size:1.15rem}
 @media (max-width:700px){.dresswrap,.flipwrap{grid-template-columns:1fr}.dressfig{position:static;max-width:260px;margin:0 auto}.flipbook{max-width:320px;margin:0 auto;width:100%}}
+.duelcats{display:flex;flex-wrap:wrap;gap:6px;margin:14px 0 22px}.duelcats span{border-radius:999px;padding:6px 12px;font-weight:600;font-size:.85rem}
+.duelform{display:grid;gap:14px;max-width:620px}.duelform label{display:grid;gap:6px}.duelform input{font:inherit;font-size:1.05rem;padding:12px 14px;border:1.5px solid var(--line);border-radius:12px}
+.duelmode{display:grid;grid-template-columns:1fr 1fr;gap:10px}.duelmode .lbl{grid-column:1/-1}.duelmode .dop{text-align:left;display:grid;gap:4px}.duelmode small{font-weight:400;opacity:.85;line-height:1.35}
+.duelplayers{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:10px;margin-bottom:18px}
+.dpl{display:flex;gap:12px;align-items:center;border:1.5px solid var(--line);border-radius:16px;padding:10px 14px;opacity:.6}.dpl.on{opacity:1;border-color:var(--ink);box-shadow:0 0 0 1.5px var(--ink)}
+.dpl div{display:grid;gap:2px}.dpl small{color:#666;font-size:.82rem}.dpl .tk{display:inline-block;width:12px;height:12px;border-radius:50%;background:var(--tk);border:2px solid #11141C;margin-right:6px;vertical-align:-1px}
+.duelwrap{display:grid;grid-template-columns:minmax(280px,440px) 1fr;gap:28px;align-items:start}
+.duelboard{position:relative}.duelboard svg{width:100%;height:auto;display:block}
+.dcenter{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);text-align:center;pointer-events:none;max-width:30%}
+.die{font-size:4.2rem;line-height:1}.die.spin{animation:dspin .14s linear infinite}@keyframes dspin{to{transform:rotate(20deg)}}
+.fld.tgt{cursor:pointer;stroke:#11141C;stroke-width:4;animation:tg 1s ease-in-out infinite}@keyframes tg{50%{opacity:.55}}
+.dname{font-family:var(--serif);font-size:2.4rem;font-weight:400;margin:4px 0 14px}.primary.big{font-size:1.2rem;padding:16px 30px}
+.dtarget{display:grid;gap:2px;width:100%;text-align:left;border:0;border-radius:14px;padding:14px 18px;margin:8px 0;background:var(--fc);color:var(--ff);cursor:pointer;font-family:var(--sans)}.dtarget span{font-size:.8rem;opacity:.85}.dtarget b{font-size:1.1rem}.dtarget em{font-style:normal;font-family:var(--mono);font-size:.75rem;letter-spacing:.08em;text-transform:uppercase}
+.dq{border-radius:18px;overflow:hidden;border:2px solid var(--fc)}.dqhead{background:var(--fc);color:var(--ff);padding:10px 16px;display:flex;justify-content:space-between;font-weight:700}.dqhead em{font-style:normal;font-family:var(--mono);font-size:.75rem;letter-spacing:.08em;text-transform:uppercase;align-self:center}
+.dqbody{padding:16px}.dqq{font-size:1.12rem;line-height:1.45;margin:6px 0 12px}.dopts{display:grid;gap:8px}.dopts .opt:disabled{opacity:1;cursor:default}.dopts .opt.ok{background:#2E7D5B;color:#fff;border-color:#2E7D5B}.dopts .opt.bad{background:#B23A48;color:#fff;border-color:#B23A48}
+@media (max-width:760px){.duelwrap{grid-template-columns:1fr}.duelboard{max-width:380px;margin:0 auto;width:100%}.duelmode{grid-template-columns:1fr}}
 .tabs{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:18px}
 .tab{border:1.5px solid var(--line);background:#fff;border-radius:999px;padding:9px 18px;font-weight:600;cursor:pointer;color:var(--ink)}
 .tab.on{background:var(--c);border-color:var(--c);color:var(--cfg)}
@@ -1364,7 +1380,7 @@ T({t:'Rechtecke im Quadrat',tag:'Zählen',q:'Ein Quadrat ist in 2 × 2 gleich gr
 
 /* Multiple-Choice-Quizfrage; Tipps = Joker, die je eine falsche Antwort nennen */
 function Q(q,right,wrongs,expl,o){o=o||{};
-  return {onHint(k,box){box.querySelectorAll('.opt').forEach(x=>{if(x.textContent===wrongs[k]){x.disabled=true;x.classList.add('gone')}})},t:o.t||'',tag:o.tag||'Quiz',q,img:o.img,hints:[`Diese Antwort ist es nicht: „${wrongs[0]}“.`,`Diese auch nicht: „${wrongs[1]}“.`],sol:right,expl:expl||`Richtig: <b>${right}</b>.`,
+  return {_r:right,_w:wrongs,onHint(k,box){box.querySelectorAll('.opt').forEach(x=>{if(x.textContent===wrongs[k]){x.disabled=true;x.classList.add('gone')}})},t:o.t||'',tag:o.tag||'Quiz',q,img:o.img,hints:[`Diese Antwort ist es nicht: „${wrongs[0]}“.`,`Diese auch nicht: „${wrongs[1]}“.`],sol:right,expl:expl||`Richtig: <b>${right}</b>.`,
     render(b,api){if(o.img)b.append(h('div',{class:'svgbox quizimg'},o.img));
       mc(b,api,'',[{t:right,ok:1}].concat(wrongs.map(w=>({t:w,why:pick(['Leider nein.','Knapp daneben.','Nope.','Das war nichts.','Falsch geraten.'])}))),()=>api.solve())}};
 }
@@ -2254,6 +2270,8 @@ function showStart(){
   CATS.forEach((C,k)=>{const el=specCard(C,k,false);el.onclick=()=>{const n=nm.value.trim();if(!n){$('#nmsg').textContent='Trag zuerst deinen Namen ein, dann geht es direkt los.';nm.focus();return}login(n,()=>openSet(C))};$('#specs').append(el)});
   {const el=h('button',{class:'spec',type:'button',style:`background:${GAME_CARD.c};color:${GAME_CARD.fg}`},`<small>Spiele · ${GAME_CARD.name}</small><span><b>${GAME_CARD.gl}</b><span class="pm"><span>3 Spiele</span></span></span>`);
     el.onclick=()=>{const n=$('#nm').value.trim();if(!n){$('#nmsg').textContent='Trag zuerst deinen Namen ein, dann geht es direkt los.';$('#nm').focus();return}login(n,()=>showGames())};setTimeout(()=>$('#specials').append(el),0)}
+  {const el=h('button',{class:'spec',type:'button',style:`background:${DUEL_CARD.c};color:${DUEL_CARD.fg}`},`<small>Spiele · ${DUEL_CARD.name}</small><span><b>${DUEL_CARD.gl}</b><span class="pm"><span>Brettspiel für 2</span></span></span>`);
+    el.onclick=()=>{const n=$('#nm').value.trim();if(!n){$('#nmsg').textContent='Trag zuerst deinen Namen ein, dann geht es direkt los.';$('#nm').focus();return}login(n,()=>showDuel())};setTimeout(()=>$('#specials').append(el),0)}
   SPECIALS.forEach((C,k)=>{const el=specCard(C,k,false,'S'+(k+1));el.onclick=()=>{const n=nm.value.trim();if(!n){$('#nmsg').textContent='Trag zuerst deinen Namen ein, dann geht es direkt los.';nm.focus();return}login(n,()=>openSet(C))};$('#specials').append(el)});
   $('#nf').onsubmit=e=>{e.preventDefault();const n=nm.value.trim();if(!n){$('#nmsg').textContent='Ohne Namen geht es nicht. Er wird noch wichtig.';return}login(n)};
   const list=Object.values(DB.players).sort((a,b)=>score(b)-score(a));
@@ -2288,6 +2306,7 @@ function showHub(){
   CATS.forEach((C,k)=>{const el=specCard(C,k,true);el.onclick=()=>openSet(C);$('#free').append(el)});
   SPECIALS.forEach((C,k)=>{const el=specCard(C,k,true,'S'+(k+1));el.onclick=()=>openSet(C);$('#spec').append(el)});
   {const el=h('button',{class:'spec',type:'button',style:`background:${GAME_CARD.c};color:${GAME_CARD.fg}`},`<small>Spiele · ${GAME_CARD.name}</small><span><b>${GAME_CARD.gl}</b><span class="pm"><span>Gitter · Memory · 2 Kreuzworträtsel</span></span></span>`);el.onclick=()=>showGames();$('#spec').append(el)}
+  {const el=h('button',{class:'spec',type:'button',style:`background:${DUEL_CARD.c};color:${DUEL_CARD.fg}`},`<small>Spiele · ${DUEL_CARD.name}</small><span><b>${DUEL_CARD.gl}</b><span class="pm"><span>Wissens-Brettspiel für 2</span></span></span>`);el.onclick=()=>showDuel();$('#spec').append(el)}
   const fin=$('#fin');if(fin)fin.onclick=showFinal;
   const rs=$('#rs');let armed=false;rs.onclick=()=>{if(!armed){armed=true;rs.textContent='Wirklich alles löschen? Nochmal klicken.';return}P.res={};save();showHub()};
 }
@@ -2631,6 +2650,161 @@ function gameFlip(card){
   mix.onclick=()=>{[0,1,2].forEach(p=>{idx[p]=Math.floor(Math.random()*6);render(p,true)});check()};
   tb.onclick=()=>{newTask();check()};
   [0,1,2].forEach(p=>render(p,false));check();
+}
+
+/* ---------- Ecken-Jagd: Wissens-Brettspiel für zwei ---------- */
+const DUEL_CARD={name:'Ecken-Jagd',c:'#11141C',fg:'#fff',gl:'<svg viewBox="0 0 40 40" width="1em" height="1em"><g transform="translate(20 20)">'+['#F6C62E','#2E6B3F','#7A4B2A','#C8472F','#2D4F9E','#8E6CC4'].map((c,i)=>{const a=(i*60-90)*Math.PI/180,b=((i+1)*60-90)*Math.PI/180;return `<path d="M0 0 L${(17*Math.cos(a)).toFixed(2)} ${(17*Math.sin(a)).toFixed(2)} A17 17 0 0 1 ${(17*Math.cos(b)).toFixed(2)} ${(17*Math.sin(b)).toFixed(2)} Z" fill="${c}" stroke="#fff" stroke-width="1.2"/>`}).join('')+'</g></svg>'};
+const DUEL_CATS=()=>[
+  {n:'HIMYM',c:'#F6C62E',fg:'#11141C',q:HIMYM.concat(HIMYM_PRO)},
+  {n:'Wald & Forst',c:'#2E6B3F',fg:'#fff',q:WALD},
+  {n:'Landwirtschaft',c:'#7A4B2A',fg:'#fff',q:LAND},
+  {n:'Landkreis Cham',c:'#C8472F',fg:'#fff',q:CHAM},
+  {n:'Regensburg',c:'#2D4F9E',fg:'#fff',q:REGENSBURG},
+  {n:'Motorsäge',c:'#8E6CC4',fg:'#fff',q:MOTORSAEGE}];
+const DUEL_N=36;
+const duelCat=i=>(i%6+Math.floor(i/6))%6;
+const duelType=i=>i%3===0?'ecke':(i%12===7?'again':'q');
+function duelPie(ecken,cats,r){r=r||22;return `<svg viewBox="-${r+2} -${r+2} ${2*r+4} ${2*r+4}" width="${2*r+4}" height="${2*r+4}">`+cats.map((C,i)=>{const a=(i*60-90)*Math.PI/180,b=((i+1)*60-90)*Math.PI/180;
+  return `<path d="M0 0 L${(r*Math.cos(a)).toFixed(2)} ${(r*Math.sin(a)).toFixed(2)} A${r} ${r} 0 0 1 ${(r*Math.cos(b)).toFixed(2)} ${(r*Math.sin(b)).toFixed(2)} Z" fill="${ecken.includes(i)?C.c:'#fff'}" stroke="#1a1a1a" stroke-width="1.4"/>`}).join('')+`</svg>`}
+
+function showDuel(){
+  runCleanup();setTheme({c:'#11141C',fg:'#fff'});topbar();window.scrollTo(0,0);app.innerHTML='';
+  const head=h('div',{class:'lvhead'});const back=h('button',{class:'back',type:'button'},'← Übersicht');back.onclick=showHub;
+  head.append(back,h('div',{class:'lvtitle'},'<span class="chip">Spiele · Ecken-Jagd</span>'));app.append(head);
+  const store=(P.games=P.games||{});const card=h('section',{class:'card'});app.append(card);
+  if(store.duel&&!store.duel.over){duelPlay(card,store.duel);return}
+  duelSetup(card);
+}
+function duelSetup(card){
+  const store=P.games;const st=store.duelStats||{};
+  card.innerHTML='';
+  card.append(h('div',{class:'tag'},'<b>Wissens-Brettspiel</b> · 2 Spieler · 1 Gerät'),h('h2',{},'Ecken-Jagd'),
+    h('p',{class:'q'},'Würfelt abwechselnd und lauft über den Ring. Jedes Feld hat eine Kategorie. Wer richtig antwortet, darf noch einmal würfeln. Auf den zwölf großen Eckfeldern mit Dreieck gibt es eine Ecke in der Farbe des Feldes. Wer zuerst alle sechs Ecken hat, gewinnt.'));
+  const cats=DUEL_CATS();
+  card.append(h('div',{class:'duelcats'},cats.map(C=>`<span style="background:${C.c};color:${C.fg}">${C.n}</span>`).join('')));
+  const f=h('form',{class:'duelform'});
+  f.innerHTML=`<label><span class="lbl">Spieler 1</span><input id="dp1" maxlength="18" value="${P.name.replace(/"/g,'')}"></label>
+   <label><span class="lbl">Spieler 2</span><input id="dp2" maxlength="18" placeholder="Name" value="${(st.lastP2||'').replace(/"/g,'')}"></label>
+   <div class="duelmode"><span class="lbl">Spielart</span>
+    <button type="button" class="dop on" data-m="vs"><b>Gegeneinander</b><small>Zwei Figuren, wer zuerst 6 Ecken hat, gewinnt.</small></button>
+    <button type="button" class="dop" data-m="team"><b>Miteinander</b><small>Eine gemeinsame Figur. Ihr antwortet abwechselnd und habt zusammen 8 Fehlversuche für alle 6 Ecken.</small></button></div>
+   <div class="acts"><button class="primary" type="submit">Spiel starten →</button></div><div class="msg"></div>`;
+  card.append(f);let mode='vs';
+  f.querySelectorAll('[data-m]').forEach(b=>b.onclick=()=>{mode=b.dataset.m;f.querySelectorAll('[data-m]').forEach(x=>x.classList.toggle('on',x===b))});
+  f.onsubmit=e=>{e.preventDefault();const n1=f.querySelector('#dp1').value.trim()||'Spieler 1',n2=f.querySelector('#dp2').value.trim();
+    if(!n2){f.querySelector('.msg').textContent='Wie heißt Spieler 2?';f.querySelector('#dp2').focus();return}
+    st.lastP2=n2;store.duelStats=st;
+    const s={mode,names:[n1,n2],pos:mode==='team'?[0]:[0,0],ecken:mode==='team'?[[]]:[[],[]],cur:0,ans:0,phase:'roll',roll:0,used:[[],[],[],[],[],[]],right:[0,0],wrong:[0,0],lives:8,turns:0,log:[]};
+    store.duel=s;save();duelPlay(card,s)};
+  if(st.games){card.append(h('p',{class:'lbl',style:'margin-top:18px'},`Bisher gespielt: ${st.games} · ${Object.entries(st.wins||{}).map(([n,w])=>`${n}: ${w} Siege`).join(' · ')}${st.teamBest?` · Bestes Team-Spiel: ${st.teamBest} Fragen`:''}`))}
+}
+function duelPlay(card,s){
+  const cats=DUEL_CATS();const team=s.mode==='team';
+  card.innerHTML='';
+  const top=h('div',{class:'duelplayers'});const wrap=h('div',{class:'duelwrap'});const boardBox=h('div',{class:'duelboard'});const panel=h('div',{class:'duelpanel'});
+  wrap.append(boardBox,panel);card.append(top,wrap);
+  const bar=h('div',{class:'acts',style:'margin-top:20px'});const quit=h('button',{class:'hint',type:'button'},'Spiel abbrechen');bar.append(quit);card.append(bar);
+  let armed=false;quit.onclick=()=>{if(!armed){armed=true;quit.textContent='Wirklich abbrechen?';return}P.games.duel=null;save();duelSetup(card)};
+  const tok=k=>team?0:k;const who=()=>team?s.ans:s.cur;
+  function persist(){P.games.duel=s;save()}
+  function drawTop(){
+    top.innerHTML='';
+    if(team){top.append(h('div',{class:'dpl on'},`${duelPie(s.ecken[0],cats)}<div><b>${s.names[0]} & ${s.names[1]}</b><small>Team · ${s.ecken[0].length}/6 Ecken · noch ${s.lives} Fehlversuche · Fragen: ${s.turns}</small><small>Am Zug: <b>${s.names[s.ans]}</b></small></div>`))}
+    else s.names.forEach((n,k)=>top.append(h('div',{class:'dpl'+(k===s.cur?' on':''),style:k===1?'--tk:#B23A48':'--tk:#F6C62E'},`${duelPie(s.ecken[k],cats)}<div><b><i class="tk"></i>${n}</b><small>${s.ecken[k].length}/6 Ecken · ${s.right[k]} richtig · ${s.wrong[k]} falsch</small></div>`)));
+  }
+  function fieldXY(i,rad){const a=((i+.5)*360/DUEL_N-90)*Math.PI/180;return [200+rad*Math.cos(a),200+rad*Math.sin(a)]}
+  function drawBoard(targets){
+    targets=targets||[];let o='';
+    for(let i=0;i<DUEL_N;i++){const a0=(i*360/DUEL_N-90)*Math.PI/180,a1=((i+1)*360/DUEL_N-90)*Math.PI/180,ty=duelType(i);
+      const R=ty==='ecke'?196:188,r=ty==='ecke'?128:138;
+      const p=[[R,a0],[R,a1],[r,a1],[r,a0]].map(([rr,a])=>[200+rr*Math.cos(a),200+rr*Math.sin(a)]);
+      const C=cats[duelCat(i)];const fill=ty==='again'?'#E9E4D8':C.c;const tg=targets.indexOf(i);
+      o+=`<path class="fld${tg>=0?' tgt':''}" data-i="${i}" d="M${p[0]} A${R} ${R} 0 0 1 ${p[1]} L${p[2]} A${r} ${r} 0 0 0 ${p[3]} Z" fill="${fill}" stroke="#fff" stroke-width="2"/>`;
+      const [x,y]=fieldXY(i,(R+r)/2);
+      if(ty==='ecke')o+=`<g transform="translate(${x} ${y}) rotate(${(i+.5)*10})" pointer-events="none"><path d="M-11 9 L0 -11 L11 9 Z" fill="#fff" opacity=".95"/></g>`;
+      if(ty==='again')o+=`<text x="${x}" y="${y+6}" text-anchor="middle" font-size="17" font-weight="700" fill="#11141C" pointer-events="none">↻</text>`;
+    }
+    // Speichen
+    for(let j=0;j<12;j++){const [x1,y1]=fieldXY(j*3,124),[x2,y2]=fieldXY(j*3,78);o+=`<path d="M${x1} ${y1} L${x2} ${y2}" stroke="${cats[duelCat(j*3)].c}" stroke-width="10" stroke-linecap="round" opacity=".25"/>`}
+    o+=`<circle cx="200" cy="200" r="74" fill="#f6f3ea"/>`;
+    // Spielfiguren
+    s.pos.forEach((p,k)=>{const [x,y]=fieldXY(p,163+(s.pos.length>1&&s.pos[0]===s.pos[1]?(k?12:-12):0));
+      o+=`<circle cx="${x}" cy="${y}" r="11" fill="${team?'#fff':(k?'#B23A48':'#F6C62E')}" stroke="#11141C" stroke-width="3" pointer-events="none"/>`+(team?`<circle cx="${x}" cy="${y}" r="4" fill="#11141C" pointer-events="none"/>`:'')});
+    boardBox.innerHTML=`<svg viewBox="0 0 400 400" xmlns="http://www.w3.org/2000/svg">${o}</svg><div class="dcenter"></div>`;
+    const cen=boardBox.querySelector('.dcenter');
+    cen.innerHTML=s.roll?`<div class="die">${'⚀⚁⚂⚃⚄⚅'[s.roll-1]}</div>`:`<div class="lbl">${team?'Team':s.names[s.cur]}</div>`;
+    boardBox.querySelectorAll('.fld.tgt').forEach(el=>el.onclick=()=>move(+el.dataset.i));
+  }
+  function render(){drawTop();
+    if(s.phase==='roll')return phaseRoll();
+    if(s.phase==='choose')return phaseChoose();
+    if(s.phase==='q')return phaseQ();
+  }
+  function phaseRoll(msg){
+    drawBoard();panel.innerHTML='';
+    panel.append(h('div',{class:'lbl'},team?`Team-Zug · antwortet: ${s.names[s.ans]}`:'Am Zug'),h('h3',{class:'dname'},team?'Würfelt!':s.names[s.cur]));
+    if(s.note)panel.append(h('div',{class:'msg info'},s.note));
+    const b=h('button',{class:'primary big',type:'button'},'🎲 Würfeln');panel.append(b);
+    b.onclick=()=>{b.disabled=true;let n=0;const cen=boardBox.querySelector('.dcenter');
+      const iv=setInterval(()=>{cen.innerHTML=`<div class="die spin">${'⚀⚁⚂⚃⚄⚅'[Math.floor(Math.random()*6)]}</div>`;if(++n>8){clearInterval(iv);s.roll=1+Math.floor(Math.random()*6);s.phase='choose';s.note='';persist();render()}},70)};
+    if(!TOUCH)b.focus();
+  }
+  function targetsOf(){const p=s.pos[tok(s.cur)];return [...new Set([(p+s.roll)%DUEL_N,(p-s.roll+DUEL_N)%DUEL_N])]}
+  function phaseChoose(){
+    const t=targetsOf();drawBoard(t);panel.innerHTML='';
+    panel.append(h('div',{class:'lbl'},`Gewürfelt: ${s.roll}`),h('h3',{class:'dname'},'Wohin?'),h('p',{},'Tippe auf ein leuchtendes Feld oder wähle hier:'));
+    t.forEach((i,k)=>{const C=cats[duelCat(i)],ty=duelType(i);
+      const b=h('button',{class:'dtarget',type:'button',style:`--fc:${ty==='again'?'#E9E4D8':C.c};--ff:${ty==='again'?'#11141C':C.fg}`},`<span>${t.length>1?(k?'↺ Zurück':'↻ Vorwärts'):'Feld'}</span><b>${ty==='again'?'Nochmal würfeln':C.n}</b>${ty==='ecke'&&!s.ecken[tok(s.cur)].includes(duelCat(i))?'<em>Ecke!</em>':''}`);
+      b.onclick=()=>move(i);panel.append(b)});
+  }
+  function move(i){
+    s.pos[tok(s.cur)]=i;s.roll=0;
+    if(duelType(i)==='again'){s.phase='roll';s.note='Glück gehabt: noch einmal würfeln!';persist();render();return}
+    const ci=duelCat(i),C=cats[ci];
+    let pool=C.q.map((_,k)=>k).filter(k=>!s.used[ci].includes(k));if(!pool.length){s.used[ci]=[];pool=C.q.map((_,k)=>k)}
+    const qi=pick(pool);s.used[ci].push(qi);
+    const Qo=C.q[qi];window.__duelR=Qo._r;const opts=shuffle([Qo._r].concat(Qo._w));
+    s.q={ci,qi,opts,field:i};s.phase='q';persist();render();
+  }
+  function phaseQ(){
+    drawBoard();const {ci,qi,opts,field}=s.q,C=cats[ci],Qo=C.q[qi];window.__duelR=Qo._r;const ecke=duelType(field)==='ecke'&&!s.ecken[tok(s.cur)].includes(ci);
+    panel.innerHTML='';
+    const qc=h('div',{class:'dq',style:`--fc:${C.c};--ff:${C.fg}`});
+    qc.append(h('div',{class:'dqhead'},`<span>${C.n}</span>${ecke?'<em>Ecken-Frage</em>':''}`));
+    const body=h('div',{class:'dqbody'});
+    body.append(h('div',{class:'lbl'},team?`Antwortet: ${s.names[s.ans]}`:`${s.names[s.cur]} antwortet`),h('p',{class:'dqq'},Qo.q));
+    if(Qo.img)body.append(h('div',{class:'svgbox quizimg'},Qo.img));
+    const ol=h('div',{class:'dopts'});
+    opts.forEach(t=>{const b=h('button',{class:'opt',type:'button'},t);b.onclick=()=>answer(t,b,ol,body);ol.append(b)});
+    body.append(ol);qc.append(body);panel.append(qc);if(innerWidth<760)setTimeout(()=>qc.scrollIntoView({behavior:'smooth',block:'start'}),60);
+  }
+  function answer(t,btn,ol,body){
+    const {ci,qi,field}=s.q,C=cats[ci],Qo=C.q[qi],ok=t===Qo._r,k=who(),tk=tok(s.cur);
+    ol.querySelectorAll('button').forEach(b=>{b.disabled=true;if(b.textContent===Qo._r)b.classList.add('ok')});if(!ok)btn.classList.add('bad');
+    let txt='';s.turns++;
+    if(ok){s.right[k]++;if(duelType(field)==='ecke'&&!s.ecken[tk].includes(ci)){s.ecken[tk].push(ci);txt=`Richtig – und die Ecke „${C.n}“ gehört ${team?'euch':s.names[s.cur]}!`}else txt='Richtig! Noch einmal würfeln.'}
+    else{s.wrong[k]++;if(team)s.lives--;txt=team?`Leider falsch. Noch ${s.lives} Fehlversuche.`:`Leider falsch. ${s.names[1-s.cur]} ist dran.`}
+    body.append(h('div',{class:'msg '+(ok?'info':'')},`<b>${txt}</b><br><span style="font-weight:400">${Qo.expl}</span>`));
+    const won=s.ecken[tk].length===6,lost=team&&s.lives<=0;
+    if(!ok&&!team)s.cur=1-s.cur;
+    if(team)s.ans=1-s.ans;
+    s.phase='roll';s.q=null;
+    if(won||lost){s.over=true;const st=P.games.duelStats=P.games.duelStats||{};st.games=(st.games||0)+1;
+      if(won&&!team){st.wins=st.wins||{};st.wins[s.names[s.cur]]=(st.wins[s.names[s.cur]]||0)+1}
+      if(won&&team&&(!st.teamBest||s.turns<st.teamBest))st.teamBest=s.turns}
+    persist();drawTop();
+    const nb=h('button',{class:'primary',type:'button',style:'margin-top:14px'},won||lost?'Zum Ergebnis →':'Weiter →');body.append(nb);nb.scrollIntoView({behavior:'smooth',block:'nearest'});if(!TOUCH)nb.focus();
+    nb.onclick=()=>{if(won||lost)return finish(won,lost);render()};
+  }
+  function finish(won,lost){
+    P.games.duel=null;save();panel.innerHTML='';drawBoard();
+    const title=team?(won?'Gemeinsam geschafft!':'Knapp vorbei!'):`${s.names[s.cur]} gewinnt!`;
+    const sub=team?(won?`Alle 6 Ecken in ${s.turns} Fragen. ${s.names[0]}: ${s.right[0]} richtig, ${s.names[1]}: ${s.right[1]} richtig.`:`Die Fehlversuche sind aufgebraucht. Ihr hattet ${s.ecken[0].length} von 6 Ecken.`)
+      :`${s.names[0]}: ${s.ecken[0].length} Ecken, ${s.right[0]} richtig · ${s.names[1]}: ${s.ecken[1].length} Ecken, ${s.right[1]} richtig.`;
+    panel.append(h('div',{class:'solved'},`<div class="check">${won?'✓':'✗'}</div><div><b>${title}</b><p>${sub}</p></div>`));
+    const a=h('div',{class:'acts'});const nb=h('button',{class:'primary',type:'button'},'Neues Spiel');nb.onclick=()=>duelSetup(card);a.append(nb);panel.append(a);
+  }
+  render();
 }
 
 /* Kreuzworträtsel (allgemein, beliebige Größe) */
